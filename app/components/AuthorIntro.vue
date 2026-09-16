@@ -7,7 +7,7 @@
         {{ intro.title }}
       </h2>
       <ContentRenderer
-        class="mt-8 mb-4 dark:bg-gray-800 dark:text-blue-200 text-justify"
+        class="mt-8 mb-4 dark:bg-gray-800 dark:text-blue-200 text-justify [&_p]:whitespace-pre-line [&_p+p]:mt-4"
         :value="intro"
       />
     </template>

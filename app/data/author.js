@@ -17,6 +17,12 @@ import RdsIcon from "~/assets/devicon/aws-rds.svg?component";
 import S3Icon from "~/assets/devicon/aws-s3.svg?component";
 import EC2Icon from "~/assets/devicon/aws-ec2.svg?component";
 import DockerIcon from "~/assets/devicon/docker.svg?component";
+import NestIcon from "~/assets/devicon/nestjs.svg?component";
+import TypeormIcon from "~/assets/devicon/typeorm.svg?component";
+import RedisIcon from "~/assets/devicon/redis.svg?component";
+import NginxIcon from "~/assets/devicon/nginx.svg?component";
+import BullmqImage from "~/assets/devicon/bullmq.png";
+import SmartphoneIcon from "~/assets/icons/smartphone.svg?component";
 
 // Timeline
 import Academy from "~/assets/icons/academy.svg?component";
@@ -24,7 +30,7 @@ import Academy from "~/assets/icons/academy.svg?component";
 const author = {
   author_image: "/my.jpg",
   name: "유재민",
-  position: "Web Service Team Lead / Backend-centered Full Stack Developer",
+  position: "Web Service Team Lead / Full Stack Developer",
   email: "jaeminy4341@gmail.com",
   location: "Seoul, Korea",
   github: "yujaemindev",
@@ -45,10 +51,10 @@ const author = {
         "엔터프라이즈 그룹웨어부터 스타트업·창업, AI SaaS까지 제품의 설계·개발·운영을 경험했습니다.",
     },
     {
-      value: "6 Members",
+      value: "7 Members",
       title: "Web / AI Team Lead",
       description:
-        "Web 개발 3명, AI 개발 3명으로 구성된 팀을 리드하며 JIRA 기반 2주 Sprint와 협업 체계를 운영합니다.",
+        "Web 개발 4명으로 구성된 팀을 리드하며 AI 개발팀과 협업하여 JIRA 기반 Sprint 단위 개발 프로세스 구축 및 협업 체계를 운영했습니다.",
     },
     {
       value: "₩300M+ / 6mo",
@@ -75,15 +81,16 @@ const author = {
       { name: "Vue.js", icon: VueIcon, description: "" },
       { name: "AngularJS", icon: AngularJSIcon, description: "" },
       { name: "React Native", icon: ReactNativeIcon, description: "" },
-      { name: "Android / iOS Hybrid", icon: null, description: "" },
+      { name: "Android / iOS Hybrid", icon: SmartphoneIcon, description: "" },
     ],
     "Backend / Data": [
       { name: "Node.js", icon: NodeIcon, description: "" },
-      { name: "NestJS", icon: null, description: "" },
+      { name: "NestJS", icon: NestIcon, description: "" },
       { name: "Spring Boot", icon: SpringBootIcon, description: "" },
-      { name: "TypeORM", icon: null, description: "" },
+      { name: "TypeORM", icon: TypeormIcon, description: "" },
       { name: "MySQL / MariaDB", icon: MariaDBIcon, description: "" },
-      { name: "Redis / BullMQ", icon: null, description: "" },
+      { name: "Redis", icon: RedisIcon, description: "" },
+      { name: "BullMQ", image: BullmqImage, description: "" },
       { name: "OpenSearch", icon: ElasticSearchIcon, description: "" },
     ],
     "DevOps / Cloud": [
@@ -94,7 +101,7 @@ const author = {
       { name: "AWS S3", icon: S3Icon, description: "" },
       { name: "CloudFront", icon: CloudFrontIcon, description: "" },
       { name: "Kinesis", icon: KinesisIcon, description: "" },
-      { name: "Nginx", icon: null, description: "" },
+      { name: "Nginx", icon: NginxIcon, description: "" },
     ],
   },
   expertises_txt: {

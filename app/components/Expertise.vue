@@ -21,8 +21,17 @@
           <component
             :is="expertise.icon"
             v-if="expertise.icon"
-            class="h-6 w-6"
+            class="h-6 w-6 shrink-0"
+            aria-hidden="true"
           />
+          <img
+            v-else-if="expertise.image"
+            :src="expertise.image"
+            alt=""
+            width="32"
+            height="24"
+            class="h-6 w-8 shrink-0 object-cover object-left"
+          >
           <span class="font-medium">{{ expertise.name }}</span>
         </li>
       </ul>

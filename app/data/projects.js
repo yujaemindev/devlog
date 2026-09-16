@@ -10,6 +10,7 @@ const projectsData = [
   },
   {
     title: "수자원연구원 댐 AI 안전진단",
+    href: "https://yujaemindev.github.io/devlog/deep_inspector_kwater_dam_introduce.pdf",
     period: "2024 - 2025",
     role: "Backend / System Integration",
     description: "입면정사영상 기반 AI 결함검출 시스템과 외부 Web 가시화·3D 모델링 시스템을 통합. AI 분석/학습 Pipeline, 3D 좌표, 대용량 파일 및 외부 연계 REST API 개발.",
