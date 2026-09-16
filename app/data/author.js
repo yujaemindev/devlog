@@ -45,7 +45,7 @@ const author = {
   },
   careerHighlights: [
     {
-      value: "11+ Years",
+      value: "10+ Years",
       title: "Web Service Development",
       description:
         "엔터프라이즈 그룹웨어부터 스타트업·창업, AI SaaS까지 제품의 설계·개발·운영을 경험했습니다.",
@@ -67,6 +67,18 @@ const author = {
       title: "AI SaaS & Reliability",
       description:
         "대용량 영상/이미지 기반 AI Pipeline을 제품화하고 1,800건 이상의 연속 작업 처리와 GS/TTA 인증·납품까지 수행했습니다.",
+    },
+    {
+      value: "Consortium Lead",
+      title: "SI Project Leadership",
+      description:
+        "컨소시엄 기반 SI 프로젝트의 주관사에서 개발 실무 전반을 리드하고, Slack을 중심으로 참여사 간 커뮤니케이션과 협업을 조율했습니다.",
+    },
+    {
+      value: "UI/UX Design",
+      title: "Prototyping & UI Consistency",
+      description:
+        "Figma를 활용해 사용자 흐름을 고려한 화면과 프로토타입을 설계하고, 공통 컴포넌트와 스타일을 정리해 UI 일관성을 확보했습니다. 고객사·참여사 피드백을 반영해 요구사항을 구체화했습니다.",
     },
   ],
   expertises: {

@@ -18,6 +18,7 @@
               v-for="item in projectsData"
               :key="item.title"
               :title="item.title"
+              :highlight="item.highlight"
               :description="item.description"
               :period="item.period"
               :role="item.role"

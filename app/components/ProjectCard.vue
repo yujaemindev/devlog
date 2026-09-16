@@ -49,6 +49,17 @@
         </div>
         <h2 class="text-xl font-bold leading-8 tracking-tight mt-1 mb-1 text-gray-900 dark:text-gray-100">
           {{ projectTitle }}
+          <span
+            v-if="highlight"
+            class="block mt-1 mb-2 text-sm leading-6 font-semibold"
+          >
+            <span
+              class="inline-block max-w-full rounded-md border px-2 py-0.5 align-middle"
+              :class="highlight.type === 'certification'
+                ? 'border-indigo-200 bg-indigo-50 text-indigo-700 dark:border-indigo-700 dark:bg-indigo-950 dark:text-indigo-300'
+                : 'border-teal-200 bg-teal-50 text-teal-700 dark:border-teal-700 dark:bg-teal-950 dark:text-teal-300'"
+            >{{ highlight.text }}</span>
+          </span>
         </h2>
         <div
           v-if="projectRole"
@@ -81,7 +92,7 @@ import GithubIcon from "~/assets/icons/github_new.svg?component"
 
 export default {
   components: { FolderIcon, ExternalIcon, GithubIcon },
-  props: ["title", "description", "href", "github", "tech1", "tech2", "tech3", "period", "role"],
+  props: ["title", "highlight", "description", "href", "github", "tech1", "tech2", "tech3", "period", "role"],
   computed: {
     projectTitle(){ return this.title },
     projectDescription(){ return this.description },
