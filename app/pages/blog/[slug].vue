@@ -9,7 +9,7 @@
       </h1>
 
       <div class="flex items-center font-medium mt-6 sm:mx-3 justify-center">
-        <NuxtImg
+        <img
           :src="authorImage"
           loading="lazy"
           alt="유재민 프로필"

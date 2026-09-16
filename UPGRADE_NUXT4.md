@@ -98,3 +98,12 @@ npm install
 ```
 
 정상 설치 후 생성되는 `package-lock.json`을 Git에 함께 커밋하는 것을 권장합니다. 그 이후에는 GitHub Actions의 설치 명령을 `npm ci`로 변경해도 됩니다.
+
+## GitHub Pages / Nuxt Image prerender fix
+
+GitHub Pages는 `/devlog/` 하위 경로에서 서비스되므로 프로필 이미지 URL은 `/devlog/my.jpg`가 되어야 합니다.
+다만 이 값을 `<NuxtImg>`에 직접 전달하면 Nuxt Image(IPX)가 `/devlog/my.jpg`를 public 디렉터리 내부의 파일 경로로 다시 해석하면서
+`/devlog/_ipx/_/devlog/my.jpg`를 생성하려고 하고 `IPX_FILE_NOT_FOUND`가 발생할 수 있습니다.
+
+따라서 `public/my.jpg`처럼 이미 정적 파일인 프로필 이미지는 일반 `<img>`로 렌더링하고,
+`runtimeConfig.app.baseURL`을 이용해 GitHub Pages용 URL만 적용하도록 변경했습니다.
