@@ -1,36 +1,49 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from '@tailwindcss/vite'
+
 export default defineNuxtConfig({
+  compatibilityDate: '2026-09-16',
   devtools: { enabled: true },
-  modules: ["@nuxt/content", "nuxt-svgo", "@nuxt/image", "@nuxtjs/tailwindcss"],
-  css: ["@/assets/css/main.css"],
-  components: true,
+
+  modules: [
+    '@nuxt/content',
+    '@nuxt/image',
+    'nuxt-svgo',
+    '@nuxt/eslint',
+  ],
+
+  css: ['~/assets/css/main.css'],
+
   app: {
-    baseURL: '/devlog', // GitHub Pages에서 제공되는 기본 경로
+    baseURL: process.env.NUXT_APP_BASE_URL || '/devlog/',
   },
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
   content: {
-    markdown: {
+    build: {
+      markdown: {
+        highlight: {
+          theme: {
+            default: 'github-light',
+            dark: 'github-dark',
+          },
+          langs: ['c', 'cpp', 'java'],
+        },
+      },
+    },
+    renderer: {
       anchorLinks: false,
     },
-    highlight: {
-      theme: "github-dark",
-      langs: [
-        'json',
-        'js',
-        'ts',
-        'html',
-        'css',
-        'vue',
-        'shell',
-        'mdc',
-        'md',
-        'yaml',
-        'c',
-        'cpp',
-        'java',
-        'javascript',
-      ],
+    experimental: {
+      sqliteConnector: 'native',
     },
   },
 
-  compatibilityDate: '2024-09-10',
+  eslint: {
+    config: {
+      stylistic: false,
+    },
+  },
 })

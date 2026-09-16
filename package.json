@@ -1,35 +1,38 @@
 {
-  "name": "nuxt-app",
+  "name": "yujaemindev-devlog",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
+    "generate:pages": "nuxt build --preset github_pages",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "homepage": "https://github.com/yujaemin/devlog/",
-    "deploy": "gh-pages --dotfiles -d .output/public"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxt typecheck"
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.5.10",
-    "nuxt": "^3.10.3",
-    "prism-themes": "^1.9.0",
-    "prismjs": "^1.29.0",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "@nuxt/content": "3.16.0",
+    "@nuxt/image": "2.1.0",
+    "nuxt": "4.5.2",
+    "nuxt-svgo": "5.3.0",
+    "vue": "3.5.42",
+    "vue-router": "5.3.1",
+    "zod": "4.6.5"
   },
   "devDependencies": {
-    "@eslint/js": "^9.10.0",
-    "@nuxt/content": "^2.12.1",
-    "@nuxt/image": "^1.4.0",
-    "@nuxtjs/tailwindcss": "^6.11.4",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^7.20.0",
-    "gh-pages": "^6.1.1",
-    "globals": "^15.9.0",
-    "nuxt-svgo": "^4.0.0",
-    "tailwindcss": "^3.4.1"
-  }
+    "@nuxt/eslint": "1.17.0",
+    "@tailwindcss/typography": "0.5.20",
+    "@tailwindcss/vite": "4.3.3",
+    "eslint": "10.10.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "7.0.2",
+    "vue-tsc": "3.3.11"
+  },
+  "homepage": "https://yujaemindev.github.io/devlog/"
 }
