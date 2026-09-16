@@ -45,15 +45,6 @@ const projectsData = [
     tech3: "AI Pipeline · Offline Deploy",
   },
   {
-    title: "스마트팩토리 · 도로시설물 AI 서비스",
-    period: "2026",
-    role: "Platform Expansion",
-    description: "DeepInspector 공통 구조를 스마트팩토리와 도로시설물 도메인으로 확장. 영상 전처리·AI 이상검출·CSV Merge, 운영 서버 및 배포 패키지 구축과 고객사 납품 지원.",
-    tech1: "React · NestJS",
-    tech2: "Python · AI Integration",
-    tech3: "Docker · Windows/Linux",
-  },
-  {
     title: "SILD · K-Fashion B2B Platform",
     period: "2021 - 2024",
     role: "창업 / 개발총괄",
