@@ -54,7 +54,7 @@ const author = {
       value: "7 Members",
       title: "Web / AI Team Lead",
       description:
-        "Web 개발 4명으로 구성된 팀을 리드하며 AI 개발팀과 협업하여 JIRA 기반 Sprint 단위 개발 프로세스 구축 및 협업 체계를 운영했습니다.",
+        "Web 개발자 3명과 AI 개발자 3명을 리드하며 JIRA 기반 Sprint 단위 개발 프로세스 구축 및 협업 체계를 운영했습니다.",
     },
     {
       value: "₩300M+ / 6mo",
