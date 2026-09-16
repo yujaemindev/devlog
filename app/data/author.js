@@ -147,7 +147,7 @@ const author = {
   timeline: [
     {
       icon: Academy,
-      title: "(주)딥인스펙션 · 웹개발과장 / 팀장",
+      title: "(주)딥인스펙션 · 개발사업부 / 팀장",
       subtitle: "2024.10 - 현재",
       description:
         "Web 3명·AI 3명 팀 리드. 교량·터널·댐·지하철 애자 등 시설물 AI 안전진단 SaaS DeepInspector의 Backend/Worker 중심 Full-Stack 개발, AI Pipeline 통합, DevOps, GS/TTA 인증 및 고객사 구축·납품 수행.",
@@ -169,7 +169,7 @@ const author = {
     },
     {
       icon: Academy,
-      title: "에스코어(주) · 오픈소스소프트웨어팀",
+      title: "에스코어(주) · 오픈소스소프트웨어팀 / L2",
       subtitle: "2015.02 - 2020.01",
       description:
         "삼성 그룹웨어 Knox Portal 관리자 시스템 개발·운영, Spring/Java 마이그레이션 및 AngularJS 성능 개선. Scrapy/Selenium/Elasticsearch 기반 제품 평판 분석·수집 시스템 개발.",
