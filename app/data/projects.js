@@ -19,6 +19,7 @@ const projectsData = [
   },
   {
     title: "교량 AI 안전진단 · GS 인증 제품",
+    href: "https://yujaemindev.github.io/devlog/deep_inspector_bridge_introduce.pdf",
     period: "2025 - 2026",
     role: "Platform / Certification",
     description: "교량 이미지 업로드와 Panorama, 균열·결함 검출, XAI Heatmap/Captioning, 균열 측정, 외관조사망도 및 상태평가보고서 자동생성까지 End-to-End 기능 통합. GS/TTA 시험 대응.",
@@ -37,6 +38,7 @@ const projectsData = [
   },
   {
     title: "지하철 애자 AI 안전진단 · 대구교통공사",
+    href: "https://yujaemindev.github.io/devlog/deep_inspector_subway_insulator_introduce.pdf",
     period: "2026",
     role: "System Integration / Delivery",
     description: "2CH/4CH 영상 업로드와 전처리, AI 진단, CSV Merge, 외관조사망도 및 상태평가보고서 기능 통합. Windows 납품 서버, Offline 설치·배포, 사용자 교육 및 현장 설치 지원.",
