@@ -59,6 +59,7 @@ const projectsData = [
   },
   {
     title: "SILD · Commerce / 3rd Party Integration",
+    href: "https://store.cafe24.com/kr/apps/9343#layerScreenShotMobile",
     period: "2021 - 2024",
     role: "Backend / Integration",
     description: "Cafe24/Makeshop 상품·카테고리 동기화, NicePay/해외결제, Naver SMS/Mail, FCM Push, SNS Login, 택배 배송조회 및 브랜드/상품/룩북 통합검색 기능 개발.",
