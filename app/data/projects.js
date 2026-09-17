@@ -12,7 +12,7 @@ const projectsData = [
   },
   {
     title: "수자원연구원 댐 AI 안전진단",
-    highlight: { text: "대규모 SI 프로젝트", type: "domain" },
+    highlight: { text: "대규모 SI ", type: "domain" },
     href: "https://yujaemindev.github.io/devlog/deep_inspector_kwater_dam_introduce.pdf",
     period: "2024 - 2025",
     role: "Backend / System Integration",
@@ -24,7 +24,7 @@ const projectsData = [
   },
   {
     title: "교량 AI 안전진단",
-    highlight: { text: "GS 인증 제품", type: "certification" },
+    highlight: { text: "GS 인증 1등급", type: "certification" },
     href: "https://yujaemindev.github.io/devlog/deep_inspector_bridge_introduce.pdf",
     period: "2025 - 2026",
     role: "Platform / Certification",
