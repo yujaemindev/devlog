@@ -1,6 +1,7 @@
 const projectsData = [
   {
     title: "DeepInspector",
+    href: "https://yujaemindev.github.io/devlog/deep_inspector_workflow.png",
     highlight: { text: "시설물 AI 안전진단 SaaS", type: "domain" },
     period: "2024.10 - 현재",
     role: "웹서비스 팀장 / Backend 중심 Full-Stack",
