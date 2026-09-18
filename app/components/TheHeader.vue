@@ -33,11 +33,11 @@
             >
               {{ item.name }}
             </summary>
-            <ul class="absolute right-0 top-full min-w-40 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
+            <ul class="absolute right-0 top-full min-w-56 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
               <li v-for="child in item.children" :key="child.path">
                 <NuxtLink
                   :to="child.path"
-                  class="block rounded-lg px-4 py-2 text-base font-semibold hover:bg-indigo-50"
+                  class="block whitespace-nowrap rounded-lg px-4 py-2 text-base font-semibold hover:bg-indigo-50"
                   exact-active-class="bg-indigo-50 text-indigo-600"
                   @click="closeMenu"
                 >

@@ -13,7 +13,7 @@ const projectsData = [
   },
   {
     title: "수자원연구원 댐 AI 안전진단",
-    highlight: { text: "대규모 SI ", type: "domain" },
+    highlight: { text: "공공기관 대규모 SI ", type: "domain" },
     href: "https://yujaemindev.github.io/devlog/deep_inspector_kwater_dam_introduce.pdf",
     period: "2024 - 2025",
     role: "Backend / System Integration",
