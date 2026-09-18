@@ -23,7 +23,8 @@
     <div
       v-if="step.images?.length"
       class="grid items-start gap-4"
-      :class="{ 'md:grid-cols-[2fr_1fr]': step.images.length === 2 }"
+      :class="{ 'md:grid-cols-[var(--image-columns)]': step.images.length === 2 }"
+      :style="{ '--image-columns': imageColumns }"
     >
       <figure
         v-for="image in step.images"
@@ -64,4 +65,8 @@ const props = defineProps({
 
 const runtimeConfig = useRuntimeConfig();
 const asset = name => `${runtimeConfig.app.baseURL}${props.imageDirectory}/${name}`;
+const imageColumns = computed(() => {
+  const ratio = props.step.imageRatio ?? [1, 1];
+  return ratio.map(value => `minmax(0, ${value}fr)`).join(' ');
+});
 </script>

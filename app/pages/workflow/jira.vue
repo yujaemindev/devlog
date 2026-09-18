@@ -4,11 +4,15 @@
     :style="{ '--section-offset': `${sectionOffset}px` }"
   >
     <WorkflowPageHeader label="JIRA" title="Jira로 정리하는 개발 업무">
-        화면에서 필요한 기능을 개발 가능한 작업으로 나누고, API 명세와 진행
-        상태를 이슈에 연결합니다. 딥인스펙터 터널 프로젝트의 수평 파노라마
-        기능을 예시로 업무를 구체화하고 공유하는 과정을 소개합니다.
+      화면에서 필요한 기능을 개발 가능한 작업으로 나누고, API 명세와 진행 상태를
+      이슈에 연결합니다. 딥인스펙터 터널 프로젝트의 수평 파노라마 기능을 예시로
+      업무를 구체화하고 공유하는 과정을 소개합니다.
     </WorkflowPageHeader>
-    <WorkflowStepNav :steps="steps" label="Jira 업무 과정" @offset-change="sectionOffset = $event" />
+    <WorkflowStepNav
+      :steps="steps"
+      label="Jira 업무 과정"
+      @offset-change="sectionOffset = $event"
+    />
 
     <div class="space-y-14">
       <WorkflowSection
@@ -19,10 +23,10 @@
       />
     </div>
     <WorkflowAside title="업무를 연결하는 기준">
-        화면 요구사항, 개발 이슈, API 명세, 진행 현황이 같은 기능을 가리키도록
-        정리합니다. 담당자는 구현 범위를 확인하고, 협업자는 연동에 필요한 정보를
-        찾고, 팀은 남은 작업을 함께 파악할 수 있도록 하는 것이 업무 관리의
-        핵심입니다.
+      화면 요구사항, 개발 이슈, API 명세, 진행 현황이 같은 기능을 가리키도록
+      정리합니다. 담당자는 구현 범위를 확인하고, 협업자는 연동에 필요한 정보를
+      찾고, 팀은 남은 작업을 함께 파악할 수 있도록 하는 것이 업무 관리의
+      핵심입니다.
     </WorkflowAside>
   </main>
 </template>
@@ -69,14 +73,16 @@ const steps = [
       "카메라·경간별 생성 상태와 완료 개수를 조회하는 기능을 구분합니다.",
       "파노라마 생성, 이미지 확인·업로드, 검수 항목 확인처럼 사용자의 동작을 작업 단위로 정리합니다.",
     ],
-    images: [{
-      image: "jira-screen.png",
-      width: 1912,
-      height: 909,
-      alt: "카메라와 경간별 완료·검수 필요 상태, 이미지 확인, 체크리스트가 있는 수평 파노라마 생성 화면",
-      caption:
-        "수평 파노라마 화면 — 사용자 동작과 표시 데이터를 기준으로 기능 범위를 확인합니다",
-    }],
+    images: [
+      {
+        image: "jira-screen.png",
+        width: 1912,
+        height: 909,
+        alt: "카메라와 경간별 완료·검수 필요 상태, 이미지 확인, 체크리스트가 있는 수평 파노라마 생성 화면",
+        caption:
+          "수평 파노라마 화면 — 사용자 동작과 표시 데이터를 기준으로 기능 범위를 확인합니다",
+      },
+    ],
   },
   {
     id: "issues",
@@ -88,14 +94,16 @@ const steps = [
       "상위 기능과 하위 API 작업의 관계를 유지해 구현 범위가 흩어지지 않도록 합니다.",
       "각 하위 작업의 상태를 개별적으로 관리하고, 스프린트 레이블로 작업 묶음을 식별합니다.",
     ],
-    images: [{
-      image: "jira-timeline.png",
-      width: 1030,
-      height: 803,
-      alt: "Jira 타임라인에 수평 파노라마 상위 이슈와 여섯 개 하위 API 작업이 완료 상태로 표시된 화면",
-      caption:
-        "Jira 타임라인의 이슈 계층 — 기능별 하위 작업과 완료 상태를 확인합니다",
-    }],
+    images: [
+      {
+        image: "jira-timeline.png",
+        width: 1030,
+        height: 803,
+        alt: "Jira 타임라인에 수평 파노라마 상위 이슈와 여섯 개 하위 API 작업이 완료 상태로 표시된 화면",
+        caption:
+          "Jira 타임라인의 이슈 계층 — 기능별 하위 작업과 완료 상태를 확인합니다",
+      },
+    ],
   },
   {
     id: "specification",
@@ -107,14 +115,16 @@ const steps = [
       "프로젝트·카메라·경간 식별자와 업로드 이미지의 위치, 타입, 필수 여부를 명시합니다.",
       "담당자, 우선순위, BE·FE·SPRINT_1 레이블과 상위 항목을 함께 관리해 협업 맥락을 공유합니다.",
     ],
-    images: [{
-      image: "jira-task.png",
-      width: 1290,
-      height: 805,
-      alt: "수평 파노라마 수동 업로드 API의 설명, 입력 명세, 담당자, 우선순위와 레이블이 작성된 Jira 하위 이슈",
-      caption:
-        "수동 업로드 API 이슈 — 화면과 API 규격, 담당 정보를 한곳에 정리합니다",
-    }],
+    images: [
+      {
+        image: "jira-task.png",
+        width: 1290,
+        height: 805,
+        alt: "수평 파노라마 수동 업로드 API의 설명, 입력 명세, 담당자, 우선순위와 레이블이 작성된 Jira 하위 이슈",
+        caption:
+          "수동 업로드 API 이슈 — 화면과 API 규격, 담당 정보를 한곳에 정리합니다",
+      },
+    ],
   },
   {
     id: "report",
@@ -127,6 +137,7 @@ const steps = [
       "요약 시트에서는 전체 219개 이슈를 Epic 직하위 Story/Task 85개와 Sub-task 134개로 구분합니다.",
       "버그·스토리·작업·Subtask의 구성과 완료·진행 중·검토 중·할 일·중단 상태를 집계합니다.",
     ],
+    imageRatio: [1.95, 1],
     images: reportImages,
   },
 ];
