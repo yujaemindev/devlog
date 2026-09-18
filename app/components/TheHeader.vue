@@ -1,7 +1,7 @@
 <template>
   <nav ref="headerElement" class="md:max-w-6xl mx-auto sticky top-0 z-50">
     <div
-      class="bg-white flex flex-wrap items-center justify-center md:py-4 py-2 border-b border-gray-200 text-2xl sm:px-4 md:px-2"
+      class="bg-white flex flex-wrap items-center justify-center md:py-2 py-1 border-b border-gray-200 text-2xl sm:px-2 md:px-1"
     >
       <input
         id="menu-btn"
@@ -28,10 +28,16 @@
             @keydown.esc="closeMenu"
           >
             <summary
-              class="list-none cursor-pointer px-3 py-3 font-bold text-lg md:px-4 md:text-2xl hover:text-indigo-600 [&::-webkit-details-marker]:hidden"
+              class="flex flex-col items-center justify-center gap-0.5 list-none cursor-pointer px-3 py-3 text-center font-bold text-lg md:px-4 md:text-2xl hover:text-indigo-600 [&::-webkit-details-marker]:hidden"
               :class="$route.path.startsWith(item.path) ? 'text-indigo-600' : 'text-gray-900'"
             >
-              {{ item.name }}
+              <span>{{ item.name }}</span>
+              <span
+                v-if="selectedSubmenu(item)"
+                class="whitespace-nowrap text-[12px] font-normal leading-3 text-indigo-500"
+              >
+                {{ selectedSubmenu(item).name }}
+              </span>
             </summary>
             <ul class="absolute right-0 top-full min-w-56 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
               <li v-for="child in item.children" :key="child.path">
@@ -88,6 +94,10 @@ export default {
     }
   },
   methods: {
+    selectedSubmenu(item) {
+      const path = this.$route.path.replace(/\/$/, '')
+      return item.children?.find(child => path === child.path || path.startsWith(`${child.path}/`))
+    },
     closeMenu(event) {
       const details = event.target.closest('details')
       if (details) {

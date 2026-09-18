@@ -11,6 +11,14 @@ const menu = [
       { name: "Air-Gapped Environment", path: "/workflow/air-gapped-environment" },
     ],
   },
+  {
+    name: "Experience",
+    path: "/experience",
+    children: [
+      { name: "SILD", path: "/experience/sild" },
+      { name: "DeepInspector", path: "/experience/deep-inspector" },
+    ],
+  },
   // { name: "Blog", path: "/blog" },
 ]
 

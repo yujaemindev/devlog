@@ -56,11 +56,12 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   step: { type: Object, required: true },
   number: { type: Number, required: true },
+  imageDirectory: { type: String, default: 'images/workflow' },
 });
 
 const runtimeConfig = useRuntimeConfig();
-const asset = name => `${runtimeConfig.app.baseURL}images/workflow/${name}`;
+const asset = name => `${runtimeConfig.app.baseURL}${props.imageDirectory}/${name}`;
 </script>
