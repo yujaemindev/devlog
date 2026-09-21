@@ -5,6 +5,7 @@
       <NuxtLoadingIndicator />
       <slot />
       <TheFooter />
+      <ScrollToTop />
     </div>
   </section>
 </template>

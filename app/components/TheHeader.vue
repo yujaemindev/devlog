@@ -78,6 +78,8 @@ export default {
     onMounted(() => {
       const updateHeight = () => {
         headerHeight.value = headerElement.value.getBoundingClientRect().height
+        // Update sticky/fixed offsets before paint, without waiting for a Vue render.
+        document.documentElement.style.setProperty('--site-header-height', `${headerHeight.value}px`)
       }
       updateHeight()
       observer = new ResizeObserver(updateHeight)
@@ -88,6 +90,7 @@ export default {
     onBeforeUnmount(() => {
       observer?.disconnect()
       window.removeEventListener('scroll', updateCompact)
+      document.documentElement.style.removeProperty('--site-header-height')
     })
 
     return { headerElement, isCompact }
