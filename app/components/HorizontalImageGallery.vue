@@ -1,12 +1,25 @@
 <template>
-  <div class="min-w-0">
+  <div class="image-gallery min-w-0">
     <div class="mb-3 flex items-center justify-between gap-3">
       <p class="text-sm text-gray-500">좌우로 넘겨 화면을 확인하세요.</p>
-      <div class="flex shrink-0 gap-2">
+      <div class="flex shrink-0 gap-2 min-[512px]:hidden">
         <button type="button" class="gallery-button" aria-label="이전 이미지" @click="move(-1)">←</button>
         <button type="button" class="gallery-button" aria-label="다음 이미지" @click="move(1)">→</button>
       </div>
     </div>
+    <div class="relative">
+      <button
+        type="button"
+        class="gallery-button gallery-floating-button left-2 hidden min-[512px]:flex"
+        aria-label="이전 이미지"
+        @click="move(-1)"
+      >←</button>
+      <button
+        type="button"
+        class="gallery-button gallery-floating-button right-2 hidden min-[512px]:flex"
+        aria-label="다음 이미지"
+        @click="move(1)"
+      >→</button>
     <div
       ref="track"
       role="region"
@@ -46,6 +59,7 @@
         </figcaption>
       </figure>
     </div>
+    </div>
   </div>
 </template>
 
@@ -77,6 +91,9 @@ const move = (direction) => {
 </script>
 
 <style scoped>
+.image-gallery {
+  --gallery-image-height: clamp(320px, 55vh, 520px);
+}
 .gallery-button {
   min-width: 44px;
   min-height: 44px;
@@ -86,9 +103,18 @@ const move = (direction) => {
   cursor: pointer;
 }
 .gallery-button:hover { background: var(--color-indigo-50); }
+.gallery-floating-button {
+  position: absolute;
+  top: calc(var(--gallery-image-height) / 2 + 0.75rem + 1px);
+  z-index: 10;
+  transform: translateY(-50%);
+  align-items: center;
+  justify-content: center;
+  background: white;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 18%);
+}
 .gallery-track { scrollbar-color: var(--color-indigo-300) var(--color-gray-100); }
 .gallery-slide {
-  --gallery-image-height: clamp(320px, 55vh, 520px);
   width: 88%;
 }
 .gallery-image { height: var(--gallery-image-height); }
