@@ -7,7 +7,7 @@
       EC2 기반 애플리케이션 운영부터 상품 추천, 검색, 사용자 행동 분석까지.
       서비스 규모와 운영 비용을 고려해 구축한 SILD의 인프라와 서버 구성을 정리합니다.
     </WorkflowPageHeader>
-    <WorkflowStepNav :steps="steps" label="SILD 구축 경험" @offset-change="sectionOffset = $event" />
+    <WorkflowStepNav :steps="steps" label="SILD 구축 경험" collapse-after="overview" @offset-change="sectionOffset = $event" />
     <div class="space-y-14">
       <WorkflowSection
         v-for="(step, index) in steps"
