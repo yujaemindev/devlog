@@ -1,6 +1,6 @@
 const menu = [
   { name: "Home", path: "/" },
-  { name: "Career Projects", path: "/projects" },
+  { name: "Projects", path: "/projects" },
   {
     name: "Workflow",
     path: "/workflow",
@@ -8,7 +8,10 @@ const menu = [
       { name: "Jira", path: "/workflow/jira" },
       { name: "Bug Fixing", path: "/workflow/bug-fixing" },
       { name: "Integration Testing", path: "/workflow/integration-testing" },
-      { name: "Air-Gapped Environment", path: "/workflow/air-gapped-environment" },
+      {
+        name: "Air-Gapped Environment",
+        path: "/workflow/air-gapped-environment",
+      },
     ],
   },
   {
@@ -20,6 +23,6 @@ const menu = [
     ],
   },
   // { name: "Blog", path: "/blog" },
-]
+];
 
-export default menu
+export default menu;
