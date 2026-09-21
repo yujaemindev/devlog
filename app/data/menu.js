@@ -19,7 +19,7 @@ const menu = [
     path: "/experience",
     children: [
       { name: "End-to-End Ownership", path: "/experience/sild" },
-      { name: "GS인증", path: "/experience/deep-inspector" },
+      { name: "Good Software", path: "/experience/deep-inspector" },
     ],
   },
   // { name: "Blog", path: "/blog" },
