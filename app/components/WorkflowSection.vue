@@ -59,6 +59,7 @@
         </figcaption>
       </figure>
     </div>
+    <slot />
   </section>
 </template>
 
