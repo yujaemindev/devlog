@@ -20,8 +20,14 @@
         {{ point }}
       </li>
     </ul>
+    <HorizontalImageGallery
+      v-if="step.images?.length && step.imageLayout === 'gallery'"
+      :images="step.images"
+      :image-directory="imageDirectory"
+      :label="`${step.label} 화면 갤러리`"
+    />
     <div
-      v-if="step.images?.length"
+      v-else-if="step.images?.length"
       class="grid items-start gap-4"
       :class="{ 'md:grid-cols-[var(--image-columns)]': step.images.length === 2 }"
       :style="{ '--image-columns': imageColumns }"

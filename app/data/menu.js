@@ -18,8 +18,8 @@ const menu = [
     name: "Experience",
     path: "/experience",
     children: [
-      { name: "SILD", path: "/experience/sild" },
-      { name: "DeepInspector", path: "/experience/deep-inspector" },
+      { name: "End-to-End Ownership", path: "/experience/sild" },
+      { name: "GS인증", path: "/experience/deep-inspector" },
     ],
   },
   // { name: "Blog", path: "/blog" },

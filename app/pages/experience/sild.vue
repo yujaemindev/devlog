@@ -3,11 +3,11 @@
     class="mx-auto max-w-5xl px-4 pb-16 sm:px-6 xl:px-0"
     :style="{ '--section-offset': `${sectionOffset}px` }"
   >
-    <WorkflowPageHeader category="EXPERIENCE" label="SILD" title="SILD · AWS 기반 서비스 구축과 운영">
-      EC2 기반 애플리케이션 운영부터 상품 추천, 검색, 사용자 행동 분석까지.
-      서비스 규모와 운영 비용을 고려해 구축한 SILD의 인프라와 서버 구성을 정리합니다.
+    <WorkflowPageHeader category="EXPERIENCE" label="End-to-End Ownership" title="End-to-End Ownership">
+      SILD의 서비스 설계, 개발, 배포, 운영까지 전 과정을 직접 맡았습니다.
+      AWS 인프라와 API·관리자 페이지 구축부터 상품 추천, 검색, 사용자 행동 분석까지의 경험을 정리합니다.
     </WorkflowPageHeader>
-    <WorkflowStepNav :steps="steps" label="SILD 구축 경험" @offset-change="sectionOffset = $event" />
+    <WorkflowStepNav :steps="steps" label="End-to-End Ownership 목차" @offset-change="sectionOffset = $event" />
     <div class="space-y-14">
       <WorkflowSection
         v-for="(step, index) in steps"
@@ -25,8 +25,8 @@ import siteMetaInfo from '@/data/sitemetainfo.js'
 
 const sectionOffset = ref(171)
 useSeoMeta({
-  title: `${siteMetaInfo.title} | Experience · SILD`,
-  description: 'SILD의 AWS 인프라, Node.js 서버, Vue 관리자 페이지, 상품 추천 및 Kinesis 기반 사용자 행동 분석 구축 경험',
+  title: `${siteMetaInfo.title} | Experience · End-to-End Ownership`,
+  description: 'SILD의 설계, 개발, 배포, 운영까지 전 과정을 직접 맡은 경험. AWS 인프라, Node.js 서버, Vue 관리자 페이지, 상품 추천 및 사용자 행동 분석 구축 과정',
 })
 
 const steps = [
@@ -47,9 +47,18 @@ const steps = [
     points: ['Express CORS 설정으로 buy.sild.app 등 허용된 출처의 브라우저 요청에만 교차 출처 접근을 허용했습니다.', 'Blue/Green 배포도 검토했지만 EC2 인스턴스 증설에 따른 비용 제약을 고려해 롤링 배포를 선택했습니다.', 'Mocha와 Chai를 활용해 테스트를 수행하고 코드 커버리지도 점검했습니다.'],
   },
   {
-    id: 'admin', label: 'SO', title: '운영 업무를 위한 관리자 페이지',
-    description: 'Vue 3와 PrimeVue를 기반으로 관리자 페이지를 구축했습니다. 회원·상품·마켓 관리 기능과 함께 하위 관리자의 업무 범위에 맞는 메뉴 및 기능 권한을 제공했습니다.',
-    points: ['관리자별 메뉴 접근과 기능 사용 권한을 부여할 수 있도록 구현했습니다.', '대량 작업은 Excel import로 일괄 처리하고, 수출 신고·정산을 위한 외부 전달 자료는 export할 수 있도록 했습니다.'],
+    id: 'admin', label: 'Frontend', title: 'Vue 3 기반 사용자 웹과 관리자 페이지',
+    description: 'Vue 3 기반 사용자 웹과 Vue 3·PrimeVue 기반 관리자 페이지를 구축했습니다. 사용자가 브랜드 룩북과 상품을 탐색하는 화면부터 회원·상품·마켓을 관리하는 운영 화면까지 개발했습니다.',
+    points: ['사용자 웹은 Vue 3를 기반으로 룩북 목록과 상세, 필터 검색, 상품 목록을 탐색할 수 있도록 구현했습니다.', '관리자 페이지는 Vue 3와 PrimeVue를 활용해 회원·상품·마켓 관리 기능을 제공했습니다.', '하위 관리자의 업무 범위에 맞춰 관리자별 메뉴 접근과 기능 사용 권한을 부여할 수 있도록 구현했습니다.', '대량 작업은 Excel import로 일괄 처리하고, 수출 신고·정산을 위한 외부 전달 자료는 export할 수 있도록 했습니다.'],
+    imageLayout: 'gallery',
+    images: [
+      { image: 'sild1.png', width: 966, height: 2580, alt: 'SILD 사용자 웹의 브랜드 룩북 아카이브 화면', caption: '사용자 웹 · 브랜드 룩북 아카이브' },
+      { image: 'sild2.png', width: 1003, height: 2014, alt: 'SILD 사용자 웹의 시즌별 룩북 목록 화면', caption: '사용자 웹 · 시즌별 룩북 탐색' },
+      { image: 'sild3.png', width: 781, height: 1571, alt: 'SILD 사용자 웹의 시즌·콘셉트·성별 필터 화면', caption: '사용자 웹 · 상세 필터 검색' },
+      { image: 'sild4.png', width: 970, height: 1950, alt: 'SILD 사용자 웹의 룩북 상세와 다른 룩북 목록 화면', caption: '사용자 웹 · 룩북 상세' },
+      { image: 'sild5.png', width: 769, height: 1553, alt: 'SILD 사용자 웹의 상품 가격·색상·사이즈 목록 화면', caption: '사용자 웹 · 상품 목록' },
+      { image: 'sild6.png', width: 1738, height: 902, alt: 'SILD PrimeVue 관리자 페이지의 마켓과 주문 관리 화면', caption: '관리자 페이지 · 마켓 및 주문 관리' },
+    ],
   },
   {
     id: 'recommend', label: 'Recommend', title: '상품 정보 기반 추천과 카테고리 분류',
