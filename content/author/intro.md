@@ -4,7 +4,7 @@ page: intro
 draft: false
 ---
 
-2015년 삼성 그룹웨어 관리자 시스템 개발을 시작으로 **엔터프라이즈 → 스타트업 → 창업 → AI SaaS**까지 다양한 환경에서 웹서비스를 만들어왔습니다. Java/Spring 기반 Backend에서 출발해 Node.js/NestJS, Vue/React, 모바일 하이브리드 앱, AWS·Docker·Jenkins 기반 인프라와 CI/CD까지 서비스 전체 영역을 경험했습니다.
+2015년 삼성 그룹웨어 관리자 시스템 개발을 시작으로 **엔터프라이즈 → 스타트업 → 창업 → AI SaaS**까지 다양한 환경에서 웹서비스를 만들어왔습니다. VueJS 어드민 페이지 Frontend와 Java/Spring 기반 Backend에서 출발해 Node.js/NestJS, Vue/React, 모바일 하이브리드 앱, AWS·Docker·Jenkins 기반 인프라와 CI/CD까지 서비스 전체 영역을 경험했습니다.
 
 창업 과정에서는 K-패션 브랜드의 룩북과 상품을 국내외 바이어에게 연결하는 B2B 플랫폼을 직접 설계하고 개발했습니다. 사용자 웹·앱과 관리자 시스템, 주문·결제·배송, 검색·추천, Cafe24/Makeshop 연동부터 AWS 운영환경까지 **제품의 0→1과 실제 운영**을 모두 경험했습니다.
 

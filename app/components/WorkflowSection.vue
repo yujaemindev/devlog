@@ -20,11 +20,12 @@
       class="mb-6 space-y-2 pl-5 text-gray-600 sm:ml-14"
     >
       <li
-        v-for="point in step.points"
+        v-for="(point, pointIndex) in step.points"
         :key="point"
         class="list-disc leading-7 marker:text-indigo-400"
       >
         {{ point }}
+        <slot name="point-extra" :point="point" :index="pointIndex" />
       </li>
     </ul>
     <HorizontalImageGallery
