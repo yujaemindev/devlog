@@ -2,30 +2,30 @@ export const ttaIntroduction = 'https://cs.tta.or.kr/tta/introduce/introCont.do?
 
 export const steps = [
   {
-    id: 'gs-overview', label: 'Overview', title: 'GS인증과 제품 품질 검증',
+    id: 'gs-overview', label: '개요', title: 'GS인증과 제품 품질 검증',
     description: 'GS(Good Software)인증은 실제 사용 환경에 가까운 시험환경에서 소프트웨어를 시험하고 품질을 평가하는 제도입니다. 제품의 기능뿐 아니라 설명서와 사용 방법까지 함께 준비해야 합니다.',
     points: ['TTA는 ISO/IEC 25023, 25041, 25051을 기반으로 제품 유형에 맞는 시험을 수행합니다.', '시험 중 발견한 결함은 리포트로 전달되며, 보완 후 회귀시험을 거쳐 인증심의로 이어집니다.'],
   },
   {
-    id: 'gs-preparation', label: 'Preparation', title: '인증 시작 전 · 수수료 납부와 신청서류 준비',
+    id: 'gs-preparation', label: '인증 준비', title: '인증 시작 전 · 수수료 납부와 신청서류 준비',
     description: '시험기관의 안내에 따라 수수료를 납부하고, 신청서류 5종을 준비한 뒤 TTA 고객서비스포털에서 GS시험을 신청하는 순서로 준비했습니다.',
   },
   {
-    id: 'gs-consultation', label: 'Q&A', title: '인증 시작 전 · 시험환경과 범위 협의',
+    id: 'gs-consultation', label: '사전 협의', title: '인증 시작 전 · 시험환경과 범위 협의',
     description: '2026년 3월 30일 사전 문의를 통해 서버 설치 방식, 동시 사용자, 다국어, 복구와 배포 구성을 확인했습니다. 아래 내용은 해당 제품과 시험 범위에 대한 담당자 답변을 정리한 것입니다.',
   },
   {
-    id: 'gs-defects', label: 'Defect Reports', title: '인증 시작 후 · 결함 리포트와 보완 대응',
+    id: 'gs-defects', label: '결함 대응', title: '인증 시작 후 · 결함 리포트와 보완 대응',
     description: '기존 standalone 실행파일의 기능을 개선하고 SaaS로 전환한 제품에 대해 GS-A-25-0255 결함 리포트로 대응했습니다. 2026년 4월 20일자 1차 리포트의 35개 항목을 기준으로, 업체 응답과 처리 상태를 v1부터 v3까지 갱신했습니다.',
     points: ['웹서비스 전환에 따른 비밀번호 정책, 인증·세션 처리, 화면 이동과 결과 표시, 운영환경 설정을 점검했습니다.', '프로그램 수정, 매뉴얼 보완, 시험환경 확인을 구분하고 담당자와 처리 상태를 기록했습니다.', 'v1·v2·v3는 같은 1차 결함 리포트의 관리 버전입니다. 아래 처리 상태는 업체 기록 기준이며 최종 인증 결과는 별도로 정리합니다.'],
   },
   {
-    id: 'gs-ai-validation', label: 'AI Validation', title: '인증 시작 후 · AI 성능 자체 검증 자료',
+    id: 'gs-ai-validation', label: 'AI 성능 검증', title: '인증 시작 후 · AI 성능 자체 검증 자료',
     description: '결함·균열 검출, XAI Heatmap, Captioning에 대해 준비한 자체시험성적서 6종을 정리했습니다. 문서에 기재된 시험일은 2026년 4월 3일이며, 아래 수치는 각 문서의 시험 데이터 상세 및 결과 요약 기준입니다.',
     points: ['검출·균열 모델은 F1 score, Heatmap은 결함 위치와 강조 지점의 거리 기반 지표로 평가했습니다.', 'Captioning은 결함탐지 40%, 결함위치 40%, 묘사 20%를 합산한 지표를 사용했습니다.', '각 수치는 서로 다른 데이터와 지표의 자체시험 결과이며, TTA의 최종 시험성적이나 인증 결과와는 구분됩니다.'],
   },
   {
-    id: 'gs-summary', label: 'Summary', title: '신청서류부터 시험 대응 근거까지',
+    id: 'gs-summary', label: '정리', title: '신청서류부터 시험 대응 근거까지',
     description: 'standalone 실행파일로 제공하던 교량 안전점검 소프트웨어의 기능을 개선하고 SaaS로 전환했습니다. 웹 기반 사용 흐름과 인증·보안, AI 진단 결과 표시를 보완하면서 신청서류, 사전 협의, 결함 대응과 자체시험 자료를 함께 정리했습니다.',
   },
 ];

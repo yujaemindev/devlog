@@ -91,6 +91,52 @@ const projectsData = [
   },
   {
     title: "보험피팅 · 마이데이터 보험 분석",
+    details: {
+      heading: "보험 분석·설계사 CRM 서비스 개발",
+      paragraphs: [
+        "보험 데이터를 분석하고 보험설계사의 고객관리를 지원하는 서비스를 개발했습니다. 보험 데이터 분석, 설계사 CRM, 고객 매칭을 연결해 고객앱과 설계사앱에서 활용할 수 있도록 구현했습니다.",
+      ],
+      sections: [
+        {
+          heading: "신용정보원 데이터 수집과 보험 분석",
+          paragraphs: [
+            "신용정보원 데이터를 수집해 고객의 보험을 분석하고, 암·뇌혈관·심혈관·실손·수술·입원·후유장해·치매·사망·운전자보험 등 다양한 보장 항목을 체계화했습니다. 보장 영역별 분석 결과와 개별 보험의 상세 정보를 확인할 수 있도록 구성했습니다.",
+          ],
+          images: [
+            { src: "images/projects/bofit/bofit1.png", alt: "신용정보원 보험 분류를 기반으로 정리한 고객 보험 보장 항목", caption: "고객 보험 분석을 위한 보장 항목 분류 체계" },
+            { src: "images/projects/bofit/bofit2.png", alt: "보장 영역별 부족 여부와 가입 금액을 보여주는 고객 보장 분석 화면", caption: "보장 영역별 분석 결과와 세부 보장 내역", portrait: true },
+            { src: "images/projects/bofit/bofit3.png", alt: "고객 보장금액과 권장 보장금액, 보유 보험을 비교하는 상세 화면", caption: "보유 보험 상세와 보장금액 비교", portrait: true },
+          ],
+        },
+        {
+          heading: "설계사 CRM과 고객 매칭",
+          paragraphs: [
+            "보험설계사가 고객을 등록하고 상담 관계를 관리할 수 있도록 고객 CRM, 고객 상태 관리, 고객 매칭 기능을 개발했습니다. 카카오톡 초대 Deep Link를 통해 고객과 설계사를 연결하고, 초대·수락·상담·해제 등 상태에 따른 고객 관리 흐름을 구현했습니다.",
+          ],
+          points: [
+            "고객 CRM과 상담 상태 관리",
+            "카카오톡 초대 Deep Link를 통한 고객 연결",
+            "고객과 설계사 매칭 및 상태별 관리 흐름",
+          ],
+          images: [
+            { src: "images/projects/bofit/bofit4.png", alt: "설계사의 고객 등록·초대·매칭 경로와 상담 상태별 관리 흐름도", caption: "고객 유입 경로와 상담 상태에 따른 CRM 처리 흐름" },
+          ],
+        },
+        {
+          heading: "로그인·알림과 서비스 연동",
+          paragraphs: [
+            "카카오·네이버·애플 소셜 로그인, FCM Push, 정기 문자 메시지 기능을 개발했습니다. Spring Boot 백엔드와 React Native 앱 개발에 참여하며 보험 분석과 고객관리 기능을 서비스로 연결했습니다.",
+          ],
+          points: [
+            "카카오·네이버·애플 소셜 로그인",
+            "FCM Push와 정기 문자 메시지",
+          ],
+          images: [
+            { src: "images/projects/bofit/bofit5.png", alt: "고객앱·설계사앱과 API Gateway, 인증·Push·CRM 모듈 및 데이터 저장소를 연결한 보험피팅 서비스 구성도", caption: "고객앱·설계사앱과 주요 서비스 모듈의 전체 구성" },
+          ],
+        },
+      ],
+    },
     period: "2020 - 2021",
     role: "Backend / Mobile App",
     description:
@@ -102,6 +148,49 @@ const projectsData = [
   },
   {
     title: "Knox Portal 관리자",
+    details: {
+      heading: "대규모 사내 메일 관리시스템 개발·운영",
+      paragraphs: [
+        "대기업 사내 메일 엔진을 관리하는 시스템의 UI 개발과 유지보수를 맡았습니다. 이후 서버 개발까지 담당하며 프론트엔드부터 백엔드, DB, 서버 간 통신 구조까지 경험을 확장했습니다.",
+      ],
+      sections: [
+        {
+          heading: "관리 화면 개발과 공통 컴포넌트 개선",
+          paragraphs: [
+            "AngularJS 기반으로 REST API 통신을 구현하고, 계정·그룹메일·임직원 환경설정·조직 정책·시스템 모니터링·로그 조회·권한관리 화면을 개발했습니다. 복잡한 List/Tree 구조는 공통 컴포넌트로 리팩토링하고, 기능별 권한 제어를 구현했습니다.",
+          ],
+          images: [
+            { src: "images/projects/knox/knox1.png", alt: "Knox Portal 회사 설정 화면과 중첩 컨트롤러 구성", caption: "메뉴·정책·회사 설정과 목록·상세 화면을 연결하는 컨트롤러 구조" },
+          ],
+        },
+        {
+          heading: "AngularJS 대규모 화면 성능 최적화",
+          paragraphs: [
+            "AngularJS의 $digest 구조와 데이터 바인딩 흐름을 이해하고, 대규모 관리 화면에서 변경 감지와 반복 계산에 드는 비용을 줄였습니다.",
+          ],
+          points: [
+            "ng-show/ng-hide 대신 ng-if를 활용해 불필요한 화면 요소와 변경 감지 부담을 줄였습니다.",
+            "$watch 수를 최소화했습니다.",
+            "Deep Watching을 제거해 깊은 객체 비교 비용을 줄였습니다.",
+            "반복 계산 로직을 리팩토링했습니다.",
+          ],
+          images: [
+            { src: "images/projects/knox/knox2.png", alt: "AngularJS의 모델 변경, digest loop와 View 렌더링 흐름", caption: "모델 변경과 digest loop, 화면 렌더링의 관계" },
+            { src: "images/projects/knox/knox3.png", alt: "ngModel Controller의 데이터 바인딩과 Formatters·Parsers 흐름", caption: "ngModel Controller를 통한 모델·화면 간 데이터 변환과 바인딩" },
+          ],
+        },
+        {
+          heading: "백엔드 개발과 분산 시스템 연동",
+          paragraphs: [
+            "Spring 기반 REST API와 VO/DAO/Service 계층을 구현했습니다. DB DDL/DML 작성과 쿼리 튜닝, 권한 처리, Agent를 이용한 다른 서버와의 통신도 담당했습니다.",
+            "Apache Reverse Proxy, 여러 WAS, Spring/MyBatis, Master/Slave DB, Mail Engine Agent와 Scheduler가 연동되는 환경에서 개발했습니다. Quartz Scheduler를 이용한 작업 처리까지 포함해 여러 서버와 컴포넌트가 함께 동작하는 구조를 경험했습니다.",
+          ],
+          images: [
+            { src: "images/projects/knox/knox4.png", alt: "Apache 프록시, WildFly·Spring·MyBatis, Master·Slave DB 및 메일 엔진 Agent·Quartz Scheduler 구성도", caption: "관리시스템과 메일 엔진, DB 및 외부 시스템의 연동 구조" },
+          ],
+        },
+      ],
+    },
     highlight: { text: "삼성 그룹웨어", type: "domain" },
     period: "2015 - 2020",
     role: "Enterprise Web Developer",
@@ -113,6 +202,13 @@ const projectsData = [
   },
   {
     title: "제품 평판 분석 시스템",
+    details: {
+      heading: "웹 크롤링 및 업무 자동화",
+      paragraphs: [
+        "초기에는 제품 평판 분석을 위한 데이터 수집 시스템을 개발했습니다. Python Scrapy를 기반으로 네이버·다음 블로그, 쇼핑몰 리뷰, 온라인 커뮤니티, 뉴스, 카페 등 여러 사이트에서 게시글·댓글·추천수 등의 데이터를 주기적으로 수집했고, XPath를 활용해 사이트별 HTML 구조를 분석했습니다. 로그인 토큰 만료 처리, Selenium 및 PhantomJS를 활용한 인증 우회와 브라우저 자동화 등 실제 크롤링 운영에서 발생하는 문제도 다뤘습니다.",
+        "여기서 더 나아가 크롤러와 Telegram CLI를 연동해 날씨 정보를 휴대폰으로 전달하거나, 사내 Confluence를 크롤링해 여러 테스트 환경의 관리 페이지 북마크를 자동으로 만드는 등 반복 업무를 자동화하는 도구도 만들었습니다.",
+      ],
+    },
     period: "S-Core",
     role: "Data Collection / Backend",
     description:

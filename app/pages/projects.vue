@@ -9,6 +9,8 @@
       <p class="text-lg leading-7 text-gray-500 dark:text-gray-400">
         엔터프라이즈, 창업, AI SaaS까지 직접 설계·개발·운영했던 주요 프로젝트와
         역할을 정리합니다.
+        <br />
+        각 카드를 클릭하면 상세 작업 내용을 확인할 수 있습니다.
       </p>
     </div>
     <main class="relative mb-auto">
@@ -21,6 +23,7 @@
               :title="item.title"
               :highlight="item.highlight"
               :description="item.description"
+              :details="item.details"
               :period="item.period"
               :role="item.role"
               :href="item.href"

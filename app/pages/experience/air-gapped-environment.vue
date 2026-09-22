@@ -4,6 +4,7 @@
     :style="{ '--section-offset': `${sectionOffset}px` }"
   >
     <WorkflowPageHeader
+      category="EXPERIENCE"
       label="AIR-GAPPED ENVIRONMENT"
       title="폐쇄망 환경을 위한 빌드·설치·실행 자동화"
     >
@@ -75,7 +76,7 @@ import siteMetaInfo from "@/data/sitemetainfo.js";
 
 const sectionOffset = ref(171);
 useSeoMeta({
-  title: `${siteMetaInfo.title} | Workflow · Air-Gapped Environment`,
+  title: `${siteMetaInfo.title} | Experience · Air-Gapped Environment`,
   description:
     "DeepInspector의 폐쇄망 배포를 위한 버전별 빌드, Cosign 전자서명 검증, 설치 및 서비스 실행 자동화 경험",
 });

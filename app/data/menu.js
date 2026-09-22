@@ -8,10 +8,6 @@ const menu = [
       { name: "Jira", path: "/workflow/jira" },
       { name: "Bug Fixing", path: "/workflow/bug-fixing" },
       { name: "Integration Testing", path: "/workflow/integration-testing" },
-      {
-        name: "Air-Gapped Environment",
-        path: "/workflow/air-gapped-environment",
-      },
     ],
   },
   {
@@ -20,6 +16,10 @@ const menu = [
     children: [
       { name: "End-to-End Ownership", path: "/experience/sild" },
       { name: "Good Software", path: "/experience/deep-inspector" },
+      {
+        name: "Air-Gapped Environment",
+        path: "/experience/air-gapped-environment",
+      },
     ],
   },
   // { name: "Blog", path: "/blog" },
