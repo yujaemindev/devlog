@@ -25,6 +25,7 @@
         :key="step.id"
         :step="step"
         :number="index + 1"
+        image-directory="images/experience/air-gapped-environment"
       />
     </div>
 

@@ -21,6 +21,7 @@
         :key="step.id"
         :step="step"
         :number="index + 1"
+        image-directory="images/workflow/jira"
       />
     </div>
     <WorkflowAside title="업무를 연결하는 기준">

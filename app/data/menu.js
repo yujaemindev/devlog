@@ -8,6 +8,7 @@ const menu = [
       { name: "Jira", path: "/workflow/jira" },
       { name: "Bug Fixing", path: "/workflow/bug-fixing" },
       { name: "Integration Testing", path: "/workflow/integration-testing" },
+      { name: "CI/CD", path: "/workflow/cicd" },
     ],
   },
   {

@@ -23,6 +23,7 @@
         :key="step.id"
         :step="step"
         :number="index + 1"
+        image-directory="images/workflow/integration-testing"
       />
     </div>
 
