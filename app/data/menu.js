@@ -21,6 +21,7 @@ const menu = [
         name: "Air-Gapped Environment",
         path: "/experience/air-gapped-environment",
       },
+      { name: "HTTPS Certificate", path: "/experience/https" },
     ],
   },
   // { name: "Blog", path: "/blog" },
