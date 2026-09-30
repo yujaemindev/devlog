@@ -16,6 +16,7 @@ const menu = [
     path: "/experience",
     children: [
       { name: "End-to-End Ownership", path: "/experience/sild" },
+      { name: "SI project", path: "/experience/si-project" },
       { name: "Good Software", path: "/experience/deep-inspector" },
       {
         name: "Air-Gapped Environment",
