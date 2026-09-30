@@ -87,6 +87,18 @@
             등으로 세분화됩니다.
           </p>
         </template>
+        <div v-else-if="step.id === 'learning-training'" class="mt-8">
+          <h3 class="mb-3 text-lg font-bold text-gray-900">학습·평가 UI</h3>
+          <p class="mb-4 text-sm leading-7 text-gray-600">
+            AI 모델 학습 설정부터 Weight 적용, 평가 데이터 관리까지의 화면입니다.
+            좌우로 넘겨 확인하고, 이미지를 누르면 원본을 새 탭에서 볼 수 있습니다.
+          </p>
+          <HorizontalImageGallery
+            :images="trainingScreens"
+            image-directory="images/experience/kwater/pipeline"
+            label="K-water AI 학습·평가 UI 갤러리"
+          />
+        </div>
       </WorkflowSection>
     </div>
   </main>
@@ -101,6 +113,56 @@ useSeoMeta({
   description:
     "K-water 댐 안전진단 AI 플랫폼 SI 프로젝트. Node.js·Express·Tibero 기반 백엔드, 비동기 스케줄러, 진단 데이터 규칙과 AI 학습·보고서 연동 구조를 정리합니다.",
 });
+
+const trainingScreens = [
+  [3, "콘크리트댐 · AI 모델 학습 설정"],
+  [4, "콘크리트댐 · 학습 설정 재진입"],
+  [5, "콘크리트댐 · 원본 데이터 미리보기"],
+  [6, "콘크리트댐 · 전처리 실행"],
+  [7, "콘크리트댐 · 전처리 필수 입력 확인"],
+  [8, "콘크리트댐 · 학습 시작"],
+  [9, "콘크리트댐 · 학습 필수 입력 확인"],
+  [10, "콘크리트댐 · Weight 등록"],
+  [11, "콘크리트댐 · Weight 등록 확인"],
+  [12, "콘크리트댐 · 모델 선택 확인"],
+  [13, "콘크리트댐 · Weight 삭제"],
+  [14, "콘크리트댐 · Weight 삭제 확인"],
+  [15, "필댐 · 원본 데이터 미리보기"],
+  [16, "필댐 · 전처리 실행"],
+  [17, "필댐 · 학습 시작"],
+  [18, "필댐 · Weight 등록"],
+  [19, "필댐 · Weight 등록 확인"],
+  [20, "필댐 · Weight 삭제"],
+  [21, "필댐 · Weight 삭제 확인"],
+  [23, "콘크리트댐 · AI 모델 선택 초기 화면"],
+  [24, "콘크리트댐 · AI 모델 선택 재진입"],
+  [25, "콘크리트댐 · Weight 정렬 기준 선택"],
+  [26, "콘크리트댐 · 결함 검출 모델 선택"],
+  [27, "콘크리트댐 · Weight 다운로드"],
+  [28, "콘크리트댐 · Weight 적용"],
+  [29, "콘크리트댐 · Weight 적용 확인"],
+  [30, "콘크리트댐 · 모델 선택 화면에서 삭제"],
+  [31, "콘크리트댐 · 삭제 확인"],
+  [32, "필댐 · Weight 정렬 기준 선택"],
+  [33, "필댐 · 결함 검출 모델 선택"],
+  [34, "필댐 · 모델 선택 화면에서 삭제"],
+  [35, "필댐 · Weight 적용"],
+  [36, "AI 모델 평가자료 관리 · 화면 안내"],
+  [37, "평가자료 관리 · 초기 화면"],
+  [38, "평가자료 관리 · 재진입"],
+  [39, "평가자료 관리 · 데이터 삭제"],
+  [40, "평가자료 관리 · 신규 Test Data 생성"],
+  [41, "평가자료 관리 · Test Data 적용"],
+  [42, "평가자료 관리 · 적용 확인"],
+  [43, "평가자료 관리 · 데이터 삭제 확인"],
+  [44, "평가자료 관리 · 신규 Test Data 생성 확인"],
+].map(([number, caption]) => ({
+  image: `slide_${String(number).padStart(3, "0")}.png`,
+  width: 1601,
+  height: 900,
+  alt: `K-water ${caption} UI`,
+  caption,
+}));
 
 const overview = [
   {

@@ -78,8 +78,8 @@ const updateCompact = () => {
       : movement;
   }
 
-  // Require deliberate movement in the opposite direction before changing state.
-  if (window.scrollY <= 0 || (isCompact.value && scrollTravel <= -16)) {
+  // Keep the compact menu while scrolling back; expand only at the page top.
+  if (window.scrollY <= 0) {
     isCompact.value = false;
     scrollTravel = 0;
   } else if (!isCompact.value && scrollTravel >= 16 && headingBottom <= navRect.bottom) {
