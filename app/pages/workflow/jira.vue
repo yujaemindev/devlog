@@ -73,7 +73,7 @@ const reportImages = [
     label: "이슈 계층 목록",
     image: "jira-hierarchy.png",
     width: 925,
-    height: 407,
+    height: 408,
     alt: "순서, 레벨, 이슈 유형, 이슈 키, 요약, 상태, 담당자를 상위 이슈와 Subtask 계층으로 정리한 엑셀 목록",
     caption:
       "계층 정렬 시트 — 상위 이슈와 하위 작업의 관계, 작업별 상태와 담당자를 확인합니다",
@@ -179,6 +179,7 @@ const steps = [
       "버그·스토리·작업·Subtask의 구성과 완료·진행 중·검토 중·할 일·중단 상태를 집계합니다.",
     ],
     imageRatio: [1.95, 1],
+    imageHeight: "clamp(220px, 30vw, 360px)",
     images: reportImages,
   },
   {
