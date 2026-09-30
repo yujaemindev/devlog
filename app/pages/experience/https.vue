@@ -32,27 +32,48 @@
             :key="command.title"
             class="min-w-0 overflow-hidden rounded-xl border border-gray-200"
           >
-            <figcaption class="bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700">
+            <figcaption
+              class="bg-gray-50 px-4 py-3 text-sm font-medium text-gray-700"
+            >
               {{ command.title }}
             </figcaption>
-            <pre class="overflow-x-auto bg-gray-900 p-4 text-sm leading-7 text-gray-100"><code>{{ command.code }}</code></pre>
+            <pre
+              class="overflow-x-auto bg-gray-900 p-4 text-sm leading-7 text-gray-100"
+            ><code>{{ command.code }}</code></pre>
           </figure>
         </div>
       </WorkflowSection>
     </div>
-    <WorkflowAside title="수동 갱신의 범위와 다음 개선 방향">
-      DNS 인증 값을 사람이 직접 등록하는 방식은 예약 작업이 정상이어도 무인 갱신이
-      되지 않습니다. 다음 갱신 예정일과 실제 인증서 만료일을 따로 관리하고, 갱신 시
-      DNS 확인과 웹서버 적용까지 수행해야 합니다. 향후 DNS 제공 업체의 API 연동과
-      Nginx 설정 검사·재적용 스크립트를 연결하면 이 과정을 자동화할 수 있습니다.
-    </WorkflowAside>
     <div class="mt-6 text-sm leading-7 text-gray-500">
-      <p>win-acme 2.2.9 실행 기록 기준입니다. 도메인과 경로는 예시로 바꾸었으며, 메뉴 번호는 버전에 따라 달라질 수 있습니다.</p>
+      <p>
+        win-acme 2.2.9 실행 기록 기준입니다. 도메인과 경로는 예시로 바꾸었으며,
+        메뉴 번호는 버전에 따라 달라질 수 있습니다.
+      </p>
       <p>
         참고 문서:
-        <a class="text-indigo-600 underline" href="https://www.win-acme.com/reference/plugins/validation/dns/manual" target="_blank" rel="noopener noreferrer">수동 DNS 인증</a> ·
-        <a class="text-indigo-600 underline" href="https://www.win-acme.com/reference/plugins/store/pemfiles" target="_blank" rel="noopener noreferrer">PEM 파일 구성</a> ·
-        <a class="text-indigo-600 underline" href="https://nginx.org/en/docs/switches.html" target="_blank" rel="noopener noreferrer">Nginx 실행 명령</a>
+        <a
+          class="text-indigo-600 underline"
+          href="https://www.win-acme.com/reference/plugins/validation/dns/manual"
+          target="_blank"
+          rel="noopener noreferrer"
+          >수동 DNS 인증</a
+        >
+        ·
+        <a
+          class="text-indigo-600 underline"
+          href="https://www.win-acme.com/reference/plugins/store/pemfiles"
+          target="_blank"
+          rel="noopener noreferrer"
+          >PEM 파일 구성</a
+        >
+        ·
+        <a
+          class="text-indigo-600 underline"
+          href="https://nginx.org/en/docs/switches.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Nginx 실행 명령</a
+        >
       </p>
     </div>
   </main>
