@@ -62,6 +62,8 @@
             :height="image.height"
             loading="lazy"
             class="mx-auto h-auto w-full rounded-lg"
+            :class="{ 'object-contain': step.imageHeight }"
+            :style="step.imageHeight ? { height: step.imageHeight } : undefined"
           />
         </a>
         <figcaption

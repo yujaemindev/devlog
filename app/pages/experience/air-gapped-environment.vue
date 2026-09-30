@@ -148,7 +148,7 @@ const steps = [
     title: "현장 설치를 위한 별도의 가이드도 제공합니다",
     description:
       "설치 담당자가 절차를 따라 진행할 수 있도록 별도의 설치 가이드를 함께 제공합니다. 사전 준비 사항과 배포 파일 확인부터 배치 파일 실행, 공통 데이터 폴더 선택, 서비스 설치 진행 화면까지 이미지와 함께 안내합니다.",
-    imageRatio: [1.0725, 1],
+    imageRatio: [1.073, 1],
     images: [
       {
         image: "offline-installation-guide-1.png",

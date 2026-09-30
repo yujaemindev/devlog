@@ -105,6 +105,7 @@ const steps = [
       "카메라·경간별 생성 상태와 완료 개수를 조회하는 기능을 구분합니다.",
       "파노라마 생성, 이미지 확인·업로드, 검수 항목 확인처럼 사용자의 동작을 작업 단위로 정리합니다.",
     ],
+    imageHeight: "clamp(220px, 30vw, 360px)",
     images: [
       {
         image: "jira-figma.png",
