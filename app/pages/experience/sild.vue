@@ -29,7 +29,8 @@
         :number="index + 1"
         image-directory="images/experience/sild"
       >
-        <div v-if="step.id === 'storage'" class="space-y-5">
+        <SildDatabaseSection v-if="step.id === 'database'" />
+        <div v-else-if="step.id === 'storage'" class="space-y-5">
           <article
             class="rounded-2xl border border-gray-200 bg-gray-50 p-5 sm:p-6"
           >
@@ -179,6 +180,13 @@ const steps = [
       "Blue/Green 배포도 검토했지만 EC2 인스턴스 증설에 따른 비용 제약을 고려해 롤링 배포를 선택했습니다.",
       "Mocha와 Chai를 활용해 테스트를 수행하고 코드 커버리지도 점검했습니다.",
     ],
+  },
+  {
+    id: "database",
+    label: "Database",
+    title: "Database · 내부 도메인 모델을 중심으로 외부 서비스 통합",
+    description:
+      "TypeORM Entity 88개로 회원·브랜드·상품·주문·결제·배송과 B2B 공동구매를 모델링했습니다. 외부 상품몰, Payment Gateway, 추천 AI, AWS 이벤트 서비스, Push·SMS·Mail, Blockchain 연계를 내부 도메인 모델에 연결하는 Integration Server 구조입니다. MySQL은 서비스 트랜잭션과 관계 데이터를, OpenSearch는 검색과 Aggregation을 담당하도록 역할을 나눴습니다.",
   },
   {
     id: "admin",
