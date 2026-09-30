@@ -22,7 +22,35 @@
         :step="step"
         :number="index + 1"
         image-directory="images/workflow/jira"
-      />
+      >
+        <div
+          v-if="step.id === 'presentation'"
+          class="overflow-hidden rounded-2xl border border-gray-200 bg-gray-50"
+        >
+          <div
+            class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 bg-white px-5 py-3"
+          >
+            <p class="text-sm text-gray-600">jira-ppt.pdf</p>
+            <a
+              :href="presentationUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm font-semibold text-indigo-600 underline underline-offset-4"
+              >PDF 새 탭에서 보기 ↗</a
+            >
+          </div>
+          <iframe
+            :src="`${presentationUrl}#view=FitH`"
+            title="Jira 자료 PDF 미리보기"
+            loading="lazy"
+            class="h-[70vh] min-h-[420px] w-full border-0 sm:min-h-[600px]"
+          />
+          <p class="px-5 py-3 text-sm leading-6 text-gray-500">
+            미리보기가 표시되지 않는 브라우저에서는 ‘PDF 새 탭에서 보기’를
+            이용하세요.
+          </p>
+        </div>
+      </WorkflowSection>
     </div>
     <WorkflowAside title="업무를 연결하는 기준">
       화면 요구사항, 개발 이슈, API 명세, 진행 현황이 같은 기능을 가리키도록
@@ -37,6 +65,8 @@
 import siteMetaInfo from "@/data/sitemetainfo.js";
 
 const sectionOffset = ref(171);
+const runtimeConfig = useRuntimeConfig();
+const presentationUrl = `${runtimeConfig.app.baseURL}images/workflow/jira/jira-ppt.pdf`;
 
 const reportImages = [
   {
@@ -149,6 +179,13 @@ const steps = [
     ],
     imageRatio: [1.95, 1],
     images: reportImages,
+  },
+  {
+    id: "presentation",
+    label: "사내 도입",
+    title: "사내 업무 프로세스가 갖춰지지 않아 Jira 도입을 제안했습니다.",
+    description:
+      "업무 관리 도구의 필요성과 간단한 용어정리, 시범도입할 프로젝트를 선정하여 PT하였습니다.",
   },
 ];
 </script>

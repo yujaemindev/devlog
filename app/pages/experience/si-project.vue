@@ -90,8 +90,9 @@
         <div v-else-if="step.id === 'learning-training'" class="mt-8">
           <h3 class="mb-3 text-lg font-bold text-gray-900">학습·평가 UI</h3>
           <p class="mb-4 text-sm leading-7 text-gray-600">
-            AI 모델 학습 설정부터 Weight 적용, 평가 데이터 관리까지의 화면입니다.
-            좌우로 넘겨 확인하고, 이미지를 누르면 원본을 새 탭에서 볼 수 있습니다.
+            AI 모델 학습 설정부터 Weight 적용, 평가 데이터 관리까지의
+            화면입니다. 좌우로 넘겨 확인하고, 이미지를 누르면 원본을 새 탭에서
+            볼 수 있습니다.
           </p>
           <HorizontalImageGallery
             :images="trainingScreens"
@@ -178,7 +179,7 @@ const overview = [
   {
     title: "업무 시스템 연동",
     description:
-      "Windows AI·후처리 모듈, Linux 기반 학습 환경, DeepLabel, K-water 알람 API 연계",
+      "Windows AI·후처리 모듈, Linux 기반 학습 환경, 라벨링 프로그램, K-water 알람 API 연계",
   },
 ];
 
@@ -222,8 +223,30 @@ const steps = [
         image: "kwater_architecture.png",
         width: 1377,
         height: 1158,
-        alt: "Express API와 Tibero, NAS, Cluster Worker, 외부 AI 실행파일 및 DeepLabel 연결 구성도",
+        alt: "Express API와 Tibero, NAS, Cluster Worker, 외부 AI 실행파일 및 라벨링 프로그램 연결 구성도",
         caption: "시스템 구성 — API 요청, 작업 실행, 데이터 저장과 외부 연동",
+      },
+    ],
+  },
+  {
+    id: "database",
+    label: "Database",
+    title: "Database · 댐·진단 결과·작업 상태를 연결하는 데이터 구조",
+    description:
+      "Tibero 기반으로 댐과 부재, 촬영·진단 프로젝트, 결함 결과와 상태평가를 연결합니다. 업무 데이터뿐 아니라 AI 실행을 위한 작업 종류, Worker 상태, 작업 Queue와 상태 변경 이력도 DB에서 관리합니다. 대용량 이미지와 산출물은 공유 스토리지에 두고 DB의 프로젝트·경로·상태 정보와 연결합니다.",
+    points: [
+      "진단 대상: 댐·부재·스테이션 정보를 기준으로 촬영 데이터와 결함 검출·측정 결과를 연결합니다.",
+      "결과 관리: 결함 유형과 위치, 상태평가 정보 및 이미지 처리 프로젝트의 진행 정보를 관리합니다.",
+      "비동기 작업: TM_AN10017은 작업 종류, TM_AN10018은 Worker 상태, TM_AN10019는 작업 Queue, TM_AN10020은 작업 상태 변경 이력을 관리합니다.",
+      "운영·권한: 사용자·권한·메뉴·화면 관련 테이블을 업무 데이터와 함께 구성합니다.",
+    ],
+    images: [
+      {
+        image: "erd_50pct.webp",
+        width: 4652,
+        height: 4112,
+        alt: "K-water 댐·부재·스테이션, 결함 및 상태평가, 작업 스케줄·Worker·이력, 이미지 처리 프로젝트와 사용자 권한 테이블의 ERD",
+        caption: "K-water Database ERD — 진단 대상, 분석 결과와 작업 관리 테이블의 관계",
       },
     ],
   },
@@ -279,7 +302,7 @@ const steps = [
     label: "AI 학습 연계",
     title: "라벨링 데이터에서 운영 Weight 적용까지",
     description:
-      "DeepLabel의 프로젝트·Task·Job을 진단 대상의 시설물 속성과 연결합니다. 플랫폼에서 전달한 이미지를 라벨링·검수한 뒤 학습용 데이터로 export하고, Python 파이프라인에서 데이터 분리·전처리·학습·평가를 수행합니다. 백엔드는 실행 설정과 진행 상태, 생성된 Weight 정보를 연결합니다.",
+      "라벨링 프로그램의 프로젝트·Task·Job을 진단 대상의 시설물 속성과 연결합니다. 플랫폼에서 전달한 이미지를 라벨링·검수한 뒤 학습용 데이터로 export하고, Python 파이프라인에서 데이터 분리·전처리·학습·평가를 수행합니다. 백엔드는 실행 설정과 진행 상태, 생성된 Weight 정보를 연결합니다.",
     points: [
       "콘크리트, 필댐 누수, 아스팔트의 진단 유형에 따라 라벨 카테고리를 구분합니다.",
       "학습 시작·완료·오류·진행률 콜백과 Weight 평가정보를 API에서 관리합니다.",
@@ -298,9 +321,9 @@ const steps = [
   {
     id: "learning-export",
     label: "Export 데이터",
-    title: "DeepLabel export 결과를 원본·GT·학습 후보로 구분",
+    title: "라벨링 프로그램 export 결과를 원본·GT·학습 후보로 구분",
     description:
-      "DeepLabel에서 내보낸 결과는 이미지와 annotation JSON이 짝을 이루는 데이터입니다. AI_PIPELINE 아래 콘크리트댐과 필댐 데이터를 나누고, export 결과와 검수용 이미지, 학습·테스트용 데이터를 서로 다른 디렉터리에서 관리합니다.",
+      "라벨링 프로그램에서 내보낸 결과는 이미지와 annotation JSON이 짝을 이루는 데이터입니다. AI_PIPELINE 아래 콘크리트댐과 필댐 데이터를 나누고, export 결과와 검수용 이미지, 학습·테스트용 데이터를 서로 다른 디렉터리에서 관리합니다.",
     points: [
       "Export_data에는 원본 이미지와 JSON을 저장하고, GT_images에는 GT 이미지, Thumb_images에는 GT 썸네일을 생성합니다. GT와 썸네일은 원본 학습 데이터의 라벨을 확인하는 데 사용합니다.",
       "1차 Data Split은 export 데이터를 학습·검증 후보인 Train_Val_data와 테스트 후보인 Temp_test_data로 분리합니다. 이 단계의 Train_Val은 이후 전처리에서 다시 Train과 Val로 나뉩니다.",
@@ -312,8 +335,9 @@ const steps = [
         image: "ai_pipeline_directory.png",
         width: 4356,
         height: 2406,
-        alt: "DeepLabel export의 원본·GT·썸네일 생성과 Train_Val_data·Temp_test_data 분리, 전처리 및 테스트 데이터 등록 디렉터리 구성도",
-        caption: "Export 이후 데이터 구성 — 원본·미리보기, 학습 후보와 테스트 후보의 분리",
+        alt: "라벨링 프로그램 export의 원본·GT·썸네일 생성과 Train_Val_data·Temp_test_data 분리, 전처리 및 테스트 데이터 등록 디렉터리 구성도",
+        caption:
+          "Export 이후 데이터 구성 — 원본·미리보기, 학습 후보와 테스트 후보의 분리",
       },
     ],
   },
@@ -337,7 +361,8 @@ const steps = [
         width: 4188,
         height: 2428,
         alt: "전처리 API 설정에서 1차 Test 분리, 병합, 이미지와 JSON Crop, 2차 Train·Val 분리, Train 증강 및 결과 정보 반환까지의 흐름도",
-        caption: "전처리 흐름 — 테스트 분리 후 학습 데이터를 가공하고 Train에만 증강 적용",
+        caption:
+          "전처리 흐름 — 테스트 분리 후 학습 데이터를 가공하고 Train에만 증강 적용",
       },
     ],
   },
@@ -360,7 +385,8 @@ const steps = [
         width: 5014,
         height: 2595,
         alt: "전체·추가·사용자 학습별 Merge_data와 Crop_data, Acc_data 및 Test_data 보관, 모델별 임시 파일 정리 규칙을 표시한 디렉터리 상세도",
-        caption: "데이터 수명주기 설계 — 학습 범위별 작업 폴더, 누적 보관과 임시 파일 정리",
+        caption:
+          "데이터 수명주기 설계 — 학습 범위별 작업 폴더, 누적 보관과 임시 파일 정리",
       },
     ],
   },

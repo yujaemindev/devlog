@@ -17,6 +17,7 @@ const menu = [
     children: [
       { name: "End-to-End Ownership", path: "/experience/sild" },
       { name: "SI project", path: "/experience/si-project" },
+      { name: "Open Source", path: "/experience/open-source" },
       { name: "Good Software", path: "/experience/deep-inspector" },
       {
         name: "Air-Gapped Environment",
