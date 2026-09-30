@@ -109,6 +109,28 @@
           </li>
         </ol>
 
+        <div v-else-if="step.id === 'gs-user-guide'" class="space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <p class="text-sm text-gray-600">
+              사용자 가이드 158장 · 원본 슬라이드 4~161번
+            </p>
+            <a
+              :href="asset('gs_userguide.pdf')"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="document-link"
+            >사용자 매뉴얼 PDF 보기 ↗</a>
+          </div>
+          <HorizontalImageGallery
+            :images="guideImages"
+            image-directory="images/experience/gs/guide"
+            label="Deep Inspector 사용자 가이드"
+          />
+          <p class="text-sm leading-6 text-gray-500">
+            이미지를 누르면 원본을 새 탭에서 볼 수 있습니다.
+          </p>
+        </div>
+
         <div v-else-if="step.id === 'gs-consultation'" class="space-y-4">
           <article
             v-for="item in consultations"
@@ -285,6 +307,16 @@ import {
 } from "@/data/gs-certification.js";
 
 const sectionOffset = ref(171);
+const guideImages = Array.from({ length: 158 }, (_, index) => {
+  const slide = index + 4;
+  return {
+    image: `slide_${String(slide).padStart(3, "0")}.png`,
+    width: 1921,
+    height: 1080,
+    alt: `Deep Inspector 사용자 가이드 슬라이드 ${slide}`,
+    caption: `사용자 가이드 · 슬라이드 ${slide}`,
+  };
+});
 const runtimeConfig = useRuntimeConfig();
 const asset = (path) =>
   `${runtimeConfig.app.baseURL}images/experience/gs/${path.split("/").map(encodeURIComponent).join("/")}`;
