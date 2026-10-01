@@ -6,6 +6,7 @@
     "node": ">=24.0.0"
   },
   "scripts": {
+    "build:fire-demo": "node scripts/build-fire-demo.mjs",
     "build": "nuxt build",
     "dev": "nuxt dev --host 0.0.0.0",
     "generate": "nuxt generate",
