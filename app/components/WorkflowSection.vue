@@ -10,7 +10,7 @@
         <h2 class="text-xl font-bold text-gray-900 sm:text-2xl">
           {{ step.title }}
         </h2>
-        <p class="mt-3 leading-7 text-gray-600 whitespace-pre-line">
+        <p v-if="step.description" class="mt-3 leading-7 text-gray-600 whitespace-pre-line">
           {{ step.description }}
         </p>
       </div>
