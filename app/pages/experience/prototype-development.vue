@@ -1,5 +1,5 @@
 <template>
-  <main class="mx-auto max-w-[1600px] px-4 pb-12 sm:px-6">
+  <main class="mx-auto max-w-5xl px-4 pb-12 sm:px-6 xl:px-0">
     <header class="py-8">
       <p class="mb-3 text-sm font-semibold tracking-widest text-indigo-600">
         EXPERIENCE / PROTOTYPE DEVELOPMENT
