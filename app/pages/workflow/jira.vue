@@ -183,11 +183,66 @@ const steps = [
     images: reportImages,
   },
   {
+    id: "automation",
+    label: "자동화 적용 및 확인",
+    title: "Jira Automation으로 업무 현황을 Slack에 자동 공유합니다",
+    description:
+      "매일 오전 9시에 이번 스프린트의 할 일, 완료한 일, 남은 버그를 확인할 수 있도록 Jira 필터 링크를 Slack으로 전송합니다.\n자동화 흐름을 설정한 뒤 수동으로 실행하고, Slack에서 메시지 수신 결과를 확인합니다.",
+    points: [
+      "JQL로 프로젝트, 담당자, 스프린트 레이블과 상태 조건을 지정해 알림에 사용할 업무 필터를 준비합니다.",
+      "Jira 관리자 설정의 시스템에서 전역 자동화 흐름을 구성합니다.",
+      "예약 트리거와 Slack 웹후크 메시지 전송 작업을 연결하고, 업무별 필터 링크를 메시지에 포함합니다.",
+      "흐름을 활성화한 뒤 ‘흐름 실행’으로 테스트하고, Slack 채널에서 알림과 필터 링크를 확인합니다.",
+    ],
+    images: [
+      {
+        image: "automation/jira_automation_1.png",
+        width: 1911,
+        height: 913,
+        alt: "JQL로 관리할 프로젝트의 담당자와 레이블을 지정하고 완료·중단 상태를 제외한 Jira 필터",
+        caption:
+          "알림용 필터 준비 — JQL로 담당자의 스프린트 버그 중 완료·중단 상태를 제외해 조회하고, 해당 필터 링크를 Slack 알림에 활용합니다",
+      },
+      {
+        image: "automation/jira_automation_2.png",
+        width: 1915,
+        height: 909,
+        alt: "전역 자동화에서 매일 오전 9시 예약 트리거와 Slack 메시지 전송 작업을 연결한 내 할일 흐름",
+        caption:
+          "자동화 흐름 구성 — 매일 오전 9시 실행되도록 예약하고 업무별 Slack 알림을 연결합니다",
+      },
+      {
+        image: "automation/jira_automation_3.png",
+        width: 1914,
+        height: 910,
+        alt: "Slack 웹후크와 이번 스프린트의 남은 버그 필터 링크를 메시지에 설정한 Jira Automation 화면",
+        caption:
+          "알림 내용 설정 — Slack 웹후크와 업무별 Jira 필터 링크를 등록합니다",
+      },
+      {
+        image: "automation/jira_automation_4.png",
+        width: 1913,
+        height: 908,
+        alt: "활성화된 내 할일 자동화의 작업 메뉴에서 흐름 실행을 선택하는 화면",
+        caption:
+          "자동화 실행 확인 — 활성화한 흐름을 수동 실행해 메시지 전송을 테스트합니다",
+      },
+      {
+        image: "automation/jira_automation_5.png",
+        width: 985,
+        height: 694,
+        alt: "Slack saas 채널에 Automation for Jira가 보낸 스프린트 할 일, 완료한 일, 남은 버그 알림",
+        caption:
+          "Slack 수신 확인 — 업무별 알림과 Jira 필터 링크가 채널에 전달된 결과를 확인합니다",
+      },
+    ],
+  },
+  {
     id: "presentation",
     label: "사내 도입",
-    title: "사내 업무 프로세스가 갖춰지지 않아 Jira 도입을 제안했습니다.",
+    title: "사내 업무 프로세스 수립을 위해 Jira 도입을 제안했습니다",
     description:
-      "업무 관리 도구의 필요성과 간단한 용어정리, 시범도입할 프로젝트를 선정하여 PT하였습니다.",
+      "업무 관리 도구의 필요성과 간단한 용어정리, 시범도입할 프로젝트를 선정하여 도입을 제안했습니다",
   },
 ];
 </script>
