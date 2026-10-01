@@ -43,7 +43,6 @@
               <tr>
                 <th scope="col" class="whitespace-nowrap px-5 py-3">시기</th>
                 <th scope="col" class="px-5 py-3">주요 수정사항</th>
-                <th scope="col" class="px-5 py-3">대표 커밋</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 text-gray-600">
@@ -55,9 +54,6 @@
                   {{ entry.period }}
                 </th>
                 <td class="min-w-72 px-5 py-3">{{ entry.description }}</td>
-                <td class="min-w-40 px-5 py-3 font-mono text-xs leading-6">
-                  {{ entry.commits }}
-                </td>
               </tr>
             </tbody>
           </table>
@@ -120,53 +116,44 @@ const history = [
     period: "2024.11~12",
     description:
       "관리자 생성 스크립트, 포트·환경변수 설정, Export 개발 및 복구, 결함 색상 반영",
-    commits: "3582318, 773aef6, b6f4fc6",
   },
   {
     period: "2024.12",
     description: "Export 한글 지원, 한글 폰트 추가, 라벨·캡션 표시 개선",
-    commits: "1a9e4ff, 27adc99",
   },
   {
     period: "2025.01~02",
     description:
       "AI Pipeline Export 추가, 중복 촬영일·스테이션 데이터 덮어쓰기 방지, 원본·GT·썸네일·어노테이션 확인 로직 보강",
-    commits: "ce09b33, 8bfc08a, 27f1c86",
   },
   {
     period: "2025.02~04",
     description: "생성·삭제·관리자 관련 UI 제거 후 프로젝트 삭제 기능 복구",
-    commits: "0ecf45a, 956f35c",
   },
   {
     period: "2025.03~05",
     description:
       "운영 배포 설정, 공유 폴더·마운트 변경, API 호출 수정, 누수 카테고리 참조 오류 수정 및 처리 지연 조정",
-    commits: "cb212b7, 0a32688, 5149517, bd1fd41",
   },
   {
     period: "2025.05",
     description: "Docker 백업·빌드 및 변경 커밋 추출 스크립트 보강",
-    commits: "dd79abd, f3ad60d, d5ea612",
   },
   {
     period: "2025.06~07",
     description:
       "AI 분석 이미지 Export 경로·메뉴명 변경, 아스팔트 댐마루 학습 데이터 Export 추가, 저장 폴더명 변경",
-    commits: "16bac9a, f9d7292, b3f0ba3",
   },
   {
     period: "2025.11~2026.04",
     description:
       "NAS·로컬 포트 설정 수정, Linux 빌드 대응, Docker Compose 실행 방식 조정",
-    commits: "014a0ab, 732e36f, 38ec497, 07d269d",
   },
   {
     period: "2026.06",
     description: "사용자별 AI학습 Export 메뉴 제한 및 디버깅 로그 추가",
-    commits: "1d18a00 이후",
   },
-];
+].reverse();
 
 const steps = [
   {
