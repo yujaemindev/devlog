@@ -94,6 +94,37 @@ const steps = [
       "서비스별 ZIP과 보고서 실행 파일의 이름에 버전을 포함해 설치 대상과 빌드 결과를 맞췄습니다.",
       "빌드 스크립트와 산출물의 존재 여부, 명령의 종료 코드를 확인하고 실패 시 다음 단계로 진행하지 않도록 했습니다.",
     ],
+    imageLayout: "gallery",
+    images: [
+      {
+        image: "flow/1.offline_install_be.png",
+        width: 1077,
+        height: 623,
+        alt: "백엔드 Docker 이미지 빌드와 MySQL 이미지 저장 후 ZIP 패키지 생성 완료 로그",
+        caption: "Backend 패키지 — 백엔드와 MySQL 이미지를 저장하고 설치 파일을 ZIP으로 묶습니다",
+      },
+      {
+        image: "flow/1.offline_install_fe.png",
+        width: 1079,
+        height: 624,
+        alt: "프론트엔드 Docker 이미지 빌드와 설치 파일 구성 및 ZIP 패키지 생성 로그",
+        caption: "Frontend 패키지 — 프론트엔드 이미지와 설치 파일을 버전별 패키지로 생성합니다",
+      },
+      {
+        image: "flow/1.offline_install_wkr.png",
+        width: 1077,
+        height: 625,
+        alt: "Worker 이미지 빌드와 Redis 이미지 저장 및 ZIP 패키지 생성 완료 로그",
+        caption: "Worker 패키지 — Worker와 Redis 이미지를 함께 준비합니다",
+      },
+      {
+        image: "flow/1.offline_install_start.png",
+        width: 642,
+        height: 323,
+        alt: "버전 1.0.0의 서비스별 ZIP과 보고서 실행 파일 및 각 파일의 sig 서명 파일 목록",
+        caption: "배포 산출물 취합 — 같은 버전의 서비스 패키지와 서명 파일을 한곳에 모읍니다",
+      },
+    ],
   },
   {
     id: "signature",
@@ -105,6 +136,23 @@ const steps = [
       "빌드 단계에서 로컬 서명키를 사용하고, 설치 단계에서는 공개키와 서명 파일로 검증하도록 역할을 나눴습니다.",
       "폐쇄망에서 검증할 수 있도록 온라인 투명성 로그 조회에 의존하지 않는 공개키 기반 검증 흐름을 적용했습니다.",
       "검증 도구와 공개키, 서비스별 패키지 및 서명 파일이 준비되어 있는지 확인한 뒤 기존 서비스 중지와 설치를 진행합니다.",
+    ],
+    imageLayout: "gallery",
+    images: [
+      {
+        image: "flow/2.install_cosign.png",
+        width: 1072,
+        height: 588,
+        alt: "Cosign 개인키 암호를 입력한 뒤 버전 1.0.0의 오프라인 패키지 빌드를 시작하는 화면",
+        caption: "서명 준비 — 빌드 시작 시 Cosign 개인키 암호를 입력합니다",
+      },
+      {
+        image: "flow/1.offline_install_cosign.png",
+        width: 1089,
+        height: 624,
+        alt: "서비스 ZIP과 보고서 실행 파일의 Cosign 서명 생성 및 패키지 취합 완료 로그",
+        caption: "서명 생성 완료 — 파일별 .sig를 생성해 설치 환경에서 공개키로 검증할 수 있도록 준비합니다",
+      },
     ],
   },
   {
