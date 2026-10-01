@@ -113,8 +113,7 @@ import siteMetaInfo from "@/data/sitemetainfo.js";
 
 const sectionOffset = ref(171);
 const runtimeConfig = useRuntimeConfig();
-const asset = (name) =>
-  `${runtimeConfig.app.baseURL}images/workflow/${name}`;
+const asset = (name) => `${runtimeConfig.app.baseURL}images/workflow/${name}`;
 
 const usageItems = [
   {
@@ -161,21 +160,24 @@ const usageItems = [
     width: 988,
     height: 733,
     alt: "Slack build_gs_be 채널에 개발자 작업 브랜치와 main의 빌드 성공 결과, 커밋 해시, 작성자와 커밋 메시지가 표시된 화면",
-    caption: "원격 브랜치 push 감지 → 웹후크 실행 → 테스트 서버 빌드 → Slack 결과 확인",
+    caption:
+      "원격 브랜치 push 감지 → 웹후크 실행 → 테스트 서버 빌드 → Slack 결과 확인",
     extraImages: [
       {
         image: "git/5.git_build_success.png",
         width: 1912,
         height: 907,
         alt: "ljh_feature_TDIS-249 브랜치에서 실행된 Jenkins 빌드 2601의 성공 상태와 Git 리비전 정보",
-        caption: "빌드 성공 사례 — Jenkins에서 실행 브랜치와 빌드에 사용된 커밋을 확인합니다",
+        caption:
+          "빌드 성공 사례 — Jenkins에서 실행 브랜치와 빌드에 사용된 커밋을 확인합니다",
       },
       {
         image: "git/5.git_build_failed.png",
         width: 1915,
         height: 900,
         alt: "ljh_feature_TDIS-249 브랜치에서 실행된 Jenkins 빌드 2602의 실패 상태 화면",
-        caption: "빌드 실패 사례 — 실패한 실행을 확인하고 Console Output에서 원인을 점검합니다",
+        caption:
+          "빌드 실패 사례 — 실패한 실행을 확인하고 Console Output에서 원인을 점검합니다",
       },
     ],
   },
@@ -197,7 +199,7 @@ const steps = [
   },
   {
     id: "pull-requests",
-    label: "개발·병합 방식",
+    label: "활용 방식",
     title: "활용 방식",
   },
 ];
@@ -211,17 +213,20 @@ const branches = [
   {
     role: "개발 통합",
     names: ["develop"],
-    description: "개발 중인 기능과 수정 사항을 모아 배포 전 통합 검증을 진행하는 브랜치",
+    description:
+      "개발 중인 기능과 수정 사항을 모아 배포 전 통합 검증을 진행하는 브랜치",
   },
   {
     role: "출시 준비",
     names: ["release/*"],
-    description: "출시할 버전의 범위를 확정하고, 배포 전 테스트와 버그 수정으로 안정화하는 브랜치",
+    description:
+      "출시할 버전의 범위를 확정하고, 배포 전 테스트와 버그 수정으로 안정화하는 브랜치",
   },
   {
     role: "긴급 수정",
     names: ["hotfix/*"],
-    description: "운영·납품 버전의 긴급 오류를 수정하는 브랜치로, 수정 사항은 해당 버전과 main 및 관련 개발 브랜치에 반영",
+    description:
+      "운영·납품 버전의 긴급 오류를 수정하는 브랜치로, 수정 사항은 해당 버전과 main 및 관련 개발 브랜치에 반영",
   },
   {
     role: "기능 개발",
