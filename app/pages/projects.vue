@@ -24,6 +24,7 @@
               :highlight="item.highlight"
               :description="item.description"
               :details="item.details"
+              :to="item.to"
               :period="item.period"
               :role="item.role"
               :href="item.href"
