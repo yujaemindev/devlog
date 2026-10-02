@@ -337,7 +337,7 @@ const projectsData = [
           heading: "해결 방향 · 분석부터 검수와 보고서까지 연결",
           images: [
             {
-              src: "images/projects/deepinspector/ready/ready-ia.webp",
+              src: "images/projects/deepinspector/ready/ready-ia.png",
               horizontalScroll: true,
               alt: "DeepInspector 서비스 정보 구조",
               caption: "DeepInspector 서비스 정보 구조(IA)",
