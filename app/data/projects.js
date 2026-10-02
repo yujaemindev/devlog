@@ -223,25 +223,110 @@ const projectsData = [
             imageDirectory: "images/projects/deepinspector/ready",
             label: "시설물별 진단 기준과 자동화 범위 준비 자료",
             images: [
-              { image: "ready1.png", width: 913, height: 803, alt: "시설물 진단 준비 자료 1", caption: "준비 자료 1" },
-              { image: "ready2.png", width: 1678, height: 696, alt: "시설물 진단 준비 자료 2", caption: "준비 자료 2" },
-              { image: "ready3-1.png", width: 1745, height: 804, alt: "시설물 진단 준비 자료 3-1", caption: "준비 자료 3-1" },
-              { image: "ready3-2.png", width: 1743, height: 778, alt: "시설물 진단 준비 자료 3-2", caption: "준비 자료 3-2" },
-              { image: "ready3-3.png", width: 1739, height: 766, alt: "시설물 진단 준비 자료 3-3", caption: "준비 자료 3-3" },
-              { image: "ready3-4.png", width: 1748, height: 804, alt: "시설물 진단 준비 자료 3-4", caption: "준비 자료 3-4" },
-              { image: "ready3-5.png", width: 1741, height: 805, alt: "시설물 진단 준비 자료 3-5", caption: "준비 자료 3-5" },
-              { image: "ready4-1.png", width: 1301, height: 756, alt: "시설물 진단 준비 자료 4-1", caption: "준비 자료 4-1" },
-              { image: "ready4-2.png", width: 1387, height: 772, alt: "시설물 진단 준비 자료 4-2", caption: "준비 자료 4-2" },
+              {
+                image: "ready1.png",
+                width: 913,
+                height: 803,
+                alt: "결함별 세부지침·기존 진단 내역·데이터 보유 여부 비교표",
+                caption:
+                  "결함별 지침과 AI 진단 가능 여부 검토 및 특이사항 정리",
+              },
+              {
+                image: "ready2.png",
+                width: 1678,
+                height: 696,
+                alt: "콘크리트 결함 정의와 참고 사진을 비교한 라벨링 검토 자료",
+                caption:
+                  "박리·박락·파손의 정의와 참고 사례를 비교해 라벨링 기준 구체화",
+              },
+              {
+                image: "ready3-1.png",
+                width: 1745,
+                height: 804,
+                alt: "바닥판·거더의 상태평가 기준과 자동입력 가능 여부",
+                caption:
+                  "상부구조: 바닥판·거더의 결함별 평가 기준과 자동입력 가능 범위 검토",
+              },
+              {
+                image: "ready3-2.png",
+                width: 1743,
+                height: 778,
+                alt: "가로보와 교량받침의 상태평가 및 사용자 입력 기준",
+                caption:
+                  "가로보·교량받침: 영상 분석 가능 항목과 사용자 입력 항목 구분",
+              },
+              {
+                image: "ready3-3.png",
+                width: 1739,
+                height: 766,
+                alt: "교대·교각·기초의 결함 분류와 평가 기준",
+                caption:
+                  "하부구조: 교대·교각·기초의 결함 분류와 평가 가능 범위 정리",
+              },
+              {
+                image: "ready3-4.png",
+                width: 1748,
+                height: 804,
+                alt: "탄산화·염화물의 콘크리트 재료 평가 기준",
+                caption:
+                  "콘크리트 재료: 탄산화·염화물 등 별도 시험 결과가 필요한 사용자 입력 항목 정의",
+              },
+              {
+                image: "ready3-5.png",
+                width: 1741,
+                height: 805,
+                alt: "추락방지시설·도로포장·신축이음부의 평가 기준",
+                caption:
+                  "공중 이용 부위: 추락방지시설·도로포장·신축이음부의 평가와 입력 범위 정리",
+              },
             ],
           },
           paragraphs: [
             "안전점검 세부지침과 기존 진단보고서를 비교해 부재·재료별 결함 종류와 상태평가 기준을 마스터테이블로 정리했습니다. 각 결함에 대해 데이터 보유 여부, 영상에서의 식별 가능 여부, 라벨링 현황과 GS 인증 대상 범위를 확인했습니다.",
             "박리·박락·파손처럼 구분이 어려운 결함은 라벨링 기준을 구체화하고, 부재별 파노라마 품질과 실제 크기 환산에 필요한 입력값을 정리했습니다. 데이터셋과 파노라마에서의 모델 성능도 비교해 실제 서비스 적용을 위한 검토 자료를 마련했습니다.",
             "영상으로 판단하기 어렵거나 별도 시험·전문가 판단이 필요한 항목은 사용자 입력으로 보완하도록 범위를 정의했습니다.",
+            "정리한 기준을 실제 개발로 연결하기 위해 웹서비스와 AI의 이슈를 나누고, 문제정의·우선순위·해결방안을 정리했습니다. J-Tag와 균열 검출 등 주요 기능은 API 단위 작업으로 구체화해 담당자와 진행 상태를 관리했습니다.",
           ],
         },
         {
-          heading: "준비 과정 2 · 터널 현장 데이터와 처리 흐름 구체화",
+          heading: "준비 과정 2 · 현장 데이터와 처리 흐름 구체화",
+          gallery: {
+            imageDirectory: "images/projects/deepinspector/ready",
+            label: "현장 데이터 분석과 개발 협업 자료",
+            images: [
+              {
+                image: "ready4-1.png",
+                width: 1301,
+                height: 756,
+                alt: "터널 웹서비스의 이슈·우선순위·문제정의·해결방안 목록",
+                caption:
+                  "서비스 과제: GSD 검증·도면 표기·터널 유형별 처리 문제를 우선순위와 해결방안으로 구체화",
+              },
+              {
+                image: "ready4-2.png",
+                width: 1387,
+                height: 772,
+                alt: "조인트 탐색·균열 연결·파노라마 등 AI 개선 과제 목록",
+                caption:
+                  "AI 과제: 조인트 탐색·균열 연결·파노라마·망상균열 필터링의 문제와 개선 방향 정리",
+              },
+              {
+                image: "ready5.png",
+                width: 1152,
+                height: 810,
+                alt: "J-Tag·균열 검출 기능의 API별 작업 상태와 담당자 관리 화면",
+                caption: "개발 실행: 브레인스토밍을 JIRA에 정리하여 업무 배분",
+              },
+              {
+                image: "ready6.png",
+                width: 1856,
+                height: 810,
+                alt: "터널 처리 단계별 초기화 단위와 파일 삭제·DB 업데이트·삭제 규칙을 정리한 표",
+                caption:
+                  "단계별 재작업 처리: 처리 단계별 초기화 범위와 파일·DB 처리 규칙 정의",
+              },
+            ],
+          },
           paragraphs: [
             "터널별 촬영 자료와 기존 외관조사망도·진단보고서를 조사하고, 터널 형상과 경간·조인트 구성에 따라 필요한 데이터와 예외 상황을 정리했습니다.",
             "카메라 시작점 불일치, 촬영 속도 변화, 조인트 가림, 파노라마 연결 오류 등 현장에서 발생하는 문제를 개발·AI 과제로 구체화했습니다. 영상 프레임 추출부터 입·출구 탐색, J-Tag 검출, 파노라마 생성, 균열 검출·연결·측정, 좌표 보정과 도면화까지 단계별 처리 흐름과 인터페이스를 정리했습니다.",
@@ -250,6 +335,14 @@ const projectsData = [
         },
         {
           heading: "해결 방향 · 분석부터 검수와 보고서까지 연결",
+          images: [
+            {
+              src: "images/projects/deepinspector/ready/ready-ia.webp",
+              horizontalScroll: true,
+              alt: "DeepInspector 서비스 정보 구조",
+              caption: "DeepInspector 서비스 정보 구조(IA)",
+            },
+          ],
           paragraphs: [
             "드론·카메라로 촬영한 이미지와 영상을 업로드하면 전처리와 파노라마 생성을 거쳐 시설물별 결함을 AI로 탐지합니다. 검출한 결함의 위치와 크기를 측정·시각화하고, 사용자가 결과를 검수하거나 수정할 수 있도록 연결합니다.",
             "검수한 결과는 외관조사망도와 상태평가보고서 생성에 활용하고, XAI 시각화를 통해 AI의 판단 근거를 확인할 수 있도록 구성합니다. 이를 통해 데이터 분석부터 최종 산출물 작성까지 이어지는 안전진단 업무를 하나의 웹서비스에서 지원합니다.",

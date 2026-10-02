@@ -3,7 +3,7 @@
     class="mx-auto max-w-5xl px-4 pb-16 sm:px-6 xl:px-0"
     :style="{ '--section-offset': `${sectionOffset}px` }"
   >
-    <WorkflowPageHeader label="JIRA" title="Jira로 정리하는 개발 업무">
+    <WorkflowPageHeader label="TEAM COLLABORATION" title="팀원 간 업무 협업과 소통">
       화면에서 필요한 기능을 개발 가능한 작업으로 나누고, API 명세와 진행 상태를
       이슈에 연결합니다.<br />
       딥인스펙터 터널 프로젝트의 수평 파노라마 기능을 예시로 업무를 구체화하고
@@ -11,7 +11,7 @@
     </WorkflowPageHeader>
     <WorkflowStepNav
       :steps="steps"
-      label="Jira 업무 과정"
+      label="팀 협업 업무 과정"
       @offset-change="sectionOffset = $event"
     />
 
@@ -89,7 +89,7 @@ const reportImages = [
 ];
 
 useSeoMeta({
-  title: `${siteMetaInfo.title} | Workflow · Jira`,
+  title: `${siteMetaInfo.title} | Workflow · Team Collaboration`,
   description:
     "화면 요구사항을 Jira 이슈로 분해하고 API 명세, 작업 상태, 엑셀 요약으로 연결하는 개발 업무 방식",
 });

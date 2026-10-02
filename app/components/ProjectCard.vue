@@ -166,9 +166,11 @@
             <li v-for="point in section.points" :key="point">{{ point }}</li>
           </ul>
           <figure v-for="image in section.images" :key="image.src" class="mt-5 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
-            <a :href="`${assetBase}${image.src}`" target="_blank" rel="noopener noreferrer" :aria-label="`${image.alt} 원본 보기 (새 탭)`" class="block cursor-zoom-in bg-white p-2">
-              <img :src="`${assetBase}${image.src}`" :alt="image.alt" loading="lazy" decoding="async" class="h-auto w-full" :class="{ 'max-h-[32rem] object-contain': image.portrait }">
+            <div :class="{ 'overflow-x-auto': image.horizontalScroll }" :tabindex="image.horizontalScroll ? 0 : undefined" :role="image.horizontalScroll ? 'region' : undefined" :aria-label="image.horizontalScroll ? `${image.alt} (좌우 스크롤)` : undefined">
+            <a :href="`${assetBase}${image.src}`" target="_blank" rel="noopener noreferrer" :aria-label="`${image.alt} 원본 보기 (새 탭)`" class="block cursor-zoom-in bg-white p-2" :class="{ 'w-max min-w-full': image.horizontalScroll }">
+              <img :src="`${assetBase}${image.src}`" :alt="image.alt" loading="lazy" decoding="async" :class="image.horizontalScroll ? 'h-[640px] w-auto max-w-none' : ['h-auto w-full', { 'max-h-[32rem] object-contain': image.portrait }]">
             </a>
+            </div>
             <figcaption class="border-t border-gray-200 px-4 py-3 text-xs leading-6 text-gray-500 dark:border-gray-700 dark:text-gray-400">{{ image.caption }}</figcaption>
           </figure>
           <div v-if="section.sources?.length" class="mt-5 border-t border-gray-200 pt-3 text-xs leading-6 dark:border-gray-700">
