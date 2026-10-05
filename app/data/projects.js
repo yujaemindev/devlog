@@ -348,6 +348,32 @@ const projectsData = [
             "검수한 결과는 외관조사망도와 상태평가보고서 생성에 활용하고, XAI 시각화를 통해 AI의 판단 근거를 확인할 수 있도록 구성합니다. 이를 통해 데이터 분석부터 최종 산출물 작성까지 이어지는 안전진단 업무를 하나의 웹서비스에서 지원합니다.",
           ],
         },
+        {
+          heading: "서버 구조 · 서비스와 AI 작업의 분리 및 확장",
+          paragraphs: [
+            "React 프론트엔드, NestJS 백엔드와 Redis 기반 워커를 분리하고, 파노라마·결함 분석·XAI 등 AI 기능을 FastAPI 작업 서버로 연결하는 구성입니다. 아래 구조도는 로드밸런싱과 작업 서버 확장, Kubernetes 기반 배포 및 모니터링을 포함한 목표 구조(TO-BE)를 보여줍니다.",
+          ],
+          images: [
+            {
+              src: "images/projects/deepinspector/서버구조도.drawio.png",
+              alt: "DeepInspector의 게이트웨이, 프론트엔드, 백엔드, 워커 및 AI 작업 서버를 연결한 목표 서버 구조도",
+              caption: "서버 구조도(TO-BE) · 서비스 계층과 AI 작업 서버의 분리 및 확장 구성",
+            },
+          ],
+        },
+        {
+          heading: "서버 다이어그램 · 비동기 작업 처리 흐름",
+          paragraphs: [
+            "파노라마 실행 요청을 받으면 백엔드가 Redis에 작업을 등록하고, 워커가 가용 서버와 병렬 처리 가능 여부를 확인해 작업을 배분합니다. 작업 서버의 heartbeat와 실행 결과를 바탕으로 DB와 Redis의 상태를 갱신하며, 완료·실패·취소까지 처리하는 흐름을 정리했습니다.",
+          ],
+          images: [
+            {
+              src: "images/projects/deepinspector/서버다이어그램.drawio.png",
+              alt: "백엔드, 워커, 파노라마 서버 간 작업 등록, 배분, 실행 및 완료·실패·취소 상태 갱신 흐름",
+              caption: "서버 다이어그램 · Redis 작업 큐와 워커를 통한 파노라마 비동기 처리 흐름",
+            },
+          ],
+        },
       ],
     },
     href: "https://yujaemindev.github.io/devlog/deep_inspector_workflow.png",
