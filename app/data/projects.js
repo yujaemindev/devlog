@@ -351,13 +351,14 @@ const projectsData = [
         {
           heading: "서버 구조 · 서비스와 AI 작업의 분리 및 확장",
           paragraphs: [
-            "React 프론트엔드, NestJS 백엔드와 Redis 기반 워커를 분리하고, 파노라마·결함 분석·XAI 등 AI 기능을 FastAPI 작업 서버로 연결하는 구성입니다. 아래 구조도는 로드밸런싱과 작업 서버 확장, Kubernetes 기반 배포 및 모니터링을 포함한 목표 구조(TO-BE)를 보여줍니다.",
+            "React 프론트엔드, NestJS 백엔드와 Redis 기반 워커를 분리하고, 파노라마·결함 분석·XAI 등 AI 기능을 FastAPI 작업 서버로 연결하는 구성입니다. Kubernetes 기반 배포 및 모니터링을 포함한 구조까지는 적용하지 못했습니다. 하지만, 서비스와 AI 작업을 분리하고, AI 서버를 확장할 수 있는 구조로 설계했습니다.",
           ],
           images: [
             {
               src: "images/projects/deepinspector/서버구조도.drawio.png",
               alt: "DeepInspector의 게이트웨이, 프론트엔드, 백엔드, 워커 및 AI 작업 서버를 연결한 목표 서버 구조도",
-              caption: "서버 구조도(TO-BE) · 서비스 계층과 AI 작업 서버의 분리 및 확장 구성",
+              caption:
+                "서버 구조도(TO-BE) · 서비스 계층과 AI 작업 서버의 분리 및 확장 구성",
             },
           ],
         },
@@ -370,7 +371,8 @@ const projectsData = [
             {
               src: "images/projects/deepinspector/서버다이어그램.drawio.png",
               alt: "백엔드, 워커, 파노라마 서버 간 작업 등록, 배분, 실행 및 완료·실패·취소 상태 갱신 흐름",
-              caption: "서버 다이어그램 · Redis 작업 큐와 워커를 통한 파노라마 비동기 처리 흐름",
+              caption:
+                "서버 다이어그램 · Redis 작업 큐와 워커를 통한 파노라마 비동기 처리 흐름",
             },
           ],
         },
