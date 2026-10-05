@@ -369,7 +369,7 @@ const projectsData = [
           ],
           images: [
             {
-              src: "images/projects/deepinspector/서버다이어그램.drawio.png",
+              src: "images/projects/deepinspector/서버다이어그램v2.drawio.png",
               alt: "백엔드, 워커, 파노라마 서버 간 작업 등록, 배분, 실행 및 완료·실패·취소 상태 갱신 흐름",
               caption:
                 "서버 다이어그램 · Redis 작업 큐와 워커를 통한 파노라마 비동기 처리 흐름",
