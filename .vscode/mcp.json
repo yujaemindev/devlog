@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "yujaemin-local": {
+      "type": "stdio",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "args": [
+        "C:\\Users\\jaemi\\.codex\\plugins\\yujaemin-local\\server.mjs"
+      ],
+      "cwd": "C:\\Users\\jaemi\\.codex\\plugins\\yujaemin-local"
+    }
+  }
+}
