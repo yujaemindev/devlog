@@ -2083,9 +2083,26 @@ async function gitQuery(args, cwd = ".", timeoutSeconds = 30) {
 
   env.GIT_OPTIONAL_LOCKS = "0";
 
+  // Keep global Git config isolated, but allow the OS credential manager for authenticated operations.
+  const credentialHelpers = process.platform === "win32"
+    ? [
+        path.join(path.dirname(GIT_BASH), "..", "mingw64", "bin", "git-credential-manager.exe"),
+        path.join(path.dirname(GIT_BASH), "..", "mingw64", "bin", "git-credential-manager-core.exe"),
+      ]
+    : [];
+  let credentialHelper = null;
+  for (const candidate of credentialHelpers) {
+    if (await isFile(candidate)) {
+      credentialHelper = path.resolve(candidate);
+      break;
+    }
+  }
+
   const invoke = values => executeProcess(GIT_BASH, ["--noprofile", "--norc", "-c",
 
-    ["git", "-c", `safe.directory=${ROOT_REAL}`, ...values].map(shellQuote).join(" ")], { cwd: workingDirectory, env, timeoutSeconds });
+    ["git", "-c", `safe.directory=${ROOT_REAL}`,
+      ...(credentialHelper ? ["-c", `credential.helper=${credentialHelper}`] : []),
+      ...values].map(shellQuote).join(" ")], { cwd: workingDirectory, env, timeoutSeconds });
 
   await safePath(".git");
 
