@@ -2083,20 +2083,10 @@ async function gitQuery(args, cwd = ".", timeoutSeconds = 30) {
 
   env.GIT_OPTIONAL_LOCKS = "0";
 
-  // Keep global Git config isolated, but allow the OS credential manager for authenticated operations.
-  const credentialHelpers = process.platform === "win32"
-    ? [
-        path.join(path.dirname(GIT_BASH), "..", "mingw64", "bin", "git-credential-manager.exe"),
-        path.join(path.dirname(GIT_BASH), "..", "mingw64", "bin", "git-credential-manager-core.exe"),
-      ]
-    : [];
-  let credentialHelper = null;
-  for (const candidate of credentialHelpers) {
-    if (await isFile(candidate)) {
-      credentialHelper = path.resolve(candidate);
-      break;
-    }
-  }
+  // Keep global Git config isolated while explicitly enabling Git Credential Manager.
+  // Git for Windows exposes it as the "manager" credential helper even when
+  // the executable is not located relative to GIT_BASH.
+  const credentialHelper = process.platform === "win32" ? "manager" : null;
 
   const invoke = values => executeProcess(GIT_BASH, ["--noprofile", "--norc", "-c",
 
@@ -2272,6 +2262,44 @@ for (const command of ["status", "diff", "log"]) {
 
 }
 
+
+
+server.registerTool("git_auth_status", {
+  title: "Inspect Git authentication",
+  description: "Inspect Git Bash and Git Credential Manager availability without exposing stored credentials.",
+  inputSchema: {},
+  annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+}, async () => {
+  const candidates = process.platform === "win32"
+    ? [
+        path.join(path.dirname(GIT_BASH), "..", "mingw64", "bin", "git-credential-manager.exe"),
+        path.join(path.dirname(GIT_BASH), "..", "mingw64", "bin", "git-credential-manager-core.exe"),
+      ]
+    : [];
+  const candidateStatus = [];
+  for (const candidate of candidates) {
+    candidateStatus.push({ path: path.resolve(candidate), exists: await isFile(candidate) });
+  }
+  const env = { ...process.env };
+  for (const key of Object.keys(env)) if (/^GIT_/i.test(key)) delete env[key];
+  env.GIT_CONFIG_NOSYSTEM = "1";
+  env.GIT_CONFIG_GLOBAL = process.platform === "win32" ? "NUL" : "/dev/null";
+  const probe = command => executeProcess(GIT_BASH, ["--noprofile", "--norc", "-c", command], {
+    cwd: ROOT, env, timeoutSeconds: 30,
+  });
+  const gitVersion = await probe("git --version");
+  const manager = await probe("git credential-manager --version");
+  const managerCore = manager.exitCode === 0 ? null : await probe("git credential-manager-core --version");
+  const data = {
+    gitBash: GIT_BASH,
+    gitVersion,
+    credentialManagerCandidates: candidateStatus,
+    credentialManager: manager,
+    credentialManagerCore: managerCore,
+    note: "This tool reports availability only and never reads or prints stored credentials.",
+  };
+  return { structuredContent: data, content: [{ type: "text", text: JSON.stringify(data, null, 2) }] };
+});
 
 
 server.registerTool("git_add", {
@@ -2461,7 +2489,7 @@ try {
       if (cursor && cursors.has(cursor)) throw new Error("Repeated tools/list cursor");
       if (cursor) cursors.add(cursor);
     } while (cursor);
-    for (const name of ["list_files", "read_file", "git_add", "git_commit", "git_push"]) {
+    for (const name of ["list_files", "read_file", "git_auth_status", "git_add", "git_commit", "git_push"]) {
       if (!names.has(name)) throw new Error(`Missing required tool: ${name}`);
     }
     if (!names.size) throw new Error("No tools registered");
