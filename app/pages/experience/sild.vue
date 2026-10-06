@@ -59,13 +59,13 @@
               aria-label="Cafe24 상품 데이터 통합 순서"
             >
               <li
-                v-for="(stage, index) in cafe24ImportFlow"
+                v-for="(stage, stageIndex) in cafe24ImportFlow"
                 :key="stage"
                 class="flex items-start gap-3"
               >
                 <span
                   class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-sm font-bold text-indigo-600"
-                  >{{ index + 1 }}</span
+                  >{{ stageIndex + 1 }}</span
                 >
                 <span
                   class="min-w-0 break-words text-sm leading-7 text-gray-700"
@@ -90,13 +90,13 @@
               aria-label="Cafe24 상품 삭제 이벤트 처리 순서"
             >
               <li
-                v-for="(stage, index) in cafe24WebhookFlow"
+                v-for="(stage, stageIndex) in cafe24WebhookFlow"
                 :key="stage"
                 class="flex items-start gap-3"
               >
                 <span
                   class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-sm font-bold text-indigo-600"
-                  >{{ index + 1 }}</span
+                  >{{ stageIndex + 1 }}</span
                 >
                 <span
                   class="min-w-0 break-words text-sm leading-7 text-gray-700"

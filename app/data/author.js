@@ -5,7 +5,6 @@ import JavaIcon from "~/assets/devicon/java.svg?component";
 import NodeIcon from "~/assets/devicon/node.svg?component";
 import VueIcon from "~/assets/devicon/vuejs.svg?component";
 import ReactIcon from "~/assets/devicon/reactnative.svg?component";
-import ReactNativeIcon from "~/assets/devicon/reactnative.svg?component";
 import AngularJSIcon from "~/assets/devicon/angularjs.svg?component";
 import SpringBootIcon from "~/assets/devicon/springboot.svg?component";
 import JenkinsIcon from "~/assets/devicon/jenkins.svg?component";
@@ -92,7 +91,7 @@ const author = {
       { name: "React", icon: ReactIcon, description: "" },
       { name: "Vue.js", icon: VueIcon, description: "" },
       { name: "AngularJS", icon: AngularJSIcon, description: "" },
-      { name: "React Native", icon: ReactNativeIcon, description: "" },
+      { name: "React Native", icon: ReactIcon, description: "" },
       { name: "Android / iOS Hybrid", icon: SmartphoneIcon, description: "" },
     ],
     "Backend / Data": [

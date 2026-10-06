@@ -64,7 +64,7 @@
             class="mx-auto h-auto w-full rounded-lg"
             :class="{ 'object-contain': step.imageHeight }"
             :style="step.imageHeight ? { height: step.imageHeight } : undefined"
-          />
+          >
         </a>
         <figcaption
           class="border-t border-gray-200 bg-white px-5 py-3 text-sm leading-6 text-gray-500"

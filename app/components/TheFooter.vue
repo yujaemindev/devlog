@@ -47,6 +47,5 @@ import siteMetaInfo from "@/data/sitemetainfo"
 import author from "@/data/author.js"
 import MailIcon from "~/assets/icons/mail.svg?component"
 import LinkedingIcon from "~/assets/icons/linkeding.svg?component"
-import GithubNewIcon from "~/assets/icons/github_new.svg?component"
 import InstagramIcon from "~/assets/icons/instagram.svg?component"
 </script>

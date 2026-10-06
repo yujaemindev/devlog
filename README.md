@@ -9,7 +9,7 @@
 - Nuxt Content 3
 - Nuxt Image 2
 - Tailwind CSS 4 + `@tailwindcss/vite`
-- TypeScript 7
+- TypeScript 6.0.3 (ESLint/Vue 검사 도구 호환 버전)
 - ESLint 10 + `@nuxt/eslint`
 - GitHub Actions + GitHub Pages
 

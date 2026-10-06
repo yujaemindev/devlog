@@ -5,7 +5,7 @@
   >
     <WorkflowPageHeader label="GIT" title="브랜치 운영과 PR 기반 개발">
       모든 소스코드 commit은 직접 push하지 않고, PR을 통해 코드 변경을 필요한
-      branch에 통합합니다.<br />
+      branch에 통합합니다.<br >
       개인 작업과 제품·고객별 요구사항은 목적에 맞는 브랜치로 나누어 관리합니다.
     </WorkflowPageHeader>
     <WorkflowStepNav
@@ -92,7 +92,7 @@
                   :height="item.height"
                   loading="lazy"
                   class="h-auto w-full rounded-lg"
-                />
+                >
               </a>
               <figcaption
                 class="border-t border-gray-200 bg-white px-5 py-3 text-sm leading-6 text-gray-500"

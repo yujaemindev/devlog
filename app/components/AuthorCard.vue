@@ -6,7 +6,7 @@
         loading="lazy"
         alt="me"
         class="shadow-xl aspect-square h-auto w-[var(--profile-text-height)] shrink-0 rounded-full object-cover md:w-full md:max-w-60"
-      />
+      >
       <div ref="profileText" class="min-w-0 flex-1 md:mb-2 md:mt-4">
         <h1
           class="md:text-3xl text-2xl text-gray-800 font-bold dark:text-blue-100"

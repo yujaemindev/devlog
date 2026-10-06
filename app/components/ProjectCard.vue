@@ -195,9 +195,34 @@ import HorizontalImageGallery from "~/components/HorizontalImageGallery.vue"
 
 export default {
   components: { FolderIcon, ExternalIcon, GithubIcon, HorizontalImageGallery },
-  props: ["title", "highlight", "description", "details", "to", "href", "github", "tech1", "tech2", "tech3", "period", "role"],
+  props: {
+    title: { type: String, required: true },
+    highlight: { type: Object, default: null },
+    description: { type: String, default: "" },
+    details: { type: Object, default: null },
+    to: { type: String, default: "" },
+    href: { type: String, default: "" },
+    github: { type: String, default: "" },
+    tech1: { type: String, default: "" },
+    tech2: { type: String, default: "" },
+    tech3: { type: String, default: "" },
+    period: { type: String, default: "" },
+    role: { type: String, default: "" },
+  },
   setup() {
     return { detailsId: useId(), assetBase: useRuntimeConfig().app.baseURL }
+  },
+  computed: {
+    actionLabel() { return this.to ? '페이지 이동' : this.details ? '상세 내용 보기' : this.href ? '새 페이지 열기' : '' },
+    projectTitle(){ return this.title },
+    projectDescription(){ return this.description },
+    projectHref(){ return this.href },
+    projectGithub(){ return this.github },
+    projectPeriod(){ return this.period },
+    projectRole(){ return this.role },
+    technologies(){
+      return [this.tech1, this.tech2, this.tech3].filter(Boolean)
+    },
   },
   methods: {
     onCardClick(event) {
@@ -222,18 +247,6 @@ export default {
     },
     restoreFocus() {
       this.$refs.detailsTrigger?.focus()
-    },
-  },
-  computed: {
-    actionLabel() { return this.to ? '페이지 이동' : this.details ? '상세 내용 보기' : this.href ? '새 페이지 열기' : '' },
-    projectTitle(){ return this.title },
-    projectDescription(){ return this.description },
-    projectHref(){ return this.href },
-    projectGithub(){ return this.github },
-    projectPeriod(){ return this.period },
-    projectRole(){ return this.role },
-    technologies(){
-      return [this.tech1, this.tech2, this.tech3].filter(Boolean)
     },
   },
 }

@@ -69,34 +69,6 @@
 </template>
 
 <script setup>
-const domains = [
-  {
-    name: "Buyer/B2B",
-    count: 15,
-    entities: "MemberBuyer, CmallGroupBuying, BuyerInquiry",
-  },
-  {
-    name: "Order",
-    count: 8,
-    entities: "CmallOrder, CmallOrderItem, OrderPay, Delivery",
-  },
-  { name: "Board", count: 8, entities: "Notice, FAQ, Inquiry, Event" },
-  { name: "Member", count: 6, entities: "Member, Token, Delivery" },
-  { name: "Admin", count: 5, entities: "Admin, AdminAuth, AdminMenuAuth" },
-  { name: "Item", count: 4, entities: "CmallItem, Detail, Option" },
-  { name: "Coupon", count: 4, entities: "Coupon, CouponLog" },
-  { name: "NFT", count: 4, entities: "Wallet, Contract, Token, ActionHistory" },
-  {
-    name: "Category",
-    count: 4,
-    entities: "CmallCategory, Style, Concept, Color",
-  },
-  { name: "Cafe24", count: 3, entities: "Cafe24Product, Category, Shops" },
-  { name: "Provider", count: 3, entities: "Provider, Delivery" },
-  { name: "Sync", count: 3, entities: "Rank, RankDetail, ShopLookbook" },
-  { name: "Live", count: 3, entities: "LiveUser, Contents, ContentsItem" },
-];
-
 const relations = [
   {
     title: "회원정보",

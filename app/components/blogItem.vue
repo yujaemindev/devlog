@@ -56,7 +56,14 @@
 <script lang="ts" setup>
 import TagIcon from "@/assets/icons/tag.svg?component"
 
-defineProps(["title", "image", "description", "date", "slug", "tags"])
+defineProps<{
+  title: string
+  image?: string
+  description?: string
+  date: string | Date
+  slug: string
+  tags?: string[]
+}>()
 
 const formatDate = (date: string | Date) => {
   const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" }

@@ -14,7 +14,7 @@
           loading="lazy"
           alt="유재민 프로필"
           class="mr-3 w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800"
-        />
+        >
         <div>
           <div class="text-slate-900 dark:text-slate-200">
             {{ author.name }}

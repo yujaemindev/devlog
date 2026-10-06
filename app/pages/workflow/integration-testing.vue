@@ -124,32 +124,4 @@ const steps = [
   },
 ];
 
-const fields = [
-  {
-    name: "No. · 업무처리내용",
-    description: "시험 항목의 순서와 검증할 기능·동작",
-  },
-  {
-    name: "사전조건",
-    description:
-      "서버 구동, 로그인, 프로젝트 생성, 이전 단계 완료 등 시험을 위한 조건",
-  },
-  {
-    name: "입력자료",
-    description: "입력값, 메뉴 선택, 버튼 클릭 등 시험 수행에 필요한 조작",
-  },
-  {
-    name: "예상 결과",
-    description:
-      "화면 이동, 저장값 반영, 유효성 메시지 등 정상 동작의 판단 기준",
-  },
-  {
-    name: "화면 ID",
-    description: "시험 대상 화면과 항목을 연결하는 식별 정보",
-  },
-  {
-    name: "시험 결과 · 비고",
-    description: "PASS·FAIL·N/A 판정과 발견된 문제의 상세 내용",
-  },
-];
 </script>

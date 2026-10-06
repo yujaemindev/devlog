@@ -5,7 +5,7 @@
   >
     <WorkflowPageHeader label="TEAM COLLABORATION" title="팀원 간 업무 협업과 소통">
       화면에서 필요한 기능을 개발 가능한 작업으로 나누고, API 명세와 진행 상태를
-      이슈에 연결합니다.<br />
+      이슈에 연결합니다.<br >
       딥인스펙터 터널 프로젝트의 수평 파노라마 기능을 예시로 업무를 구체화하고
       공유하는 과정을 소개합니다.
     </WorkflowPageHeader>

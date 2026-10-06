@@ -61,6 +61,8 @@
 <script setup>
 import author from "@/data/author.js"
 
+defineOptions({ name: "AuthorExpertise" })
+
 const expertises = author.expertises
 const expertises_txt = author.expertises_txt
 </script>
