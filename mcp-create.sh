@@ -6,7 +6,7 @@ set -euo pipefail
 # ============================================================
 
 PLUGIN_NAME="yujaemin-local"
-PLUGIN_VERSION="1.0.0"
+PLUGIN_VERSION="1.1.0"
 
 PROJECT_ROOT="$(pwd -W 2>/dev/null || pwd)"
 
@@ -210,7 +210,7 @@ async function safePath(relativePath = ".") {
 const server = new McpServer(
   {
     name: "yujaemin-local",
-    version: "1.0.0"
+    version: "1.1.0"
   },
   {
     instructions: `
@@ -221,7 +221,8 @@ Yujaemin Local 개발 프로젝트용 MCP입니다.
 가능하면 replace_text를 사용하고 전체 파일 덮어쓰기는 최소화하세요.
 
 명령 실행은 Git, npm, Node, Docker 기반 개발 작업에 사용하세요.
-프로젝트 루트 외부의 파일에는 접근하지 마세요.
+프로젝트 파일 도구는 프로젝트 루트 내부에서만 사용하세요.
+nvm_status, nvm_install, nvm_use로 Node.js 환경을 관리하세요. nvm 도구는 설정된 nvm 설치 폴더를 사용하며 Windows 권한을 높이지 않습니다.
 `
   }
 );
@@ -774,257 +775,242 @@ server.registerTool(
 
 
 /* ============================================================
- * Git Bash command execution
+ * nvm and development command execution
  * ============================================================ */
 
-const COMMANDS = {
-  git: [
-    "git"
-  ],
+const NODE_VERSION_PATTERN = /^v?(\d+)(?:\.(\d+))?(?:\.(\d+))?$/;
+const nodeVersionSchema = z.string().regex(
+  NODE_VERSION_PATTERN,
+  "숫자 버전만 지원합니다. 예: 24 또는 24.21.0"
+);
 
-  npm: [
-    "npm"
-  ],
+async function isFile(file) {
+  try { return (await fs.stat(file)).isFile(); }
+  catch (error) { if (error.code === "ENOENT") return false; throw error; }
+}
 
-  npx: [
-    "npx"
-  ],
+async function findNvm() {
+  if (config.nvmPath) {
+    if (await isFile(config.nvmPath)) return path.resolve(config.nvmPath);
+    throw new Error(`설정한 nvm 실행 파일이 없습니다: ${config.nvmPath}`);
+  }
+  const home = process.env.USERPROFILE;
+  const candidates = [
+    process.env.NVM_HOME && path.join(process.env.NVM_HOME, "nvm.exe"),
+    process.env.LOCALAPPDATA && path.join(process.env.LOCALAPPDATA, "Author Software", "nvm", "nvm.exe"),
+    home && path.join(home, "AppData", "Local", "Author Software", "nvm", "nvm.exe"),
+    process.env.APPDATA && path.join(process.env.APPDATA, "nvm", "nvm.exe"),
+    ...getPathValue(process.env).split(path.delimiter).filter(Boolean).map(dir => path.join(dir, "nvm.exe")),
+  ].filter(Boolean);
+  for (const candidate of candidates) {
+    if (await isFile(candidate)) return path.resolve(candidate);
+  }
+  return null;
+}
 
-  node: [
-    "node"
-  ],
+function getPathValue(env) {
+  const key = Object.keys(env).find(key => key.toLowerCase() === "path");
+  return key ? env[key] : "";
+}
 
-  docker: [
-    "docker"
-  ],
+function runtimeEnv(directory) {
+  const env = { ...process.env };
+  const currentPath = getPathValue(env);
+  for (const key of Object.keys(env)) {
+    if (key.toLowerCase() === "path") delete env[key];
+  }
+  env.PATH = [directory, currentPath].filter(Boolean).join(path.delimiter);
+  return env;
+}
 
-  "docker-compose": [
-    "docker",
-    "compose"
-  ]
-};
+function commandResult(result, extra = {}) {
+  const data = { ...result, ...extra };
+  return {
+    isError: result.exitCode !== 0 || result.timedOut,
+    structuredContent: data,
+    content: [{ type: "text", text: JSON.stringify(data, null, 2) }],
+  };
+}
 
+function executeProcess(executable, args, { cwd = ROOT, env = process.env, timeoutSeconds = 180 } = {}) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(executable, args, {
+      cwd, env, windowsHide: true, shell: false, stdio: ["ignore", "pipe", "pipe"],
+    });
+    let stdout = "";
+    let stderr = "";
+    let timedOut = false;
+    child.stdout.on("data", data => { stdout = (stdout + data).slice(-30000); });
+    child.stderr.on("data", data => { stderr = (stderr + data).slice(-30000); });
+    const timer = setTimeout(() => {
+      timedOut = true;
+      if (process.platform === "win32") {
+        const killer = spawn("taskkill.exe", ["/PID", String(child.pid), "/T", "/F"], {
+          windowsHide: true, shell: false, stdio: "ignore",
+        });
+        killer.on("error", () => child.kill());
+        killer.on("close", code => { if (code !== 0) child.kill(); });
+      } else child.kill();
+    }, timeoutSeconds * 1000);
+    child.once("error", error => { clearTimeout(timer); reject(error); });
+    child.once("close", (exitCode, signal) => {
+      clearTimeout(timer);
+      resolve({ exitCode, signal, timedOut, stdout, stderr });
+    });
+  });
+}
+
+async function installedNodeVersions(nvmPath) {
+  if (!nvmPath) return [];
+  const home = path.dirname(nvmPath);
+  const roots = config.nvmRoot ? [config.nvmRoot] : [path.join(home, "installs"), home];
+  const versions = [];
+  for (const root of roots) {
+    let entries;
+    try { entries = await fs.readdir(root, { withFileTypes: true }); }
+    catch (error) { if (error.code === "ENOENT") continue; throw error; }
+    for (const entry of entries) {
+      const match = /^v?(\d+)\.(\d+)\.(\d+)$/.exec(entry.name);
+      if (!match) continue;
+      const directory = path.resolve(root, entry.name);
+      if (await isFile(path.join(directory, "node.exe"))) {
+        versions.push({ version: match.slice(1).join("."), directory });
+      }
+    }
+  }
+  return versions.sort((a, b) => {
+    const av = a.version.split(".").map(Number);
+    const bv = b.version.split(".").map(Number);
+    return bv[0] - av[0] || bv[1] - av[1] || bv[2] - av[2];
+  });
+}
+
+async function resolveNodeRuntime(requestedVersion) {
+  const nvmPath = await findNvm();
+  let version = requestedVersion || config.nodeVersion;
+  if (!version) {
+    try { version = (await fs.readFile(await safePath(".nvmrc"), "utf8")).trim(); }
+    catch (error) { if (error.code !== "ENOENT") throw error; }
+  }
+  if (version && !NODE_VERSION_PATTERN.test(version)) {
+    throw new Error(`지원하지 않는 Node.js 버전: ${version}. 숫자 버전을 지정하세요.`);
+  }
+  const installed = await installedNodeVersions(nvmPath);
+  const selector = version?.replace(/^v/, "").split(".");
+  const selected = installed.find(item => !selector || selector.every((part, index) => item.version.split(".")[index] === part));
+  if (selected) return { ...selected, nodePath: path.join(selected.directory, "node.exe"), nvmPath, source: "nvm" };
+  if (version || nvmPath) {
+    throw new Error(`Node.js ${version || "버전"}이 nvm 설치 폴더에 없습니다. nvm_install로 먼저 설치하세요. 사용자 지정 설치 폴더는 config.json의 nvmRoot에 지정하세요.`);
+  }
+  return { nodePath: process.execPath, directory: path.dirname(process.execPath), version: process.version.replace(/^v/, ""), nvmPath: null, source: "server-runtime" };
+}
+
+server.registerTool("nvm_status", {
+  title: "Inspect nvm and Node.js",
+  description: "nvm 설치 위치·버전·설치된 Node.js 목록과 이 MCP 서버가 실제 사용하는 Node.js를 조회합니다. Windows 사용자 터미널의 활성 버전과 MCP 실행 버전을 구분합니다.",
+  inputSchema: {},
+  annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+}, async () => {
+  const nvmPath = await findNvm();
+  const installed = await installedNodeVersions(nvmPath);
+  let selected = null;
+  let selectionError = null;
+  try {
+    const runtime = await resolveNodeRuntime();
+    const result = await executeProcess(runtime.nodePath, ["-p", "process.version"], { timeoutSeconds: 30 });
+    if (result.exitCode !== 0) throw new Error(result.stderr || "Node.js 버전 조회 실패");
+    selected = { ...runtime, actualVersion: result.stdout.trim() };
+  } catch (error) { selectionError = error.message; }
+  const nvmVersion = nvmPath ? await executeProcess(nvmPath, ["version"], { timeoutSeconds: 30 }) : null;
+  const list = nvmPath ? await executeProcess(nvmPath, ["list"], { timeoutSeconds: 30 }) : null;
+  const data = {
+    nvmPath, nvmVersion: nvmVersion?.stdout.trim() || null,
+    installed, selected, selectionError, list,
+    serverNodeVersion: process.version,
+    note: "selected는 MCP 작업의 Node.js입니다. 사용자 터미널의 전역 활성 버전은 별도이며, nvm이 사용하는 Windows 계정에 따라 list 결과가 다를 수 있습니다.",
+  };
+  return { structuredContent: data, content: [{ type: "text", text: JSON.stringify(data, null, 2) }] };
+});
+
+server.registerTool("nvm_install", {
+  title: "Install a Node.js version with nvm",
+  description: "사용자가 요청한 숫자 Node.js 버전을 nvm으로 설치합니다. 다운로드가 필요하며 Windows 권한 제한이 적용됩니다. 설치만 수행하고 활성 버전을 바꾸지 않습니다.",
+  inputSchema: { version: nodeVersionSchema, timeoutSeconds: z.number().int().min(1).max(600).default(300) },
+  annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
+}, async ({ version, timeoutSeconds }) => {
+  const nvmPath = await findNvm();
+  if (!nvmPath) throw new Error("nvm을 찾을 수 없습니다. nvm 설치 후 config.json의 nvmPath를 지정하세요.");
+  const result = await executeProcess(nvmPath, ["install", version.replace(/^v/, "")], { timeoutSeconds });
+  return commandResult(result, { nvmPath, installed: await installedNodeVersions(nvmPath) });
+});
+
+server.registerTool("nvm_use", {
+  title: "Select an installed Node.js version",
+  description: "이미 설치된 Node.js를 nvm use로 전환합니다. 성공하면 MCP의 node/npm/npx 실행 버전도 config.json에 저장합니다. nvm 전역 전환은 다른 프로젝트에 영향을 줄 수 있고 Windows 권한이 필요할 수 있습니다.",
+  inputSchema: { version: nodeVersionSchema, timeoutSeconds: z.number().int().min(1).max(600).default(60) },
+  annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: false },
+}, async ({ version, timeoutSeconds }) => {
+  const runtime = await resolveNodeRuntime(version);
+  if (!runtime.nvmPath) throw new Error("nvm을 찾을 수 없습니다.");
+  const result = await executeProcess(runtime.nvmPath, ["use", runtime.version], { timeoutSeconds });
+  if (result.exitCode === 0 && !result.timedOut) {
+    const updatedConfig = { ...config, nodeVersion: runtime.version };
+    await fs.writeFile(path.join(HERE, "config.json"), JSON.stringify(updatedConfig, null, 2) + "\n", "utf8");
+    config.nodeVersion = runtime.version;
+  }
+  return commandResult(result, { selectedNodeVersion: config.nodeVersion || null });
+});
+
+const COMMANDS = { git: ["git"], docker: ["docker"], "docker-compose": ["docker", "compose"] };
 
 function shellQuote(value) {
-  return (
-    "'" +
-    String(value).replace(
-      /'/g,
-      "'\"'\"'"
-    ) +
-    "'"
-  );
+  return "'" + String(value).replace(/'/g, "'\"'\"'") + "'";
 }
 
-
-function blockObviouslyDangerousCommands(
-  command,
-  args
-) {
-  const text =
-    `${command} ${args.join(" ")}`
-      .toLowerCase();
-
+function blockObviouslyDangerousCommands(command, args) {
+  const text = `${command} ${args.join(" ")}`.toLowerCase();
   const blocked = [
-    /^git\s+clean\b/,
-
-    /^git\s+reset\s+--hard\b/,
-
-    /^docker\s+system\s+prune\b/,
-
-    /^docker\s+volume\s+prune\b/,
-
-    /^docker\s+volume\s+rm\b/,
-
-    /^docker\s+builder\s+prune\b/,
-
-    /^docker\s+container\s+prune\b/
+    /^git\s+clean\b/, /^git\s+reset\s+--hard\b/,
+    /^docker\s+system\s+prune\b/, /^docker\s+volume\s+prune\b/,
+    /^docker\s+volume\s+rm\b/, /^docker\s+builder\s+prune\b/,
+    /^docker\s+container\s+prune\b/,
   ];
-
-  for (const rule of blocked) {
-    if (rule.test(text)) {
-      throw new Error(
-        `안전상 차단된 명령입니다: ${text}`
-      );
-    }
-  }
+  if (blocked.some(rule => rule.test(text))) throw new Error(`안전상 차단된 명령입니다: ${text}`);
 }
 
-
-server.registerTool(
-  "run_dev_command",
-  {
-    title: "Run local development command",
-
-    description:
-      "Git Bash 환경에서 Git, npm, npx, Node, Docker 개발 명령을 실행합니다.",
-
-    inputSchema: {
-      command: z.enum([
-        "git",
-        "npm",
-        "npx",
-        "node",
-        "docker",
-        "docker-compose"
-      ]),
-
-      args: z
-        .array(z.string())
-        .default([]),
-
-      cwd: z
-        .string()
-        .default("."),
-
-      timeoutSeconds: z
-        .number()
-        .int()
-        .min(1)
-        .max(600)
-        .default(180)
-    },
-
-    annotations: {
-      readOnlyHint: false,
-      destructiveHint: true,
-      openWorldHint: true
-    }
+server.registerTool("run_dev_command", {
+  title: "Run local development command",
+  description: "프로젝트에서 Git, npm, npx, Node, Docker 명령을 실행합니다. node/npm/npx는 config.json 또는 .nvmrc에 맞는 nvm 런타임을 직접 사용합니다. nodeVersion으로 설치된 버전을 일시 지정할 수 있습니다.",
+  inputSchema: {
+    command: z.enum(["git", "npm", "npx", "node", "docker", "docker-compose"]),
+    args: z.array(z.string()).default([]),
+    cwd: z.string().default("."),
+    nodeVersion: nodeVersionSchema.optional(),
+    timeoutSeconds: z.number().int().min(1).max(600).default(180),
   },
-
-  async ({
-    command,
-    args,
-    cwd,
-    timeoutSeconds
-  }) => {
-    blockObviouslyDangerousCommands(
-      command,
-      args
-    );
-
-    const workingDirectory =
-      await safePath(cwd);
-
-    const executable =
-      COMMANDS[command];
-
-    const bashDirectory =
-      workingDirectory.replace(
-        /\\/g,
-        "/"
-      );
-
-    const commandParts = [
-      ...executable,
-      ...args
-    ];
-
-    const commandLine =
-      commandParts
-        .map(shellQuote)
-        .join(" ");
-
-    const bashCommand =
-      `cd -- ${shellQuote(bashDirectory)} && ${commandLine}`;
-
-    return await new Promise(
-      (resolve, reject) => {
-        const env = {
-          ...process.env
-        };
-
-        if (
-          command === "docker" ||
-          command === "docker-compose"
-        ) {
-          env.MSYS2_ARG_CONV_EXCL = "*";
-        }
-
-        const child = spawn(
-          GIT_BASH,
-          [
-            "-lc",
-            bashCommand
-          ],
-          {
-            cwd: ROOT,
-            env,
-            windowsHide: true,
-            shell: false
-          }
-        );
-
-        let stdout = "";
-        let stderr = "";
-
-        child.stdout.on(
-          "data",
-          (data) => {
-            stdout +=
-              data.toString();
-          }
-        );
-
-        child.stderr.on(
-          "data",
-          (data) => {
-            stderr +=
-              data.toString();
-          }
-        );
-
-        const timer =
-          setTimeout(
-            () => {
-              child.kill();
-            },
-            timeoutSeconds * 1000
-          );
-
-        child.on(
-          "error",
-          (error) => {
-            clearTimeout(timer);
-            reject(error);
-          }
-        );
-
-        child.on(
-          "close",
-          (code) => {
-            clearTimeout(timer);
-
-            const trimmedStdout =
-              stdout.slice(-30000);
-
-            const trimmedStderr =
-              stderr.slice(-30000);
-
-            resolve({
-              structuredContent: {
-                exitCode: code,
-                stdout: trimmedStdout,
-                stderr: trimmedStderr
-              },
-
-              content: [
-                {
-                  type: "text",
-
-                  text:
-                    `exitCode: ${code}\n\n` +
-                    `STDOUT\n${trimmedStdout}\n\n` +
-                    `STDERR\n${trimmedStderr}`
-                }
-              ]
-            });
-          }
-        );
-      }
-    );
+  annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
+}, async ({ command, args, cwd, nodeVersion, timeoutSeconds }) => {
+  blockObviouslyDangerousCommands(command, args);
+  const workingDirectory = await safePath(cwd);
+  if (["node", "npm", "npx"].includes(command)) {
+    const runtime = await resolveNodeRuntime(nodeVersion);
+    const commandArgs = [...args];
+    if (command !== "node") {
+      const cli = path.join(runtime.directory, "node_modules", "npm", "bin", `${command}-cli.js`);
+      if (!await isFile(cli)) throw new Error(`${command} 실행 파일이 없습니다: ${cli}`);
+      commandArgs.unshift(cli);
+    }
+    const result = await executeProcess(runtime.nodePath, commandArgs, {
+      cwd: workingDirectory, env: runtimeEnv(runtime.directory), timeoutSeconds,
+    });
+    return commandResult(result, { nodeVersion: runtime.version, nodePath: runtime.nodePath });
   }
-);
+  const commandLine = [...COMMANDS[command], ...args].map(shellQuote).join(" ");
+  const env = { ...process.env };
+  if (command.startsWith("docker")) env.MSYS2_ARG_CONV_EXCL = "*";
+  const result = await executeProcess(GIT_BASH, ["-c", commandLine], { cwd: workingDirectory, env, timeoutSeconds });
+  return commandResult(result);
+});
 
 
 /* ============================================================
@@ -1142,8 +1128,8 @@ echo "[8/9] 플러그인 manifest 생성..."
 cat > "$PLUGIN_DIR/.codex-plugin/plugin.json" <<'EOF'
 {
   "name": "yujaemin-local",
-  "version": "1.0.0",
-  "description": "Yujaemin local development MCP tools using Git Bash",
+  "version": "1.1.0",
+  "description": "Local project development tools with nvm-managed Node.js",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Yujaemin Local",
