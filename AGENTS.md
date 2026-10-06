@@ -33,4 +33,5 @@ Nuxt 4 기반 개인 개발 블로그입니다. 먼저 `README.md`에서 실행 
 - 코드 변경: `npm run lint`, `npm run typecheck`
 - 페이지 또는 정적 생성 관련 변경: 위 명령과 `npm run generate:pages`
 
-저장소에 전용 테스트가 추가되면 해당 테스트 명령도 이 안내에 연결합니다.
+- 테스트 실행: `npm test`
+- 테스트 감시 모드: `npm run test:watch`

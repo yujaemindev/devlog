@@ -72,6 +72,8 @@ npm run generate:pages  # GitHub Pages preset 빌드
 npm run typecheck       # Nuxt/Vue TypeScript 검사
 npm run lint            # ESLint 검사
 npm run lint:fix        # ESLint 자동 수정
+npm test                # 테스트 1회 실행
+npm run test:watch      # 파일 변경 시 테스트 재실행
 ```
 
 ## Nuxt 4 / 최신 의존성 업그레이드
