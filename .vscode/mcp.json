@@ -2,7 +2,7 @@
   "servers": {
     "yujaemin-local": {
       "type": "stdio",
-      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "command": "C:\\Users\\jaemi\\AppData\\Local\\Author Software\\nvm\\installs\\v24.21.0\\node.exe",
       "args": [
         "C:\\Users\\jaemi\\.codex\\plugins\\yujaemin-local\\server.mjs"
       ],
