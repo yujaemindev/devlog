@@ -84,17 +84,33 @@ Git push는 사용자가 명시적으로 요청한 경우에만 수행한다.
 
 ## 6. Tunnel 자동 재시작
 
-`mcp-create.sh` 마지막에 tunnel-client 자동 재시작 기능을 추가했다.
+`mcp-create.sh` 마지막에서 tunnel-client를 안전하게 재시작한다.
 
 동작:
 
-1. 기존 `tunnel-client` 프로세스 종료
-2. tunnel-client `doctor` 실행
-3. 이전 tunnel-client 로그 초기화
-4. 새 tunnel-client 백그라운드 실행
-5. 프로세스가 비정상 종료되지 않았는지 확인
-6. 최대 30초 동안 `http://127.0.0.1:8080/readyz`가 HTTP 200을 반환하는지 확인
-7. ready 실패 시 stderr/stdout 최근 로그를 출력하고 설치를 실패 처리
+1. 기존 `tunnel-client`를 강제 종료하고 실제 프로세스 종료를 확인한다.
+2. 이전 `tunnel-client.log`, `tunnel-client.log.err` 삭제를 최대 10회 재시도한다.
+3. 로그 파일이 계속 잠겨 있으면 Yujaemin Local MCP의 고아 `node.exe`를 조회하고 해결 명령을 콘솔에 출력한다.
+4. tunnel-client `doctor`를 실행한다.
+5. 새 tunnel-client를 백그라운드로 실행한다.
+6. 프로세스가 비정상 종료되지 않았는지 확인한다.
+7. 최대 30초 동안 `http://127.0.0.1:8080/readyz`가 HTTP 200을 반환하는지 확인한다.
+8. ready 실패 시 stderr/stdout 최근 로그를 출력하고 설치를 실패 처리한다.
+
+Windows에서는 tunnel-client가 종료되어도 `node C:/Users/jaemi/.codex/plugins/yujaemin-local/server.mjs` 프로세스가 고아로 남아 로그 파일 핸들을 계속 잡는 경우가 있다. 이 경우 `mcp-create.sh`가 현재 고아 프로세스를 출력하고 다음 PowerShell 조치를 안내한다.
+
+```powershell
+Get-CimInstance Win32_Process |
+Where-Object {
+    $_.Name -eq "node.exe" -and
+    $_.CommandLine -like "*yujaemin-local*server.mjs*"
+} |
+ForEach-Object {
+    taskkill /PID $_.ProcessId /T /F
+}
+```
+
+고아 프로세스 종료 후 같은 조회 명령에서 아무 프로세스도 나오지 않는지 확인한 뒤 `mcp-create.sh`를 다시 실행한다.
 
 `/healthz`는 프로세스 생존 여부만 의미하므로 연결 성공 판단에 사용하지 않는다. `/readyz` 200을 실제 MCP/control-plane 준비 완료 기준으로 사용한다.
 

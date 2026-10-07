@@ -86,6 +86,57 @@ Vue/Nuxt 작성 규칙과 ESLint 기준은 [`docs/CODE_STYLE.md`](./docs/CODE_ST
 
 로컬 MCP 개발 환경, Tunnel 구성, 도구 및 세션 인계 사항은 [`docs/LOCAL_MCP_INSTRUCTIONS.md`](./docs/LOCAL_MCP_INSTRUCTIONS.md)를 참고하세요.
 
+### MCP 개발 소스와 배포 방식
+
+MCP 서버는 **개발할 때는 모듈로 분리하고, 배포할 때는 하나의 `server.mjs`로 번들링**합니다.
+
+개발 소스는 다음 위치에 있습니다.
+
+```text
+mcp-src/
+├─ server.mjs
+├─ runtime/
+│  └─ node-runtime.mjs
+├─ tools/
+│  ├─ alias-tools.mjs
+│  ├─ command-tools.mjs
+│  ├─ copy-image.mjs
+│  ├─ dev-server-tools.mjs
+│  ├─ file-tools.mjs
+│  ├─ git-tools.mjs
+│  ├─ nvm-tools.mjs
+│  └─ rename-file.mjs
+└─ utils/
+   ├─ path-security.mjs
+   └─ process.mjs
+```
+
+`mcp-create.sh`를 실행하면 다음 순서로 설치됩니다.
+
+1. `mcp-src/` 개발 소스를 플러그인 작업 디렉터리로 복사합니다.
+2. 플러그인 버전을 `mcp-src/server.mjs`에 반영합니다.
+3. MCP SDK, Zod, esbuild를 설치합니다.
+4. esbuild로 모든 모듈을 **단일 `server.mjs`**로 번들링합니다.
+5. `initialize`와 `tools/list`를 호출해 빌드 결과를 검증합니다.
+6. 검증이 끝나면 임시 개발 소스와 빌드 의존성을 제거합니다.
+
+최종 런타임은 다음 파일을 사용합니다.
+
+```text
+~/.codex/plugins/yujaemin-local/
+├─ server.mjs       # 모듈이 합쳐진 단일 MCP 서버 파일
+├─ config.json
+├─ .mcp.json
+└─ .codex-plugin/
+   └─ plugin.json
+```
+
+따라서 **소스 코드는 유지보수와 테스트를 위해 분리**되어 있지만, 실제 MCP 서버 실행에는 번들된 `server.mjs` 하나만 사용됩니다.
+
+다른 PC에 처음 설치할 때는 이 저장소를 복제한 뒤 `mcp-create.sh`를 실행하는 방식을 권장합니다. 이미 Yujaemin Local 플러그인 설정이 완료된 PC에서 서버 코드만 갱신하는 경우에는 빌드·검증된 `server.mjs`만 교체할 수 있습니다. 프로젝트 경로, 플러그인 버전, manifest 또는 Tunnel 설정이 바뀌는 경우에는 `mcp-create.sh`를 다시 실행해야 합니다.
+
+테스트에서는 더 이상 `mcp-create.sh` 문자열을 `slice()`로 잘라 VM에서 실행하지 않습니다. `mcp-src/tools/`와 `mcp-src/utils/`의 실제 모듈을 직접 import해 배포 서버가 사용하는 구현과 같은 코드를 검증합니다.
+
 ## Nuxt 4 / 최신 의존성 업그레이드
 
 기존 Nuxt 3 프로젝트에서 Nuxt 4 구조로 마이그레이션했습니다. 주요 변경 내역은 [`UPGRADE_NUXT4.md`](./UPGRADE_NUXT4.md)를 참고하세요.
