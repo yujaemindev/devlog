@@ -9,7 +9,7 @@
       title="ChatGPT와 로컬 MCP로 연결한 개발 흐름"
     >
       Codex로 전환하지 않고 ChatGPT에서 로컬 프로젝트를 다룰 수 있도록
-      로컬 MCP를 구축했습니다. 터널 연결부터 파일 조회·수정,
+      로컬 MCP를 구축했습니다. 플러그인 제작과 설치, 터널 연결부터 파일 조회·수정,
       개발 서버 실행과 검증, Git 커밋·푸시까지 이어지는 작업 흐름을 정리했습니다.
     </WorkflowPageHeader>
     <div class="mb-8 rounded-2xl border border-indigo-100 bg-indigo-50 p-5">
@@ -37,6 +37,7 @@
         :key="step.id"
         :step="step"
         :number="index + 1"
+        image-directory="images/experience/mcp"
       >
         <NuxtLink
           v-if="step.id === 'git'"
@@ -79,6 +80,59 @@ const steps = [
       "기존 파일을 먼저 읽고 replace_text 중심으로 필요한 부분만 수정합니다.",
       "명령 실행은 Git 조회, 승인된 npm 스크립트, Node 버전 조회 등 허용 목록으로 제한합니다.",
       "플러그인 버전과 생성된 서버 버전을 연동해 버전 문자열을 따로 관리하지 않도록 했습니다.",
+    ],
+  },
+  {
+    id: "plugin",
+    imageLayout: "gallery",
+    images: [
+      {
+        image: "1.준비.png",
+        alt: "로컬 MCP 플러그인 제작 준비 화면",
+        caption: "이미지 1번 · 준비",
+      },
+      {
+        image: "2.프로젝트설정.png",
+        alt: "로컬 MCP 프로젝트 설정 화면",
+        caption: "이미지 2번 · 프로젝트 설정",
+      },
+      {
+        image: "3.도구구현.png",
+        alt: "로컬 MCP 도구 구현 화면",
+        caption: "이미지 3번 · 도구 구현",
+      },
+      {
+        image: "4.서버빌드.png",
+        alt: "로컬 MCP 서버 빌드 및 도구 검증 화면",
+        caption: "이미지 4번 · 서버 빌드 및 MCP 도구 검증",
+      },
+      {
+        image: "5.mcp연결설정.png",
+        alt: "로컬 MCP 연결 설정 화면",
+        caption: "이미지 5번 · MCP 연결 설정",
+      },
+      {
+        image: "6.플러그인등록.png",
+        alt: "로컬 MCP 플러그인 등록 화면",
+        caption: "이미지 6번 · 로컬 MCP 플러그인 등록",
+      },
+      {
+        image: "7.사용확인.png",
+        alt: "로컬 MCP 플러그인 사용 확인 화면",
+        caption: "이미지 7번 · 로컬 MCP 사용 확인",
+      },
+    ],
+    label: "플러그인 제작",
+    title: "MCP 서버를 설치 가능한 로컬 플러그인으로 구성",
+    description: "도구를 구현한 서버를 ChatGPT에서 연결해 사용할 수 있도록 플러그인 설정과 설치 과정을 mcp-create.sh에 묶었습니다. 서버 코드 작성 → 빌드와 검증 → 연결 설정 생성 → 플러그인 등록 → 터널 연결 순서로 구성했습니다.",
+    points: [
+      "준비: Windows와 Git Bash 환경에서 Node.js·npm·Git을 확인하고, 필수 지침 문서 LOCAL_MCP_INSTRUCTIONS.md가 없거나 읽을 수 없으면 설치를 중단합니다.",
+      "프로젝트 설정: config.json에 프로젝트 루트, 접근 허용 범위, package.json의 승인된 실행 스크립트와 Git Bash 경로를 기록합니다.",
+      "도구 구현: MCP SDK의 McpServer와 표준 입출력 전송 방식을 사용하고, Zod로 각 도구의 입력 형식을 정의합니다. 도구 설명과 읽기·쓰기 특성도 함께 등록합니다.",
+      "서버 빌드: MCP SDK와 Zod를 설치하고 esbuild로 서버를 번들링합니다. 소스와 빌드 결과의 문법을 확인한 뒤 테스트 클라이언트로 initialize와 tools/list를 호출해 필수 도구 등록을 검증합니다.",
+      "연결 설정: .mcp.json에 Node 실행 경로와 서버 파일·작업 디렉터리를 지정하고, 프로젝트의 VS Code MCP 설정도 생성합니다.",
+      "플러그인 등록: plugin.json에 이름·버전·설명·MCP 설정 위치·화면 표시 정보를 작성합니다. 로컬 Marketplace 설정을 백업한 뒤 플러그인 위치를 등록합니다.",
+      "사용 확인: 터널 클라이언트를 점검·재시작하고 ChatGPT에서 도구 목록과 실제 호출 응답을 확인합니다. 업데이트한 도구가 보이지 않으면 새 대화에서도 확인합니다.",
     ],
   },
   {

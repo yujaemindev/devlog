@@ -30,18 +30,18 @@
       @keydown.right.self.prevent="move(1)"
     >
       <figure
-        v-for="(image, index) in images"
+        v-for="(image, index) in galleryImages"
         :key="image.image"
         class="gallery-slide min-w-0 shrink-0 snap-start overflow-hidden rounded-2xl border border-gray-200 bg-gray-50"
-        :class="{ 'gallery-slide-wide': image.width > image.height }"
-        :style="{ '--image-ratio': image.width / image.height }"
+        :class="{ 'gallery-slide-wide': image.width && image.height }"
+        :style="image.width && image.height ? { '--image-ratio': image.width / image.height } : undefined"
       >
         <a
           :href="asset(image.image)"
           target="_blank"
           rel="noopener noreferrer"
           :aria-label="`${image.alt} 원본 보기 (새 탭)`"
-          class="block p-3"
+          class="block"
         >
           <img
             :src="asset(image.image)"
@@ -50,7 +50,8 @@
             :height="image.height"
             loading="lazy"
             decoding="async"
-            class="gallery-image w-full rounded-lg object-contain"
+            class="gallery-image block h-auto w-full"
+            @load="rememberSize(image.image, $event)"
           >
         </a>
         <figcaption class="border-t border-gray-200 bg-white px-4 py-3 text-sm leading-6 text-gray-600">
@@ -70,6 +71,15 @@ const props = defineProps({
   label: { type: String, required: true },
 });
 const track = ref(null);
+const naturalSizes = ref({});
+const galleryImages = computed(() => props.images.map(image => ({
+  ...image,
+  ...(naturalSizes.value[image.image] || {}),
+})));
+const rememberSize = (name, event) => {
+  const { naturalWidth: width, naturalHeight: height } = event.target;
+  if (width && height) naturalSizes.value[name] = { width, height };
+};
 const runtimeConfig = useRuntimeConfig();
 const asset = name => `${runtimeConfig.app.baseURL}${props.imageDirectory}/${name}`;
 
@@ -117,11 +127,11 @@ const move = (direction) => {
 .gallery-slide {
   width: 88%;
 }
-.gallery-image { height: var(--gallery-image-height); }
+.gallery-image { height: auto; }
 @media (min-width: 640px) {
   .gallery-slide { width: 320px; }
 }
 .gallery-slide-wide {
-  width: calc(var(--gallery-image-height) * var(--image-ratio) + 1.5rem + 2px);
+  width: calc(var(--gallery-image-height) * var(--image-ratio) + 2px);
 }
 </style>
