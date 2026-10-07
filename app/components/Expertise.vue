@@ -59,10 +59,10 @@
 </template>
 
 <script setup>
-import author from "@/data/author.js"
+import author from "@/data/author.js";
 
-defineOptions({ name: "AuthorExpertise" })
+defineOptions({ name: "AuthorExpertise" });
 
-const expertises = author.expertises
-const expertises_txt = author.expertises_txt
+const expertises = author.expertises;
+const expertises_txt = author.expertises_txt;
 </script>

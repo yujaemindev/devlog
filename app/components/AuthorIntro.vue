@@ -11,14 +11,16 @@
         :value="intro"
       />
     </template>
-    <p v-else>No content found.</p>
+    <p v-else>
+      No content found.
+    </p>
   </div>
 </template>
 
 <script setup>
-const { data: intro } = await useAsyncData('intro', () =>
-  queryCollection('author')
-    .where('stem', '=', 'author/intro')
+const { data: intro } = await useAsyncData("intro", () =>
+  queryCollection("author")
+    .where("stem", "=", "author/intro")
     .first(),
-)
+);
 </script>

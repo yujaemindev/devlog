@@ -32,17 +32,17 @@ const updateVisibility = () => {
 };
 
 const scrollToTop = () => {
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  window.scrollTo({ top: 0, behavior: reducedMotion ? 'instant' : 'smooth' });
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.scrollTo({ top: 0, behavior: reducedMotion ? "instant" : "smooth" });
 };
 
 onMounted(() => {
   updateVisibility();
-  window.addEventListener('scroll', updateVisibility, { passive: true });
+  window.addEventListener("scroll", updateVisibility, { passive: true });
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener('scroll', updateVisibility);
+  window.removeEventListener("scroll", updateVisibility);
 });
 </script>
 

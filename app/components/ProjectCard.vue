@@ -114,11 +114,28 @@
     >
       <div class="p-6 sm:p-8">
         <div class="flex items-start justify-between gap-3">
-          <h3 :id="`${detailsId}-title`" class="text-lg font-bold text-gray-900 dark:text-gray-100">{{ projectTitle }}</h3>
-          <button type="button" class="shrink-0 cursor-pointer rounded px-2 py-1 text-sm hover:bg-gray-100 dark:hover:bg-gray-700" @click="closeDetails">닫기</button>
+          <h3
+            :id="`${detailsId}-title`"
+            class="text-lg font-bold text-gray-900 dark:text-gray-100"
+          >
+            {{ projectTitle }}
+          </h3>
+          <button
+            type="button"
+            class="shrink-0 cursor-pointer rounded px-2 py-1 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+            @click="closeDetails"
+          >
+            닫기
+          </button>
         </div>
-        <h4 class="mt-4 font-semibold text-indigo-600 dark:text-indigo-300">{{ details.heading }}</h4>
-        <p v-for="paragraph in details.paragraphs" :key="paragraph" class="mt-3 text-sm leading-7">
+        <h4 class="mt-4 font-semibold text-indigo-600 dark:text-indigo-300">
+          {{ details.heading }}
+        </h4>
+        <p
+          v-for="paragraph in details.paragraphs"
+          :key="paragraph"
+          class="mt-3 text-sm leading-7"
+        >
           {{ paragraph }}
         </p>
         <HorizontalImageGallery
@@ -128,9 +145,19 @@
           :image-directory="details.gallery.imageDirectory"
           :label="details.gallery.label"
         />
-        <section v-for="section in details.sections" :key="section.heading" class="mt-8 border-t border-gray-200 pt-6 dark:border-gray-700">
-          <h4 class="font-semibold text-indigo-600 dark:text-indigo-300">{{ section.heading }}</h4>
-          <p v-for="paragraph in section.paragraphs" :key="paragraph" class="mt-3 text-sm leading-7">
+        <section
+          v-for="section in details.sections"
+          :key="section.heading"
+          class="mt-8 border-t border-gray-200 pt-6 dark:border-gray-700"
+        >
+          <h4 class="font-semibold text-indigo-600 dark:text-indigo-300">
+            {{ section.heading }}
+          </h4>
+          <p
+            v-for="paragraph in section.paragraphs"
+            :key="paragraph"
+            class="mt-3 text-sm leading-7"
+          >
             {{ paragraph }}
           </p>
           <HorizontalImageGallery
@@ -140,44 +167,134 @@
             :image-directory="section.gallery.imageDirectory"
             :label="section.gallery.label"
           />
-          <div v-if="section.incidents?.length" class="mt-5 max-h-[15rem] overflow-auto rounded-lg border border-gray-200 dark:border-gray-700" tabindex="0" role="region" :aria-label="`${section.heading} 사고 사례 표 (스크롤하여 전체 보기)`">
+          <div
+            v-if="section.incidents?.length"
+            class="mt-5 max-h-[15rem] overflow-auto rounded-lg border border-gray-200 dark:border-gray-700"
+            tabindex="0"
+            role="region"
+            :aria-label="`${section.heading} 사고 사례 표 (스크롤하여 전체 보기)`"
+          >
             <table class="w-full border-collapse text-left text-sm leading-6">
-              <caption class="sr-only">시설물 사고 사례와 조사 자료</caption>
+              <caption class="sr-only">
+                시설물 사고 사례와 조사 자료
+              </caption>
               <thead class="sticky top-0 z-10 bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
                 <tr>
-                  <th scope="col" class="whitespace-nowrap px-3 py-3 font-semibold">발생</th>
-                  <th scope="col" class="px-3 py-3 font-semibold">사고</th>
-                  <th scope="col" class="whitespace-nowrap px-3 py-3 font-semibold">출처</th>
+                  <th
+                    scope="col"
+                    class="whitespace-nowrap px-3 py-3 font-semibold"
+                  >
+                    발생
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-3 py-3 font-semibold"
+                  >
+                    사고
+                  </th>
+                  <th
+                    scope="col"
+                    class="whitespace-nowrap px-3 py-3 font-semibold"
+                  >
+                    출처
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="incident in section.incidents" :key="incident.href" class="border-t border-gray-200 align-top dark:border-gray-700">
-                  <td class="whitespace-nowrap px-3 py-4 text-xs">{{ incident.date }}</td>
-                  <th scope="row" class="px-3 py-4 font-medium text-gray-900 dark:text-gray-100">{{ incident.name }}</th>
+                <tr
+                  v-for="incident in section.incidents"
+                  :key="incident.href"
+                  class="border-t border-gray-200 align-top dark:border-gray-700"
+                >
                   <td class="whitespace-nowrap px-3 py-4 text-xs">
-                    <a :href="incident.href" target="_blank" rel="noopener noreferrer" :aria-label="`${incident.name} ${incident.source} 조사 자료 (새 탭)`" class="text-indigo-600 underline underline-offset-2 hover:text-indigo-800 dark:text-indigo-300 dark:hover:text-indigo-200">{{ incident.source }}</a>
+                    {{ incident.date }}
+                  </td>
+                  <th
+                    scope="row"
+                    class="px-3 py-4 font-medium text-gray-900 dark:text-gray-100"
+                  >
+                    {{ incident.name }}
+                  </th>
+                  <td class="whitespace-nowrap px-3 py-4 text-xs">
+                    <a
+                      :href="incident.href"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      :aria-label="`${incident.name} ${incident.source} 조사 자료 (새 탭)`"
+                      class="text-indigo-600 underline underline-offset-2 hover:text-indigo-800 dark:text-indigo-300 dark:hover:text-indigo-200"
+                    >{{ incident.source }}</a>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p v-if="section.incidents?.length" class="mt-2 text-center text-xs leading-6 text-gray-500 dark:text-gray-400">최근 10년 주요 공공시설 안전사고</p>
-          <ul v-if="section.points?.length" class="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 marker:text-indigo-500">
-            <li v-for="point in section.points" :key="point">{{ point }}</li>
+          <p
+            v-if="section.incidents?.length"
+            class="mt-2 text-center text-xs leading-6 text-gray-500 dark:text-gray-400"
+          >
+            최근 10년 주요 공공시설 안전사고
+          </p>
+          <ul
+            v-if="section.points?.length"
+            class="mt-3 list-disc space-y-2 pl-5 text-sm leading-7 marker:text-indigo-500"
+          >
+            <li
+              v-for="point in section.points"
+              :key="point"
+            >
+              {{ point }}
+            </li>
           </ul>
-          <figure v-for="image in section.images" :key="image.src" class="mt-5 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
-            <div :class="{ 'overflow-x-auto': image.horizontalScroll }" :tabindex="image.horizontalScroll ? 0 : undefined" :role="image.horizontalScroll ? 'region' : undefined" :aria-label="image.horizontalScroll ? `${image.alt} (좌우 스크롤)` : undefined">
-            <a :href="`${assetBase}${image.src}`" target="_blank" rel="noopener noreferrer" :aria-label="`${image.alt} 원본 보기 (새 탭)`" class="block cursor-zoom-in bg-white p-2" :class="{ 'w-max min-w-full': image.horizontalScroll }">
-              <img :src="`${assetBase}${image.src}`" :alt="image.alt" loading="lazy" decoding="async" :class="image.horizontalScroll ? 'h-[640px] w-auto max-w-none' : ['h-auto w-full', { 'max-h-[32rem] object-contain': image.portrait }]">
-            </a>
+          <figure
+            v-for="image in section.images"
+            :key="image.src"
+            class="mt-5 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700"
+          >
+            <div
+              :class="{ 'overflow-x-auto': image.horizontalScroll }"
+              :tabindex="image.horizontalScroll ? 0 : undefined"
+              :role="image.horizontalScroll ? 'region' : undefined"
+              :aria-label="image.horizontalScroll ? `${image.alt} (좌우 스크롤)` : undefined"
+            >
+              <a
+                :href="`${assetBase}${image.src}`"
+                target="_blank"
+                rel="noopener noreferrer"
+                :aria-label="`${image.alt} 원본 보기 (새 탭)`"
+                class="block cursor-zoom-in bg-white p-2"
+                :class="{ 'w-max min-w-full': image.horizontalScroll }"
+              >
+                <img
+                  :src="`${assetBase}${image.src}`"
+                  :alt="image.alt"
+                  loading="lazy"
+                  decoding="async"
+                  :class="image.horizontalScroll ? 'h-[640px] w-auto max-w-none' : ['h-auto w-full', { 'max-h-[32rem] object-contain': image.portrait }]"
+                >
+              </a>
             </div>
-            <figcaption class="border-t border-gray-200 px-4 py-3 text-xs leading-6 text-gray-500 dark:border-gray-700 dark:text-gray-400">{{ image.caption }}</figcaption>
+            <figcaption class="border-t border-gray-200 px-4 py-3 text-xs leading-6 text-gray-500 dark:border-gray-700 dark:text-gray-400">
+              {{ image.caption }}
+            </figcaption>
           </figure>
-          <div v-if="section.sources?.length" class="mt-5 border-t border-gray-200 pt-3 text-xs leading-6 dark:border-gray-700">
-            <p class="font-medium text-gray-500 dark:text-gray-400">관련 조사 자료</p>
+          <div
+            v-if="section.sources?.length"
+            class="mt-5 border-t border-gray-200 pt-3 text-xs leading-6 dark:border-gray-700"
+          >
+            <p class="font-medium text-gray-500 dark:text-gray-400">
+              관련 조사 자료
+            </p>
             <ul class="mt-1 space-y-1">
-              <li v-for="source in section.sources" :key="source.href">
-                <a :href="source.href" target="_blank" rel="noopener noreferrer" class="text-indigo-600 underline underline-offset-2 hover:text-indigo-800 dark:text-indigo-300 dark:hover:text-indigo-200">{{ source.label }}<span class="sr-only"> (새 탭)</span></a>
+              <li
+                v-for="source in section.sources"
+                :key="source.href"
+              >
+                <a
+                  :href="source.href"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-indigo-600 underline underline-offset-2 hover:text-indigo-800 dark:text-indigo-300 dark:hover:text-indigo-200"
+                >{{ source.label }}<span class="sr-only"> (새 탭)</span></a>
               </li>
             </ul>
           </div>
@@ -258,12 +375,12 @@ const activateCard = () => {
   }
 };
 
-const onCardClick = event => {
+const onCardClick = (event) => {
   if (event.target.closest("a, button")) return;
   activateCard();
 };
 
-const onDialogClick = event => {
+const onDialogClick = (event) => {
   if (event.target !== detailsDialog.value) return;
   const rect = detailsDialog.value.getBoundingClientRect();
   if (

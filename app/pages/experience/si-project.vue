@@ -25,13 +25,18 @@
         :number="index + 1"
         image-directory="images/experience/kwater"
       >
-        <div v-if="step.id === 'overview'" class="grid gap-4 sm:grid-cols-3">
+        <div
+          v-if="step.id === 'overview'"
+          class="grid gap-4 sm:grid-cols-3"
+        >
           <article
             v-for="item in overview"
             :key="item.title"
             class="rounded-2xl border border-gray-200 bg-gray-50 p-5"
           >
-            <h3 class="font-bold text-gray-900">{{ item.title }}</h3>
+            <h3 class="font-bold text-gray-900">
+              {{ item.title }}
+            </h3>
             <p class="mt-2 text-sm leading-7 text-gray-600">
               {{ item.description }}
             </p>
@@ -62,21 +67,43 @@
               </caption>
               <thead class="border-y border-gray-200 bg-gray-50 text-gray-900">
                 <tr>
-                  <th scope="col" class="px-5 py-3">단계</th>
-                  <th scope="col" class="px-5 py-3">역할</th>
-                  <th scope="col" class="px-5 py-3">데이터</th>
+                  <th
+                    scope="col"
+                    class="px-5 py-3"
+                  >
+                    단계
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-5 py-3"
+                  >
+                    역할
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-5 py-3"
+                  >
+                    데이터
+                  </th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 text-gray-600">
-                <tr v-for="stage in stages" :key="stage.id">
+                <tr
+                  v-for="stage in stages"
+                  :key="stage.id"
+                >
                   <th
                     scope="row"
                     class="whitespace-nowrap px-5 py-3 font-mono font-medium text-indigo-600"
                   >
                     {{ stage.id }}
                   </th>
-                  <td class="px-5 py-3">{{ stage.title }}</td>
-                  <td class="px-5 py-3">{{ stage.output }}</td>
+                  <td class="px-5 py-3">
+                    {{ stage.title }}
+                  </td>
+                  <td class="px-5 py-3">
+                    {{ stage.output }}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -87,8 +114,13 @@
             등으로 세분화됩니다.
           </p>
         </template>
-        <div v-else-if="step.id === 'learning-training'" class="mt-8">
-          <h3 class="mb-3 text-lg font-bold text-gray-900">학습·평가 UI</h3>
+        <div
+          v-else-if="step.id === 'learning-training'"
+          class="mt-8"
+        >
+          <h3 class="mb-3 text-lg font-bold text-gray-900">
+            학습·평가 UI
+          </h3>
           <p class="mb-4 text-sm leading-7 text-gray-600">
             AI 모델 학습 설정부터 Weight 적용, 평가 데이터 관리까지의
             화면입니다. 좌우로 넘겨 확인하고, 이미지를 누르면 원본을 새 탭에서

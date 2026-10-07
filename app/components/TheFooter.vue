@@ -31,7 +31,9 @@
         <div>•</div>
         <NuxtLink to="/">{{ author.name }}'s blog - {{ siteMetaInfo.slogan }}</NuxtLink>
       </div>
-      <div class="mb-2"><LibraryVersions /></div>
+      <div class="mb-2">
+        <LibraryVersions />
+      </div>
       <div class="mb-8 text-sm text-gray-500 dark:text-gray-400">
         <a
           target="_blank"
@@ -44,9 +46,9 @@
 </template>
 
 <script setup>
-import siteMetaInfo from "@/data/sitemetainfo"
-import author from "@/data/author.js"
-import MailIcon from "~/assets/icons/mail.svg?component"
-import LinkedingIcon from "~/assets/icons/linkeding.svg?component"
-import InstagramIcon from "~/assets/icons/instagram.svg?component"
+import siteMetaInfo from "@/data/sitemetainfo";
+import author from "@/data/author.js";
+import MailIcon from "~/assets/icons/mail.svg?component";
+import LinkedingIcon from "~/assets/icons/linkeding.svg?component";
+import InstagramIcon from "~/assets/icons/instagram.svg?component";
 </script>

@@ -2,7 +2,9 @@
   <div class="space-y-8">
     <div class="grid gap-4 sm:grid-cols-2">
       <article class="rounded-2xl border border-gray-200 bg-gray-50 p-5">
-        <h3 class="font-bold text-gray-900">MySQL · 트랜잭션과 관계 데이터</h3>
+        <h3 class="font-bold text-gray-900">
+          MySQL · 트랜잭션과 관계 데이터
+        </h3>
         <p class="mt-2 text-sm leading-7 text-gray-600">
           회원·상품·주문·결제·배송의 서비스 데이터와 도메인 간 관계를
           관리합니다. TypeORM Entity를 통해 애플리케이션의 업무 모델과
@@ -10,7 +12,9 @@
         </p>
       </article>
       <article class="rounded-2xl border border-gray-200 bg-gray-50 p-5">
-        <h3 class="font-bold text-gray-900">OpenSearch · 검색과 집계</h3>
+        <h3 class="font-bold text-gray-900">
+          OpenSearch · 검색과 집계
+        </h3>
         <p class="mt-2 text-sm leading-7 text-gray-600">
           상품 검색과 Aggregation을 담당합니다. 거래 및 관계 데이터를 관리하는
           MySQL과 역할을 분리해 검색·통계에 맞는 데이터 조회 구조를
@@ -20,7 +24,9 @@
     </div>
 
     <div>
-      <h3 class="mb-4 text-lg font-bold text-gray-900">핵심 DB 관계</h3>
+      <h3 class="mb-4 text-lg font-bold text-gray-900">
+        핵심 DB 관계
+      </h3>
       <p class="mb-3 text-sm text-gray-500">
         좌우로 스크롤해 관계를 확인하세요.
       </p>
@@ -35,7 +41,9 @@
           :key="relation.title"
           class="w-[88%] min-w-0 shrink-0 snap-start rounded-2xl border border-gray-200 p-5 sm:w-[420px]"
         >
-          <h4 class="font-bold text-gray-900">{{ relation.title }}</h4>
+          <h4 class="font-bold text-gray-900">
+            {{ relation.title }}
+          </h4>
           <p class="mt-3 text-sm leading-7 text-gray-600">
             {{ relation.description }}
           </p>
@@ -53,7 +61,9 @@
     </div>
 
     <div>
-      <h3 class="mb-3 text-lg font-bold text-gray-900">도메인별 DB 구조도</h3>
+      <h3 class="mb-3 text-lg font-bold text-gray-900">
+        도메인별 DB 구조도
+      </h3>
       <p class="mb-4 text-sm leading-7 text-gray-600">
         관리자·회원·외부 쇼핑몰 연동부터 주문·공동구매·마케팅까지 9개 영역으로
         나눈 구조도입니다. 이미지를 누르면 원본 크기로 테이블과 연결 관계를

@@ -6,7 +6,7 @@ import vm from "node:vm";
 
 const script = await fs.readFile(new URL("../mcp-create.sh", import.meta.url), "utf8");
 const helpers = script.slice(script.indexOf("function isInside("), script.indexOf("const server = new McpServer("));
-const registration = script.slice(script.indexOf('server.registerTool("rename_file"'), script.indexOf(" * replace_text"));
+const registration = script.slice(script.indexOf("server.registerTool(\"rename_file\""), script.indexOf(" * replace_text"));
 let root;
 let rename;
 

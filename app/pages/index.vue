@@ -15,17 +15,17 @@
 </template>
 
 <script setup>
-import siteMetaInfo from "@/data/sitemetainfo"
+import siteMetaInfo from "@/data/sitemetainfo";
 
-const runtimeConfig = useRuntimeConfig()
+const runtimeConfig = useRuntimeConfig();
 useHead({
   link: [{ rel: "icon", type: "image/x-icon", href: `${runtimeConfig.app.baseURL}favicon.ico` }],
-})
+});
 
 useSeoMeta({
   title: siteMetaInfo.title,
   description: siteMetaInfo.description,
-})
+});
 </script>
 
 <style></style>

@@ -8,7 +8,7 @@
       title="빌드부터 배포·검증·업무보고까지 자동화"
     >
       Jenkins를 중심으로 서비스 빌드·배포, 보안 검사, Jira 업무보고서 생성을
-      자동화했습니다.<br >
+      자동화했습니다.<br>
       GitHub의 코드 변경을 확인하고 Docker 컨테이너를 배포하며, 실행 결과와
       산출물을 Slack으로 공유하는 과정을 정리했습니다.
     </WorkflowPageHeader>
@@ -32,8 +32,7 @@
             :href="securityReportUrl"
             download="security-report.xlsx"
             class="ml-1 text-indigo-600 underline underline-offset-4 hover:text-indigo-800"
-            >(샘플 파일 다운로드)</a
-          >
+          >(샘플 파일 다운로드)</a>
         </template>
         <div
           v-if="step.table"
@@ -49,19 +48,34 @@
             </caption>
             <thead class="border-y border-gray-200 bg-gray-50 text-gray-700">
               <tr>
-                <th scope="col" class="px-5 py-3">{{ step.table.label }}</th>
-                <th scope="col" class="px-5 py-3">역할과 처리 내용</th>
+                <th
+                  scope="col"
+                  class="px-5 py-3"
+                >
+                  {{ step.table.label }}
+                </th>
+                <th
+                  scope="col"
+                  class="px-5 py-3"
+                >
+                  역할과 처리 내용
+                </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 text-gray-600">
-              <tr v-for="row in step.table.rows" :key="row[0]">
+              <tr
+                v-for="row in step.table.rows"
+                :key="row[0]"
+              >
                 <th
                   scope="row"
                   class="px-5 py-3 align-top font-medium break-words"
                 >
                   {{ row[0] }}
                 </th>
-                <td class="min-w-56 px-5 py-3 align-top">{{ row[1] }}</td>
+                <td class="min-w-56 px-5 py-3 align-top">
+                  {{ row[1] }}
+                </td>
               </tr>
             </tbody>
           </table>

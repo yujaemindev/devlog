@@ -3,9 +3,12 @@
     class="mx-auto max-w-5xl px-4 pb-16 sm:px-6 xl:px-0"
     :style="{ '--section-offset': `${sectionOffset}px` }"
   >
-    <WorkflowPageHeader label="GIT" title="브랜치 운영과 PR 기반 개발">
+    <WorkflowPageHeader
+      label="GIT"
+      title="브랜치 운영과 PR 기반 개발"
+    >
       모든 소스코드 commit은 직접 push하지 않고, PR을 통해 코드 변경을 필요한
-      branch에 통합합니다.<br >
+      branch에 통합합니다.<br>
       개인 작업과 제품·고객별 요구사항은 목적에 맞는 브랜치로 나누어 관리합니다.
     </WorkflowPageHeader>
     <WorkflowStepNav
@@ -15,7 +18,10 @@
     />
 
     <div class="space-y-14">
-      <WorkflowSection :step="steps[0]" :number="1">
+      <WorkflowSection
+        :step="steps[0]"
+        :number="1"
+      >
         <div class="overflow-x-auto rounded-2xl border border-gray-200">
           <table class="w-full min-w-[720px] text-left text-sm leading-6">
             <caption class="sr-only">
@@ -23,13 +29,31 @@
             </caption>
             <thead class="border-b border-gray-200 bg-gray-50 text-gray-900">
               <tr>
-                <th scope="col" class="px-5 py-4 whitespace-nowrap">구분</th>
-                <th scope="col" class="px-5 py-4">실제 브랜치 예시</th>
-                <th scope="col" class="px-5 py-4">역할</th>
+                <th
+                  scope="col"
+                  class="px-5 py-4 whitespace-nowrap"
+                >
+                  구분
+                </th>
+                <th
+                  scope="col"
+                  class="px-5 py-4"
+                >
+                  실제 브랜치 예시
+                </th>
+                <th
+                  scope="col"
+                  class="px-5 py-4"
+                >
+                  역할
+                </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white text-gray-600">
-              <tr v-for="branch in branches" :key="branch.role">
+              <tr
+                v-for="branch in branches"
+                :key="branch.role"
+              >
                 <th
                   scope="row"
                   class="px-5 py-4 font-semibold whitespace-nowrap text-gray-900"
@@ -42,30 +66,39 @@
                       v-for="name in branch.names"
                       :key="name"
                       class="rounded bg-gray-100 px-2 py-1 text-xs text-gray-700"
-                      >{{ name }}</code
-                    >
+                    >{{ name }}</code>
                   </div>
                 </td>
-                <td class="px-5 py-4">{{ branch.description }}</td>
+                <td class="px-5 py-4">
+                  {{ branch.description }}
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </WorkflowSection>
 
-      <WorkflowSection :step="steps[1]" :number="2">
+      <WorkflowSection
+        :step="steps[1]"
+        :number="2"
+      >
         <ol
           class="list-decimal space-y-10 pl-6 leading-7 text-gray-600 marker:font-semibold marker:text-indigo-600 sm:ml-14"
         >
-          <li v-for="item in usageItems" :key="item.image">
+          <li
+            v-for="item in usageItems"
+            :key="item.image"
+          >
             <p>{{ item.description }}</p>
-            <p v-if="item.detailLink" class="mt-2">
+            <p
+              v-if="item.detailLink"
+              class="mt-2"
+            >
               이슈 등록부터 수정 커밋 연결과 코드 변경까지의 자세한 과정은
               <NuxtLink
                 :to="item.detailLink"
                 class="font-semibold text-indigo-600 underline underline-offset-4"
-                >Bug Fixing에서 확인할 수 있습니다 →</NuxtLink
-              >
+              >Bug Fixing에서 확인할 수 있습니다 →</NuxtLink>
             </p>
             <HorizontalImageGallery
               v-if="item.extraImages?.length"
@@ -113,7 +146,7 @@ import siteMetaInfo from "@/data/sitemetainfo.js";
 
 const sectionOffset = ref(171);
 const runtimeConfig = useRuntimeConfig();
-const asset = (name) => `${runtimeConfig.app.baseURL}images/workflow/${name}`;
+const asset = name => `${runtimeConfig.app.baseURL}images/workflow/${name}`;
 
 const usageItems = [
   {

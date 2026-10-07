@@ -123,5 +123,4 @@ const steps = [
     ],
   },
 ];
-
 </script>

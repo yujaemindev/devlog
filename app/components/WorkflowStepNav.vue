@@ -33,11 +33,11 @@
 const props = defineProps({
   steps: { type: Array, required: true },
   label: { type: String, required: true },
-  collapseAfter: { type: String, default: '' },
+  collapseAfter: { type: String, default: "" },
 });
 
-const emit = defineEmits(['offset-change']);
-const headerHeight = useState('site-header-height', () => 89);
+const emit = defineEmits(["offset-change"]);
+const headerHeight = useState("site-header-height", () => 89);
 const stepNav = ref(null);
 const navSlot = ref(null);
 const collapseTarget = computed(() => props.collapseAfter || props.steps[0]?.id);
@@ -53,13 +53,13 @@ const updateCompact = () => {
   frame = 0;
   updatePosition();
   updateActiveStep();
-  if (!collapseTarget.value || !window.matchMedia('(width < 48rem)').matches) {
+  if (!collapseTarget.value || !window.matchMedia("(width < 48rem)").matches) {
     isCompact.value = false;
     previousHeadingBottom = null;
     scrollTravel = 0;
     return;
   }
-  const heading = document.getElementById(collapseTarget.value)?.querySelector('h2');
+  const heading = document.getElementById(collapseTarget.value)?.querySelector("h2");
   if (!heading || !stepNav.value) return;
   const navRect = stepNav.value.getBoundingClientRect();
   const headingBottom = heading.getBoundingClientRect().bottom;
@@ -95,8 +95,8 @@ const scheduleUpdate = () => {
 const updatePosition = () => {
   if (!navSlot.value) return;
   const rect = navSlot.value.getBoundingClientRect();
-  navSlot.value.style.setProperty('--nav-left', `${rect.left}px`);
-  navSlot.value.style.setProperty('--nav-width', `${rect.width}px`);
+  navSlot.value.style.setProperty("--nav-left", `${rect.left}px`);
+  navSlot.value.style.setProperty("--nav-width", `${rect.width}px`);
 };
 
 const updateActiveStep = () => {
@@ -121,7 +121,7 @@ const updateActiveStep = () => {
 watch(
   [headerHeight, stepNavHeight],
   ([header, nav]) => {
-    emit('offset-change', header + nav + 16);
+    emit("offset-change", header + nav + 16);
     if (navSlot.value) scheduleUpdate();
   },
   { immediate: true },
@@ -142,14 +142,14 @@ onMounted(() => {
     if (section) observer.observe(section);
   });
   scheduleUpdate();
-  window.addEventListener('scroll', scheduleUpdate, { passive: true });
-  window.addEventListener('resize', scheduleUpdate);
+  window.addEventListener("scroll", scheduleUpdate, { passive: true });
+  window.addEventListener("resize", scheduleUpdate);
 });
 
 onBeforeUnmount(() => {
   observer?.disconnect();
-  window.removeEventListener('scroll', scheduleUpdate);
-  window.removeEventListener('resize', scheduleUpdate);
+  window.removeEventListener("scroll", scheduleUpdate);
+  window.removeEventListener("resize", scheduleUpdate);
   cancelAnimationFrame(frame);
 });
 </script>

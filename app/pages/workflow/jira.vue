@@ -3,9 +3,12 @@
     class="mx-auto max-w-5xl px-4 pb-16 sm:px-6 xl:px-0"
     :style="{ '--section-offset': `${sectionOffset}px` }"
   >
-    <WorkflowPageHeader label="TEAM COLLABORATION" title="팀원 간 업무 협업과 소통">
+    <WorkflowPageHeader
+      label="TEAM COLLABORATION"
+      title="팀원 간 업무 협업과 소통"
+    >
       화면에서 필요한 기능을 개발 가능한 작업으로 나누고, API 명세와 진행 상태를
-      이슈에 연결합니다.<br >
+      이슈에 연결합니다.<br>
       딥인스펙터 터널 프로젝트의 수평 파노라마 기능을 예시로 업무를 구체화하고
       공유하는 과정을 소개합니다.
     </WorkflowPageHeader>
@@ -30,14 +33,15 @@
           <div
             class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 bg-white px-5 py-3"
           >
-            <p class="text-sm text-gray-600">jira-ppt.pdf</p>
+            <p class="text-sm text-gray-600">
+              jira-ppt.pdf
+            </p>
             <a
               :href="presentationUrl"
               target="_blank"
               rel="noopener noreferrer"
               class="text-sm font-semibold text-indigo-600 underline underline-offset-4"
-              >PDF 새 탭에서 보기 ↗</a
-            >
+            >PDF 새 탭에서 보기 ↗</a>
           </div>
           <iframe
             :src="`${presentationUrl}#view=FitH`"

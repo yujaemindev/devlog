@@ -12,7 +12,7 @@ const libraryVersions = [
   { title: "개발 도구", dependencies: packageManifest.devDependencies },
 ].map(({ title, dependencies }) => ({
   title,
-  libraries: Object.keys(dependencies).sort().map(name => {
+  libraries: Object.keys(dependencies).sort().map((name) => {
     const version = packageLock.packages[`node_modules/${name}`]?.version;
     if (!version) {
       throw new Error(`라이브러리 버전을 확인할 수 없습니다: ${name}`);
@@ -22,12 +22,6 @@ const libraryVersions = [
 }));
 
 export default defineNuxtConfig({
-  compatibilityDate: "2026-09-16",
-  devtools: { enabled: true },
-
-  runtimeConfig: {
-    public: { libraryVersions },
-  },
 
   modules: [
     "@nuxt/content",
@@ -35,16 +29,13 @@ export default defineNuxtConfig({
     "nuxt-svgo",
     "@nuxt/eslint",
   ],
-
-  css: ["~/assets/css/main.css"],
+  devtools: { enabled: true },
 
   app: {
     baseURL: process.env.NUXT_APP_BASE_URL || "/devlog/",
   },
 
-  vite: {
-    plugins: [tailwindcss()],
-  },
+  css: ["~/assets/css/main.css"],
 
   content: {
     build: {
@@ -64,6 +55,15 @@ export default defineNuxtConfig({
     experimental: {
       sqliteConnector: "native",
     },
+  },
+
+  runtimeConfig: {
+    public: { libraryVersions },
+  },
+  compatibilityDate: "2026-09-16",
+
+  vite: {
+    plugins: [tailwindcss()],
   },
 
   eslint: {

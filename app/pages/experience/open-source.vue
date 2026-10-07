@@ -29,8 +29,7 @@
           v-if="step.id === 'export'"
           to="/experience/si-project#learning-preprocessing"
           class="mt-5 inline-block text-sm font-semibold text-indigo-600 underline underline-offset-4"
-          >SI project의 데이터 전처리 흐름 보기 →</NuxtLink
-        >
+        >SI project의 데이터 전처리 흐름 보기 →</NuxtLink>
         <div
           v-else-if="step.id === 'history'"
           class="overflow-x-auto rounded-2xl border border-gray-200"
@@ -41,19 +40,34 @@
             </caption>
             <thead class="border-y border-gray-200 bg-gray-50 text-gray-900">
               <tr>
-                <th scope="col" class="whitespace-nowrap px-5 py-3">시기</th>
-                <th scope="col" class="px-5 py-3">주요 수정사항</th>
+                <th
+                  scope="col"
+                  class="whitespace-nowrap px-5 py-3"
+                >
+                  시기
+                </th>
+                <th
+                  scope="col"
+                  class="px-5 py-3"
+                >
+                  주요 수정사항
+                </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 text-gray-600">
-              <tr v-for="entry in history" :key="entry.period">
+              <tr
+                v-for="entry in history"
+                :key="entry.period"
+              >
                 <th
                   scope="row"
                   class="min-w-36 px-5 py-3 font-medium text-gray-900"
                 >
                   {{ entry.period }}
                 </th>
-                <td class="min-w-72 px-5 py-3">{{ entry.description }}</td>
+                <td class="min-w-72 px-5 py-3">
+                  {{ entry.description }}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -134,7 +148,7 @@ const screens = [
 ];
 
 const gallery = (start, end) =>
-  screens.slice(start, end).map((screen) => ({
+  screens.slice(start, end).map(screen => ({
     image: screen.file,
     width: screen.width,
     height: screen.height,

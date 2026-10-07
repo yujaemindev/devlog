@@ -37,9 +37,9 @@
 </template>
 
 <script setup>
-import author from "@/data/author.js"
+import author from "@/data/author.js";
 
-const timeline = author.timeline
+const timeline = author.timeline;
 </script>
 
 <style></style>

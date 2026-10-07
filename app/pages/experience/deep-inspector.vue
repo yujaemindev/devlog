@@ -31,11 +31,12 @@
             target="_blank"
             rel="noopener noreferrer"
             class="document-link"
-            >TTA 공식 GS인증 소개 · 시험 절차 ↗</a
-          >
+          >TTA 공식 GS인증 소개 · 시험 절차 ↗</a>
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
             <div class="info-card">
-              <p class="eyebrow">이전 · Standalone</p>
+              <p class="eyebrow">
+                이전 · Standalone
+              </p>
               <h3 class="font-bold text-gray-900">
                 Bridge Deep Inspector v2.1
               </h3>
@@ -45,7 +46,9 @@
               </p>
             </div>
             <div class="info-card">
-              <p class="eyebrow">이번 · 기능 개선 및 SaaS 전환</p>
+              <p class="eyebrow">
+                이번 · 기능 개선 및 SaaS 전환
+              </p>
               <h3 class="font-bold text-gray-900">
                 XAI 기반 교량안전점검 자동화 소프트웨어 v3.0
               </h3>
@@ -58,16 +61,23 @@
           </div>
         </template>
 
-        <ol v-else-if="step.id === 'gs-preparation'" class="space-y-5">
+        <ol
+          v-else-if="step.id === 'gs-preparation'"
+          class="space-y-5"
+        >
           <li class="info-card">
-            <h3 class="font-bold text-gray-900">1. GS시험인증 수수료 납부</h3>
+            <h3 class="font-bold text-gray-900">
+              1. GS시험인증 수수료 납부
+            </h3>
             <p class="mt-2 leading-7 text-gray-600">
               사전 상담 후 받은 견적서의 시험 범위와 납부 안내를 확인하고
               수수료를 납부합니다.
             </p>
           </li>
           <li class="info-card">
-            <h3 class="font-bold text-gray-900">2. GS인증 신청서류 5종 준비</h3>
+            <h3 class="font-bold text-gray-900">
+              2. GS인증 신청서류 5종 준비
+            </h3>
             <ol class="mt-4 divide-y divide-gray-200">
               <li
                 v-for="(document, documentIndex) in applicationDocuments"
@@ -86,8 +96,7 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   class="document-link mt-2 inline-flex"
-                  >{{ document.title }} PDF 보기 ↗</a
-                >
+                >{{ document.title }} PDF 보기 ↗</a>
               </li>
             </ol>
           </li>
@@ -104,12 +113,14 @@
               target="_blank"
               rel="noopener noreferrer"
               class="document-link mt-2 inline-flex"
-              >TTA 신청 절차 확인 ↗</a
-            >
+            >TTA 신청 절차 확인 ↗</a>
           </li>
         </ol>
 
-        <div v-else-if="step.id === 'gs-user-guide'" class="space-y-4">
+        <div
+          v-else-if="step.id === 'gs-user-guide'"
+          class="space-y-4"
+        >
           <div class="flex flex-wrap items-center justify-between gap-3">
             <p class="text-sm text-gray-600">
               사용자 가이드 158장 · 원본 슬라이드 4~161번
@@ -131,38 +142,60 @@
           </p>
         </div>
 
-        <div v-else-if="step.id === 'gs-consultation'" class="space-y-4">
+        <div
+          v-else-if="step.id === 'gs-consultation'"
+          class="space-y-4"
+        >
           <article
             v-for="item in consultations"
             :key="item.title"
             class="info-card"
           >
-            <h3 class="text-lg font-bold text-gray-900">{{ item.title }}</h3>
+            <h3 class="text-lg font-bold text-gray-900">
+              {{ item.title }}
+            </h3>
             <dl class="mt-4 space-y-3 text-sm leading-7">
               <div>
-                <dt class="font-semibold text-gray-900">문의</dt>
-                <dd class="text-gray-600">{{ item.question }}</dd>
+                <dt class="font-semibold text-gray-900">
+                  문의
+                </dt>
+                <dd class="text-gray-600">
+                  {{ item.question }}
+                </dd>
               </div>
               <div>
-                <dt class="font-semibold text-indigo-600">담당자 답변</dt>
-                <dd class="text-gray-600">{{ item.answer }}</dd>
+                <dt class="font-semibold text-indigo-600">
+                  담당자 답변
+                </dt>
+                <dd class="text-gray-600">
+                  {{ item.answer }}
+                </dd>
               </div>
               <div>
-                <dt class="font-semibold text-gray-900">준비 사항</dt>
-                <dd class="text-gray-600">{{ item.action }}</dd>
+                <dt class="font-semibold text-gray-900">
+                  준비 사항
+                </dt>
+                <dd class="text-gray-600">
+                  {{ item.action }}
+                </dd>
               </div>
             </dl>
           </article>
         </div>
 
-        <div v-else-if="step.id === 'gs-defects'" class="space-y-6">
+        <div
+          v-else-if="step.id === 'gs-defects'"
+          class="space-y-6"
+        >
           <div class="grid gap-4 md:grid-cols-3">
             <article
               v-for="report in defectReports"
               :key="report.file"
               class="info-card flex flex-col"
             >
-              <p class="eyebrow">{{ report.date }}</p>
+              <p class="eyebrow">
+                {{ report.date }}
+              </p>
               <h3 class="text-lg font-bold text-gray-900">
                 {{ report.title }}
               </h3>
@@ -176,8 +209,7 @@
                 :href="asset(report.file)"
                 download
                 class="document-link mt-auto"
-                >이번 결함 리포트 XLSX 다운로드 ↓</a
-              >
+              >이번 결함 리포트 XLSX 다운로드 ↓</a>
             </article>
           </div>
           <div>
@@ -190,7 +222,9 @@
                 :key="item.title"
                 class="info-card"
               >
-                <h4 class="font-bold text-gray-900">{{ item.title }}</h4>
+                <h4 class="font-bold text-gray-900">
+                  {{ item.title }}
+                </h4>
                 <p class="mt-2 text-sm leading-7 text-gray-600">
                   {{ item.description }}
                 </p>
@@ -210,9 +244,15 @@
                 :key="report.file"
                 class="flex flex-col"
               >
-                <p class="eyebrow">{{ report.date }} · 과거 자료</p>
-                <h4 class="font-bold text-gray-900">{{ report.title }}</h4>
-                <p class="mt-2 text-sm text-indigo-600">{{ report.count }}</p>
+                <p class="eyebrow">
+                  {{ report.date }} · 과거 자료
+                </p>
+                <h4 class="font-bold text-gray-900">
+                  {{ report.title }}
+                </h4>
+                <p class="mt-2 text-sm text-indigo-600">
+                  {{ report.count }}
+                </p>
                 <p class="my-3 text-sm leading-7 text-gray-600">
                   {{ report.description }}
                 </p>
@@ -220,8 +260,7 @@
                   :href="asset(report.file)"
                   download
                   class="document-link mt-auto"
-                  >과거 리포트 XLS 다운로드 ↓</a
-                >
+                >과거 리포트 XLS 다운로드 ↓</a>
               </article>
             </div>
           </details>
@@ -240,20 +279,44 @@
               </caption>
               <thead class="bg-gray-50 text-gray-700">
                 <tr>
-                  <th scope="col">시험 항목</th>
-                  <th scope="col">평가 지표</th>
-                  <th scope="col">기준</th>
-                  <th scope="col">결과</th>
-                  <th scope="col">검증 데이터</th>
-                  <th scope="col">자료</th>
+                  <th scope="col">
+                    시험 항목
+                  </th>
+                  <th scope="col">
+                    평가 지표
+                  </th>
+                  <th scope="col">
+                    기준
+                  </th>
+                  <th scope="col">
+                    결과
+                  </th>
+                  <th scope="col">
+                    검증 데이터
+                  </th>
+                  <th scope="col">
+                    자료
+                  </th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
-                <tr v-for="report in aiReports" :key="report.file">
-                  <th scope="row" class="text-gray-900">{{ report.title }}</th>
+                <tr
+                  v-for="report in aiReports"
+                  :key="report.file"
+                >
+                  <th
+                    scope="row"
+                    class="text-gray-900"
+                  >
+                    {{ report.title }}
+                  </th>
                   <td>{{ report.metric }}</td>
-                  <td class="whitespace-nowrap">{{ report.target }}</td>
-                  <td class="font-bold text-indigo-600">{{ report.result }}</td>
+                  <td class="whitespace-nowrap">
+                    {{ report.target }}
+                  </td>
+                  <td class="font-bold text-indigo-600">
+                    {{ report.result }}
+                  </td>
                   <td>{{ report.samples }}</td>
                   <td>
                     <a
@@ -262,8 +325,7 @@
                       target="_blank"
                       rel="noopener noreferrer"
                       class="document-link whitespace-nowrap"
-                      >PDF ↗</a
-                    >
+                    >PDF ↗</a>
                   </td>
                 </tr>
               </tbody>
@@ -271,8 +333,13 @@
           </div>
         </div>
 
-        <div v-else-if="step.id === 'gs-summary'" class="info-card">
-          <h3 class="font-bold text-gray-900">정리한 산출물</h3>
+        <div
+          v-else-if="step.id === 'gs-summary'"
+          class="info-card"
+        >
+          <h3 class="font-bold text-gray-900">
+            정리한 산출물
+          </h3>
           <ul class="mt-3 list-disc space-y-2 pl-5 leading-7 text-gray-600">
             <li>신청서류와 제품·사용자 설명서</li>
             <li>시험 범위와 실행환경에 대한 사전 협의 내용</li>
@@ -318,7 +385,7 @@ const guideImages = Array.from({ length: 158 }, (_, index) => {
   };
 });
 const runtimeConfig = useRuntimeConfig();
-const asset = (path) =>
+const asset = path =>
   `${runtimeConfig.app.baseURL}images/experience/gs/${path.split("/").map(encodeURIComponent).join("/")}`;
 
 useSeoMeta({

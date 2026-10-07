@@ -81,7 +81,7 @@ const author = {
     },
   ],
   expertises: {
-    Language: [
+    "Language": [
       { name: "JavaScript", icon: JavascriptIcon, description: "" },
       { name: "TypeScript", icon: TypescriptIcon, description: "" },
       { name: "Java", icon: JavaIcon, description: "" },

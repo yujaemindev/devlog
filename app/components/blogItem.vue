@@ -57,12 +57,12 @@
 import TagIcon from "@/assets/icons/tag.svg?component";
 
 defineProps<{
-  title: string
-  image?: string
-  description?: string
-  date: string | Date
-  slug: string
-  tags?: string[]
+  title: string;
+  image?: string;
+  description?: string;
+  date: string | Date;
+  slug: string;
+  tags?: string[];
 }>();
 
 const formatDate = (date: string | Date) => {

@@ -8,7 +8,7 @@ import { createHash } from "node:crypto";
 
 const script = await fs.readFile(new URL("../mcp-create.sh", import.meta.url), "utf8");
 const helpers = script.slice(script.indexOf("function isInside("), script.indexOf("const server = new McpServer("));
-const block = script.slice(script.indexOf('server.registerTool("copy_image"'), script.indexOf(" * rename_file"));
+const block = script.slice(script.indexOf("server.registerTool(\"copy_image\""), script.indexOf(" * rename_file"));
 let directory, root, pictures, copy;
 const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1sAAAAASUVORK5CYII=", "base64");
 

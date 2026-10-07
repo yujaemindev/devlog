@@ -30,7 +30,10 @@
         image-directory="images/experience/sild"
       >
         <SildDatabaseSection v-if="step.id === 'database'" />
-        <div v-else-if="step.id === 'storage'" class="space-y-5">
+        <div
+          v-else-if="step.id === 'storage'"
+          class="space-y-5"
+        >
           <article
             class="rounded-2xl border border-gray-200 bg-gray-50 p-5 sm:p-6"
           >
@@ -65,12 +68,10 @@
               >
                 <span
                   class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-sm font-bold text-indigo-600"
-                  >{{ stageIndex + 1 }}</span
-                >
+                >{{ stageIndex + 1 }}</span>
                 <span
                   class="min-w-0 break-words text-sm leading-7 text-gray-700"
-                  >{{ stage }}</span
-                >
+                >{{ stage }}</span>
               </li>
             </ol>
           </article>
@@ -96,12 +97,10 @@
               >
                 <span
                   class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-50 text-sm font-bold text-indigo-600"
-                  >{{ stageIndex + 1 }}</span
-                >
+                >{{ stageIndex + 1 }}</span>
                 <span
                   class="min-w-0 break-words text-sm leading-7 text-gray-700"
-                  >{{ stage }}</span
-                >
+                >{{ stage }}</span>
               </li>
             </ol>
           </article>

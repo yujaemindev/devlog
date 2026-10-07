@@ -43,19 +43,34 @@
         <table class="w-full text-left text-sm">
           <thead class="border-y border-gray-200 bg-gray-50 text-gray-700">
             <tr>
-              <th scope="col" class="px-5 py-3">스크립트</th>
-              <th scope="col" class="px-5 py-3">처리 내용</th>
+              <th
+                scope="col"
+                class="px-5 py-3"
+              >
+                스크립트
+              </th>
+              <th
+                scope="col"
+                class="px-5 py-3"
+              >
+                처리 내용
+              </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100 text-gray-600">
-            <tr v-for="script in scripts" :key="script.name">
+            <tr
+              v-for="script in scripts"
+              :key="script.name"
+            >
               <th
                 scope="row"
                 class="whitespace-nowrap px-5 py-3 font-mono font-medium text-gray-900"
               >
                 {{ script.name }}
               </th>
-              <td class="px-5 py-3 leading-6">{{ script.description }}</td>
+              <td class="px-5 py-3 leading-6">
+                {{ script.description }}
+              </td>
             </tr>
           </tbody>
         </table>

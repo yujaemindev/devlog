@@ -1,5 +1,8 @@
 <template>
-  <section :id="step.id" class="scroll-mt-[var(--section-offset)]">
+  <section
+    :id="step.id"
+    class="scroll-mt-[var(--section-offset)]"
+  >
     <div class="mb-5 flex items-start gap-4">
       <span
         class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-sm font-bold text-indigo-600"
@@ -10,7 +13,10 @@
         <h2 class="text-xl font-bold text-gray-900 sm:text-2xl">
           {{ step.title }}
         </h2>
-        <p v-if="step.description" class="mt-3 leading-7 text-gray-600 whitespace-pre-line">
+        <p
+          v-if="step.description"
+          class="mt-3 leading-7 text-gray-600 whitespace-pre-line"
+        >
           {{ step.description }}
         </p>
       </div>
@@ -25,7 +31,11 @@
         class="list-disc leading-7 marker:text-indigo-400"
       >
         {{ point }}
-        <slot name="point-extra" :point="point" :index="pointIndex" />
+        <slot
+          name="point-extra"
+          :point="point"
+          :index="pointIndex"
+        />
       </li>
     </ul>
     <HorizontalImageGallery
@@ -87,10 +97,10 @@ const props = defineProps({
 });
 
 const runtimeConfig = useRuntimeConfig();
-const asset = (name) =>
+const asset = name =>
   assetPath(runtimeConfig.app.baseURL, `${props.imageDirectory}/${name}`);
 const imageColumns = computed(() => {
   const ratio = props.step.imageRatio ?? [1, 1];
-  return ratio.map((value) => `minmax(0, ${value}fr)`).join(" ");
+  return ratio.map(value => `minmax(0, ${value}fr)`).join(" ");
 });
 </script>

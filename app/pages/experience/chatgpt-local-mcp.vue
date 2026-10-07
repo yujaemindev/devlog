@@ -31,16 +31,29 @@
       </figcaption>
     </figure>
     <div class="mb-8 rounded-2xl border border-indigo-100 bg-indigo-50 p-5">
-      <p class="text-sm font-semibold text-indigo-600">연결 구조</p>
-      <ol class="mt-3 flex flex-wrap items-center gap-3 text-sm leading-6 text-gray-900" aria-label="도구 호출 경로">
+      <p class="text-sm font-semibold text-indigo-600">
+        연결 구조
+      </p>
+      <ol
+        class="mt-3 flex flex-wrap items-center gap-3 text-sm leading-6 text-gray-900"
+        aria-label="도구 호출 경로"
+      >
         <li>ChatGPT</li>
-        <li aria-hidden="true">→</li>
+        <li aria-hidden="true">
+          →
+        </li>
         <li>로컬 MCP 플러그인</li>
-        <li aria-hidden="true">→</li>
+        <li aria-hidden="true">
+          →
+        </li>
         <li>OpenAI Tunnel</li>
-        <li aria-hidden="true">→</li>
+        <li aria-hidden="true">
+          →
+        </li>
         <li>로컬 MCP 서버</li>
-        <li aria-hidden="true">→</li>
+        <li aria-hidden="true">
+          →
+        </li>
         <li>프로젝트 파일 · npm · Git</li>
       </ol>
     </div>

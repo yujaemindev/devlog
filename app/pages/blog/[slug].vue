@@ -43,37 +43,40 @@
       />
     </template>
 
-    <p v-else class="py-20 text-center text-gray-500">
+    <p
+      v-else
+      class="py-20 text-center text-gray-500"
+    >
       No content found.
     </p>
   </div>
 </template>
 
 <script setup>
-import author from '~/data/author.js'
+import author from "~/data/author.js";
 
-const route = useRoute()
-const runtimeConfig = useRuntimeConfig()
-const slug = String(route.params.slug)
-const authorImage = `${runtimeConfig.app.baseURL.replace(/\/$/, '')}${author.author_image}`
+const route = useRoute();
+const runtimeConfig = useRuntimeConfig();
+const slug = String(route.params.slug);
+const authorImage = `${runtimeConfig.app.baseURL.replace(/\/$/, "")}${author.author_image}`;
 
 const { data: article } = await useAsyncData(`article-${slug}`, () =>
-  queryCollection('articles')
-    .where('stem', '=', `articles/${slug}`)
+  queryCollection("articles")
+    .where("stem", "=", `articles/${slug}`)
     .first(),
-)
+);
 
 const formatDate = (date) => {
-  if (!date) return ''
-  return new Date(date).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
+  if (!date) return "";
+  return new Date(date).toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
 
 useSeoMeta({
-  title: () => article.value?.title || 'Blog',
-  description: () => article.value?.description || '',
-})
+  title: () => article.value?.title || "Blog",
+  description: () => article.value?.description || "",
+});
 </script>

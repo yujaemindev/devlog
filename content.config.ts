@@ -1,13 +1,13 @@
-import { defineCollection, defineContentConfig } from '@nuxt/content'
-import { z } from 'zod'
+import { defineCollection, defineContentConfig } from "@nuxt/content";
+import { z } from "zod";
 
 export default defineContentConfig({
   collections: {
     articles: defineCollection({
-      type: 'page',
-      source: 'articles/**/*.md',
+      type: "page",
+      source: "articles/**/*.md",
       schema: z.object({
-        tags: z.string().default(''),
+        tags: z.string().default(""),
         date: z.date(),
         image: z.string().optional(),
         author: z.string().optional(),
@@ -15,16 +15,16 @@ export default defineContentConfig({
         draft: z.boolean().default(false),
       }),
       indexes: [
-        { columns: ['draft', 'date'], name: 'idx_articles_draft_date' },
+        { columns: ["draft", "date"], name: "idx_articles_draft_date" },
       ],
     }),
     author: defineCollection({
-      type: 'page',
-      source: 'author/**/*.md',
+      type: "page",
+      source: "author/**/*.md",
       schema: z.object({
         page: z.string().optional(),
         draft: z.boolean().default(false),
       }),
     }),
   },
-})
+});

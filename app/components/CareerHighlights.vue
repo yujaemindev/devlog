@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import author from "@/data/author.js"
+import author from "@/data/author.js";
 
-const highlights = author.careerHighlights
+const highlights = author.careerHighlights;
 </script>

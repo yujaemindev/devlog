@@ -3,13 +3,20 @@
     class="mx-auto max-w-5xl px-4 pb-16 sm:px-6 xl:px-0"
     :style="{ '--section-offset': `${sectionOffset}px` }"
   >
-    <WorkflowPageHeader label="BUG FIXING" title="버그 기록부터 코드 수정까지">
-        발견된 문제를 Jira 이슈로 정리하고, 수정 커밋을 연결해 변경 내용을
-        추적합니다. 딥인스펙터 터널 프로젝트의 LCR(Lean/Cut/Resize) 편집
-        도구에서 설정한 CUT 위치와 결과물의 위치가 달랐던 TDIS-255 사례로 버그
-        대응 과정을 소개합니다.
+    <WorkflowPageHeader
+      label="BUG FIXING"
+      title="버그 기록부터 코드 수정까지"
+    >
+      발견된 문제를 Jira 이슈로 정리하고, 수정 커밋을 연결해 변경 내용을
+      추적합니다. 딥인스펙터 터널 프로젝트의 LCR(Lean/Cut/Resize) 편집
+      도구에서 설정한 CUT 위치와 결과물의 위치가 달랐던 TDIS-255 사례로 버그
+      대응 과정을 소개합니다.
     </WorkflowPageHeader>
-    <WorkflowStepNav :steps="steps" label="버그 수정 과정" @offset-change="sectionOffset = $event" />
+    <WorkflowStepNav
+      :steps="steps"
+      label="버그 수정 과정"
+      @offset-change="sectionOffset = $event"
+    />
 
     <div class="space-y-14">
       <WorkflowSection
@@ -22,11 +29,11 @@
     </div>
 
     <WorkflowAside title="수정 이력과 검증 결과를 구분해 관리합니다">
-        이슈와 커밋을 연결하면 어떤 문제를 위해 코드를 변경했는지 확인할 수
-        있습니다. 수정 후에는 이슈에 기록한 환경과 조건으로 다시 확인하고,
-        기대한 결과와 실제 결과가 일치하는지 검증한 뒤 완료 상태로 관리합니다.
-        첨부 사례는 이슈 등록과 수정 커밋 연결까지의 기록이며, 재검증 결과나
-        최종 완료 상태는 포함하지 않습니다.
+      이슈와 커밋을 연결하면 어떤 문제를 위해 코드를 변경했는지 확인할 수
+      있습니다. 수정 후에는 이슈에 기록한 환경과 조건으로 다시 확인하고,
+      기대한 결과와 실제 결과가 일치하는지 검증한 뒤 완료 상태로 관리합니다.
+      첨부 사례는 이슈 등록과 수정 커밋 연결까지의 기록이며, 재검증 결과나
+      최종 완료 상태는 포함하지 않습니다.
     </WorkflowAside>
   </main>
 </template>

@@ -89,7 +89,7 @@ export const steps = [
     commands: [
       {
         title: "PowerShell · 생성된 인증서 파일 확인",
-        code: 'Get-ChildItem "D:\\nginx\\ssl\\example.com"',
+        code: "Get-ChildItem \"D:\\nginx\\ssl\\example.com\"",
       },
     ],
   },
@@ -112,7 +112,7 @@ export const steps = [
       },
       {
         title: "PowerShell · 활성 설정 확인 및 검사 성공 시 적용",
-        code: '.\\nginx.exe -T 2>&1 | Select-String "ssl_certificate"\n.\\nginx.exe -t\nif ($LASTEXITCODE -eq 0) {\n    .\\nginx.exe -s reload\n}',
+        code: ".\\nginx.exe -T 2>&1 | Select-String \"ssl_certificate\"\n.\\nginx.exe -t\nif ($LASTEXITCODE -eq 0) {\n    .\\nginx.exe -s reload\n}",
       },
     ],
   },

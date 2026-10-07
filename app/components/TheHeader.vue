@@ -33,7 +33,10 @@
               </span>
             </summary>
             <ul class="absolute right-0 top-full z-50 min-w-56 rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
-              <li v-for="child in item.children" :key="child.path">
+              <li
+                v-for="child in item.children"
+                :key="child.path"
+              >
                 <NuxtLink
                   :to="child.path"
                   class="block whitespace-nowrap rounded-lg px-4 py-2 text-base font-semibold hover:bg-indigo-50"
@@ -75,11 +78,11 @@ const updateCompact = () => {
   else if (window.scrollY < 24) isCompact.value = false;
 };
 
-const onMenuToggle = event => {
+const onMenuToggle = (event) => {
   const openedMenu = event.currentTarget;
   if (!openedMenu.open) return;
 
-  headerElement.value?.querySelectorAll("details[open]").forEach(menuElement => {
+  headerElement.value?.querySelectorAll("details[open]").forEach((menuElement) => {
     if (menuElement !== openedMenu) menuElement.open = false;
   });
 };
@@ -89,14 +92,14 @@ const setMenuHover = (event, open) => {
   if (event.pointerType === "mouse") event.currentTarget.open = open;
 };
 
-const selectedSubmenu = item => {
+const selectedSubmenu = (item) => {
   const path = route.path.replace(/\/$/, "");
   return item.children?.find(
     child => path === child.path || path.startsWith(`${child.path}/`),
   );
 };
 
-const closeMenu = event => {
+const closeMenu = (event) => {
   const details = event.target.closest("details");
   if (!details) return;
 

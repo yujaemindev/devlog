@@ -21,8 +21,7 @@
         target="_blank"
         rel="noopener noreferrer"
         class="mt-4 inline-flex font-semibold text-indigo-600 underline underline-offset-4"
-        >새 탭에서 넓게 보기 ↗</a
-      >
+      >새 탭에서 넓게 보기 ↗</a>
     </header>
     <iframe
       :src="demoUrl"
@@ -30,8 +29,14 @@
       allow="fullscreen"
       class="h-[85vh] min-h-[640px] w-full rounded-2xl border border-gray-200 bg-gray-950"
     />
-    <section class="mt-12" aria-labelledby="features-title">
-      <h2 id="features-title" class="text-2xl font-bold text-gray-900">
+    <section
+      class="mt-12"
+      aria-labelledby="features-title"
+    >
+      <h2
+        id="features-title"
+        class="text-2xl font-bold text-gray-900"
+      >
         주요 기능
       </h2>
       <p class="mt-3 leading-7 text-gray-600">
@@ -45,23 +50,52 @@
           </caption>
           <thead class="border-b border-gray-200 bg-gray-50 text-gray-900">
             <tr>
-              <th scope="col" class="px-5 py-4 whitespace-nowrap">화면/영역</th>
-              <th scope="col" class="px-5 py-4">프로토타입에 넣을 내용</th>
-              <th scope="col" class="px-5 py-4">주요 표시 데이터</th>
-              <th scope="col" class="px-5 py-4">주요 인터랙션</th>
+              <th
+                scope="col"
+                class="px-5 py-4 whitespace-nowrap"
+              >
+                화면/영역
+              </th>
+              <th
+                scope="col"
+                class="px-5 py-4"
+              >
+                프로토타입에 넣을 내용
+              </th>
+              <th
+                scope="col"
+                class="px-5 py-4"
+              >
+                주요 표시 데이터
+              </th>
+              <th
+                scope="col"
+                class="px-5 py-4"
+              >
+                주요 인터랙션
+              </th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white text-gray-600">
-            <tr v-for="feature in features" :key="feature.area">
+            <tr
+              v-for="feature in features"
+              :key="feature.area"
+            >
               <th
                 scope="row"
                 class="px-5 py-4 align-top font-semibold whitespace-nowrap text-gray-900"
               >
                 {{ feature.area }}
               </th>
-              <td class="px-5 py-4 align-top">{{ feature.content }}</td>
-              <td class="px-5 py-4 align-top">{{ feature.data }}</td>
-              <td class="px-5 py-4 align-top">{{ feature.interaction }}</td>
+              <td class="px-5 py-4 align-top">
+                {{ feature.content }}
+              </td>
+              <td class="px-5 py-4 align-top">
+                {{ feature.data }}
+              </td>
+              <td class="px-5 py-4 align-top">
+                {{ feature.interaction }}
+              </td>
             </tr>
           </tbody>
         </table>

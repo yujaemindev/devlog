@@ -26,7 +26,10 @@
         :number="index + 1"
         image-directory="images/experience/https"
       >
-        <div v-if="step.commands?.length" class="mt-6 space-y-4 sm:ml-14">
+        <div
+          v-if="step.commands?.length"
+          class="mt-6 space-y-4 sm:ml-14"
+        >
           <figure
             v-for="command in step.commands"
             :key="command.title"
@@ -56,24 +59,21 @@
           href="https://www.win-acme.com/reference/plugins/validation/dns/manual"
           target="_blank"
           rel="noopener noreferrer"
-          >수동 DNS 인증</a
-        >
+        >수동 DNS 인증</a>
         ·
         <a
           class="text-indigo-600 underline"
           href="https://www.win-acme.com/reference/plugins/store/pemfiles"
           target="_blank"
           rel="noopener noreferrer"
-          >PEM 파일 구성</a
-        >
+        >PEM 파일 구성</a>
         ·
         <a
           class="text-indigo-600 underline"
           href="https://nginx.org/en/docs/switches.html"
           target="_blank"
           rel="noopener noreferrer"
-          >Nginx 실행 명령</a
-        >
+        >Nginx 실행 명령</a>
       </p>
     </div>
   </main>

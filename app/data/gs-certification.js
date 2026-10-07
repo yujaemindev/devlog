@@ -1,5 +1,5 @@
-export const ttaIntroduction =
-  "https://cs.tta.or.kr/tta/introduce/introCont.do?tabMode=cont&tnc_cls_no=T000127&tnc_lab=T000003&up_tnc_cls_no=T000020";
+export const ttaIntroduction
+  = "https://cs.tta.or.kr/tta/introduce/introCont.do?tabMode=cont&tnc_cls_no=T000127&tnc_lab=T000003&up_tnc_cls_no=T000020";
 
 export const steps = [
   {

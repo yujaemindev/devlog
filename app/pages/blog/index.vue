@@ -27,25 +27,25 @@
 </template>
 
 <script setup>
-import siteMetaInfo from '~/data/sitemetainfo.js'
+import siteMetaInfo from "~/data/sitemetainfo.js";
 
-const { data: articles } = await useAsyncData('articles', () =>
-  queryCollection('articles')
-    .where('draft', '=', false)
-    .order('date', 'DESC')
+const { data: articles } = await useAsyncData("articles", () =>
+  queryCollection("articles")
+    .where("draft", "=", false)
+    .order("date", "DESC")
     .all(),
-)
+);
 
 const normalizeTags = (tags) => {
-  if (Array.isArray(tags)) return tags
-  return String(tags || '')
-    .split(',')
+  if (Array.isArray(tags)) return tags;
+  return String(tags || "")
+    .split(",")
     .map(tag => tag.trim())
-    .filter(Boolean)
-}
+    .filter(Boolean);
+};
 
 useSeoMeta({
   title: `${siteMetaInfo.title} | Blog`,
-  description: '개발, 아키텍처, 서비스 운영 경험을 기록하는 기술 블로그입니다.',
-})
+  description: "개발, 아키텍처, 서비스 운영 경험을 기록하는 기술 블로그입니다.",
+});
 </script>

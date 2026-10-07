@@ -46,8 +46,8 @@
           </ol>
           <div
             v-if="
-              step.id === 'gateway-routing' &&
-              point.includes('X-Forwarded-Host')
+              step.id === 'gateway-routing'
+                && point.includes('X-Forwarded-Host')
             "
             class="mt-3 text-sm leading-7"
           >
@@ -97,17 +97,31 @@
             </caption>
             <thead class="bg-gray-50 text-gray-700">
               <tr>
-                <th scope="col">외부 요청 경로</th>
-                <th scope="col">내부 전달 경로</th>
-                <th scope="col">역할</th>
+                <th scope="col">
+                  외부 요청 경로
+                </th>
+                <th scope="col">
+                  내부 전달 경로
+                </th>
+                <th scope="col">
+                  역할
+                </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-              <tr v-for="route in routes" :key="route.path">
-                <th scope="row" class="font-medium text-gray-900">
+              <tr
+                v-for="route in routes"
+                :key="route.path"
+              >
+                <th
+                  scope="row"
+                  class="font-medium text-gray-900"
+                >
                   {{ route.path }}
                 </th>
-                <td class="font-mono text-xs">{{ route.target }}</td>
+                <td class="font-mono text-xs">
+                  {{ route.target }}
+                </td>
                 <td>{{ route.purpose }}</td>
               </tr>
             </tbody>
@@ -130,9 +144,16 @@
           v-if="step.codeDetails?.length"
           class="mt-4 space-y-4 rounded-xl bg-gray-50 p-4 text-sm leading-7 sm:ml-14"
         >
-          <div v-for="detail in step.codeDetails" :key="detail.term">
-            <dt class="font-semibold text-gray-900">{{ detail.term }}</dt>
-            <dd class="mt-1 text-gray-600">{{ detail.description }}</dd>
+          <div
+            v-for="detail in step.codeDetails"
+            :key="detail.term"
+          >
+            <dt class="font-semibold text-gray-900">
+              {{ detail.term }}
+            </dt>
+            <dd class="mt-1 text-gray-600">
+              {{ detail.description }}
+            </dd>
           </div>
         </dl>
         <p
