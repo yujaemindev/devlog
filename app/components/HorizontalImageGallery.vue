@@ -65,6 +65,8 @@
 </template>
 
 <script setup>
+import { assetPath } from "@/utils/assetPath.js";
+
 const props = defineProps({
   images: { type: Array, required: true },
   imageDirectory: { type: String, required: true },
@@ -81,7 +83,7 @@ const rememberSize = (name, event) => {
   if (width && height) naturalSizes.value[name] = { width, height };
 };
 const runtimeConfig = useRuntimeConfig();
-const asset = name => `${runtimeConfig.app.baseURL}${props.imageDirectory}/${name}`;
+const asset = name => assetPath(runtimeConfig.app.baseURL, `${props.imageDirectory}/${name}`);
 
 const move = (direction) => {
   const element = track.value;

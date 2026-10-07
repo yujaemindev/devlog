@@ -63,10 +63,11 @@
 
 <script setup>
 import siteMetaInfo from "@/data/sitemetainfo.js";
+import { assetPath } from "@/utils/assetPath.js";
 
 const sectionOffset = ref(171);
 const runtimeConfig = useRuntimeConfig();
-const mcpMainImage = `${runtimeConfig.app.baseURL}images/experience/mcp/mcp메인.png`;
+const mcpMainImage = assetPath(runtimeConfig.app.baseURL, "images/experience/mcp/mcp메인.png");
 useSeoMeta({
   title: `${siteMetaInfo.title} | Experience · ChatGPT with Local MCP`,
   description: "ChatGPT에서 로컬 MCP와 OpenAI Tunnel을 통해 로컬 코드 조회·수정, 개발 서버 실행, 검증, Git 커밋·푸시를 연결한 경험",

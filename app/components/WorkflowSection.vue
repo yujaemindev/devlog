@@ -78,6 +78,8 @@
 </template>
 
 <script setup>
+import { assetPath } from "@/utils/assetPath.js";
+
 const props = defineProps({
   step: { type: Object, required: true },
   number: { type: Number, required: true },
@@ -86,7 +88,7 @@ const props = defineProps({
 
 const runtimeConfig = useRuntimeConfig();
 const asset = (name) =>
-  `${runtimeConfig.app.baseURL}${props.imageDirectory}/${name}`;
+  assetPath(runtimeConfig.app.baseURL, `${props.imageDirectory}/${name}`);
 const imageColumns = computed(() => {
   const ratio = props.step.imageRatio ?? [1, 1];
   return ratio.map((value) => `minmax(0, ${value}fr)`).join(" ");

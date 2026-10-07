@@ -17,6 +17,7 @@
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",
     "test": "vitest run",
+    "test:pages": "npm run generate:pages && node scripts/check-github-pages-assets.mjs",
     "test:watch": "vitest"
   },
   "dependencies": {
