@@ -53,8 +53,8 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import TagIcon from "@/assets/icons/tag.svg?component"
+<script setup lang="ts">
+import TagIcon from "@/assets/icons/tag.svg?component";
 
 defineProps<{
   title: string
@@ -63,12 +63,10 @@ defineProps<{
   date: string | Date
   slug: string
   tags?: string[]
-}>()
+}>();
 
 const formatDate = (date: string | Date) => {
-  const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" }
-  return new Date(date).toLocaleDateString("en", options)
-}
+  const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" };
+  return new Date(date).toLocaleDateString("en", options);
+};
 </script>
-
-<style></style>
