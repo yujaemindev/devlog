@@ -14,14 +14,14 @@
     </WorkflowPageHeader>
     <figure class="mb-8 overflow-hidden rounded-2xl border border-gray-200 bg-white">
       <a
-        href="/images/experience/mcp/mcp메인.png"
+        :href="mcpMainImage"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="ChatGPT에서 Yujaemin Local MCP 플러그인을 사용하는 화면 원본 보기 (새 탭)"
         class="block"
       >
         <img
-          src="/images/experience/mcp/mcp메인.png"
+          :src="mcpMainImage"
           alt="ChatGPT에서 Yujaemin Local MCP 플러그인을 사용하는 화면"
           class="block h-auto w-full"
         >
@@ -65,6 +65,8 @@
 import siteMetaInfo from "@/data/sitemetainfo.js";
 
 const sectionOffset = ref(171);
+const runtimeConfig = useRuntimeConfig();
+const mcpMainImage = `${runtimeConfig.app.baseURL}images/experience/mcp/mcp메인.png`;
 useSeoMeta({
   title: `${siteMetaInfo.title} | Experience · ChatGPT with Local MCP`,
   description: "ChatGPT에서 로컬 MCP와 OpenAI Tunnel을 통해 로컬 코드 조회·수정, 개발 서버 실행, 검증, Git 커밋·푸시를 연결한 경험",
