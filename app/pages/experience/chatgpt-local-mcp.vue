@@ -1,0 +1,134 @@
+<template>
+  <main
+    class="mx-auto max-w-5xl px-4 pb-16 sm:px-6 xl:px-0"
+    :style="{ '--section-offset': `${sectionOffset}px` }"
+  >
+    <WorkflowPageHeader
+      category="EXPERIENCE"
+      label="ChatGPT with Local MCP"
+      title="ChatGPT와 로컬 MCP로 연결한 개발 흐름"
+    >
+      Codex로 전환하지 않고 ChatGPT에서 로컬 프로젝트를 다룰 수 있도록
+      로컬 MCP를 구축했습니다. 터널 연결부터 파일 조회·수정,
+      개발 서버 실행과 검증, Git 커밋·푸시까지 이어지는 작업 흐름을 정리했습니다.
+    </WorkflowPageHeader>
+    <div class="mb-8 rounded-2xl border border-indigo-100 bg-indigo-50 p-5">
+      <p class="text-sm font-semibold text-indigo-600">연결 구조</p>
+      <ol class="mt-3 flex flex-wrap items-center gap-3 text-sm leading-6 text-gray-900" aria-label="도구 호출 경로">
+        <li>ChatGPT</li>
+        <li aria-hidden="true">→</li>
+        <li>로컬 MCP 플러그인</li>
+        <li aria-hidden="true">→</li>
+        <li>OpenAI Tunnel</li>
+        <li aria-hidden="true">→</li>
+        <li>로컬 MCP 서버</li>
+        <li aria-hidden="true">→</li>
+        <li>프로젝트 파일 · npm · Git</li>
+      </ol>
+    </div>
+    <WorkflowStepNav
+      :steps="steps"
+      label="로컬 MCP 개발 경험 목차"
+      @offset-change="sectionOffset = $event"
+    />
+    <div class="space-y-14">
+      <WorkflowSection
+        v-for="(step, index) in steps"
+        :key="step.id"
+        :step="step"
+        :number="index + 1"
+      >
+        <NuxtLink
+          v-if="step.id === 'git'"
+          to="/workflow/git"
+          class="inline-block text-sm font-semibold text-indigo-600 underline underline-offset-4"
+        >Source Control 경험 보기 →</NuxtLink>
+      </WorkflowSection>
+    </div>
+  </main>
+</template>
+
+<script setup>
+import siteMetaInfo from "@/data/sitemetainfo.js";
+
+const sectionOffset = ref(171);
+useSeoMeta({
+  title: `${siteMetaInfo.title} | Experience · ChatGPT with Local MCP`,
+  description: "ChatGPT에서 로컬 MCP와 OpenAI Tunnel을 통해 로컬 코드 조회·수정, 개발 서버 실행, 검증, Git 커밋·푸시를 연결한 경험",
+});
+
+const steps = [
+  {
+    id: "purpose",
+    label: "구축 목적",
+    title: "대화에서 로컬 프로젝트 작업까지 연결",
+    description: "ChatGPT에서 요청한 작업을 로컬 프로젝트에 반영하기 위해 프로젝트 전용 MCP를 구성했습니다. 파일을 읽고 수정하는 도구와 npm 검증, Git 작업을 제공해 대화에서 실제 개발 작업으로 이어지는 경로를 마련했습니다.",
+    points: [
+      "로컬 프로젝트 작업은 로컬 MCP 플러그인을 통해 수행하도록 작업 지침을 정리했습니다.",
+      "README와 관련 설정을 먼저 확인하고 기존 프로젝트의 실행 방식과 코드 스타일을 따릅니다.",
+      "파일 수정, 검증, 커밋, 푸시를 단계별 도구로 나누어 요청 범위에 맞게 실행합니다.",
+    ],
+  },
+  {
+    id: "server",
+    label: "MCP 구축",
+    title: "프로젝트 범위를 제한한 로컬 MCP 서버",
+    description: "mcp-create.sh에서 MCP 서버와 플러그인 구성을 생성하도록 구성했습니다. 로컬 서버는 Node.js로 실행하며 프로젝트 루트 내부의 파일과 승인된 명령을 대상으로 작업합니다.",
+    points: [
+      "파일 목록·내용 조회와 문자열 검색으로 수정할 위치를 찾습니다.",
+      "기존 파일을 먼저 읽고 replace_text 중심으로 필요한 부분만 수정합니다.",
+      "명령 실행은 Git 조회, 승인된 npm 스크립트, Node 버전 조회 등 허용 목록으로 제한합니다.",
+      "플러그인 버전과 생성된 서버 버전을 연동해 버전 문자열을 따로 관리하지 않도록 했습니다.",
+    ],
+  },
+  {
+    id: "tunnel",
+    label: "터널 연결",
+    title: "ChatGPT 도구 호출을 로컬 서버로 전달",
+    description: "OpenAI Tunnel과 로컬 tunnel-client를 연결하고 로컬 MCP 플러그인을 통해 로컬 MCP 도구를 호출하는 구성을 마련했습니다. 생성 스크립트 마지막에는 터널 클라이언트의 점검과 재시작 흐름을 추가했습니다.",
+    points: [
+      "기존 tunnel-client 종료 → doctor 점검 → 백그라운드 실행 → 실행 여부 확인 순서로 연결을 준비합니다.",
+      "터널 API 키는 코드에 하드코딩하지 않고 별도 로컬 파일에서 읽습니다.",
+      "키 파일을 Git 제외 목록에 등록하고 채팅·로그·커밋에 키 값이 포함되지 않도록 관리합니다.",
+      "연결 후 도구 목록을 확인해 필요한 파일·서버·Git 도구가 제공되는지 점검합니다.",
+    ],
+  },
+  {
+    id: "development",
+    label: "수정과 검증",
+    title: "파일 확인부터 개발 서버 실행과 검증까지",
+    description: "프로젝트 구조와 실행 설정을 읽은 뒤 코드를 수정하고, 프로젝트에 정의된 검증 명령으로 결과를 확인하는 흐름을 연결했습니다. Nuxt 개발 서버는 별도 백그라운드 도구로 실행하고 상태와 로그를 조회합니다.",
+    points: [
+      ".nvmrc와 package.json의 Node 요구사항을 확인하고 nvm_status로 실행 환경을 점검합니다.",
+      "start_dev_server로 기존 npm run dev 스크립트를 실행하고 dev_server_status로 실행 상태와 Nuxt 로그를 확인합니다.",
+      "코드 변경은 lint와 typecheck, 페이지·정적 생성 변경은 generate:pages까지 확인합니다.",
+      "검증 실패는 실행 환경 문제와 코드 문제를 구분해 기록하고, 성공 여부를 확인한 범위에서 결과를 보고합니다.",
+    ],
+  },
+  {
+    id: "git",
+    label: "커밋과 푸시",
+    title: "변경 검토 후 요청한 범위만 Git에 반영",
+    description: "로컬 MCP에 Git 상태·차이 조회, 파일 추가, 커밋, 푸시 도구를 구성해 코드 변경을 저장소 반영까지 연결했습니다. 구현 작업과 원격 반영을 구분해 사용자가 요청한 단계에서 멈출 수 있도록 했습니다.",
+    points: [
+      "git_status와 git_diff로 기존 변경과 이번 작업의 변경을 확인합니다.",
+      "검증 결과를 확인한 뒤 작업 대상 파일만 git_add로 선택합니다.",
+      "git_commit으로 수정사항의 핵심을 한글 메시지로 기록합니다.",
+      "git_push는 사용자가 명시적으로 요청한 경우에 실행하고 결과를 확인합니다.",
+      "‘커밋·푸시 전까지’ 요청한 작업은 변경과 검증 결과를 남기고 저장소 반영 전에 멈춥니다.",
+    ],
+  },
+  {
+    id: "lessons",
+    label: "운영과 개선",
+    title: "새 대화에서도 이어지는 작업 지침",
+    description: "도구 업데이트 후 기존 ChatGPT 세션에서 이전 스키마가 보이는 현상을 경험했습니다. 서버와 터널의 실행 상태뿐 아니라 세션에서 보이는 도구 목록도 확인하고, 새 세션에서 변경된 도구가 제공되는지 점검하는 절차를 정리했습니다.",
+    points: [
+      "기존 세션의 도구 스키마 캐시 가능성을 고려해 새 세션에서 도구 목록을 다시 확인합니다.",
+      "프로젝트 인계 문서에 실행 방식, 키 관리, 터널 구성, 작업 범위를 기록했습니다.",
+      "MCP 서버 시작 시 프로젝트의 인계 문서를 읽도록 연결해 새 대화에서도 같은 지침을 전달합니다.",
+      "로컬 파일 접근과 실행 권한을 도구 단위로 정의하고 작업 결과를 단계별로 확인하는 개발 흐름을 구성했습니다.",
+    ],
+  },
+];
+</script>
