@@ -31,6 +31,7 @@
         <div>•</div>
         <NuxtLink to="/">{{ author.name }}'s blog - {{ siteMetaInfo.slogan }}</NuxtLink>
       </div>
+      <div class="mb-2"><LibraryVersions /></div>
       <div class="mb-8 text-sm text-gray-500 dark:text-gray-400">
         <a
           target="_blank"
