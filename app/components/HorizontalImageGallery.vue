@@ -50,7 +50,7 @@
             :height="image.height"
             loading="lazy"
             decoding="async"
-            class="gallery-image block h-auto w-full"
+            class="gallery-image block w-full object-contain"
             @load="rememberSize(image.image, $event)"
           >
         </a>
@@ -127,11 +127,12 @@ const move = (direction) => {
 .gallery-slide {
   width: 88%;
 }
-.gallery-image { height: auto; }
-@media (min-width: 640px) {
-  .gallery-slide { width: 320px; }
+.gallery-image {
+  height: var(--gallery-image-height);
 }
-.gallery-slide-wide {
-  width: calc(var(--gallery-image-height) * var(--image-ratio) + 2px);
+@media (min-width: 640px) {
+  .gallery-slide {
+    width: calc(var(--gallery-image-height) * var(--image-ratio) + 2px);
+  }
 }
 </style>

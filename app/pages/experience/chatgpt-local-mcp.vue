@@ -12,6 +12,24 @@
       로컬 MCP를 구축했습니다. 플러그인 제작과 설치, 터널 연결부터 파일 조회·수정,
       개발 서버 실행과 검증, Git 커밋·푸시까지 이어지는 작업 흐름을 정리했습니다.
     </WorkflowPageHeader>
+    <figure class="mb-8 overflow-hidden rounded-2xl border border-gray-200 bg-white">
+      <a
+        href="/images/experience/mcp/mcp메인.png"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="ChatGPT에서 Yujaemin Local MCP 플러그인을 사용하는 화면 원본 보기 (새 탭)"
+        class="block"
+      >
+        <img
+          src="/images/experience/mcp/mcp메인.png"
+          alt="ChatGPT에서 Yujaemin Local MCP 플러그인을 사용하는 화면"
+          class="block h-auto w-full"
+        >
+      </a>
+      <figcaption class="border-t border-gray-200 px-4 py-3 text-sm leading-6 text-gray-600">
+        ChatGPT와 로컬 MCP 플러그인을 연결해 프로젝트 파일 조회·수정부터 개발 서버와 Git 작업까지 수행하는 환경
+      </figcaption>
+    </figure>
     <div class="mb-8 rounded-2xl border border-indigo-100 bg-indigo-50 p-5">
       <p class="text-sm font-semibold text-indigo-600">연결 구조</p>
       <ol class="mt-3 flex flex-wrap items-center gap-3 text-sm leading-6 text-gray-900" aria-label="도구 호출 경로">
@@ -38,13 +56,7 @@
         :step="step"
         :number="index + 1"
         image-directory="images/experience/mcp"
-      >
-        <NuxtLink
-          v-if="step.id === 'git'"
-          to="/workflow/git"
-          class="inline-block text-sm font-semibold text-indigo-600 underline underline-offset-4"
-        >Source Control 경험 보기 →</NuxtLink>
-      </WorkflowSection>
+      />
     </div>
   </main>
 </template>
@@ -89,37 +101,37 @@ const steps = [
       {
         image: "1.준비.png",
         alt: "로컬 MCP 플러그인 제작 준비 화면",
-        caption: "이미지 1번 · 준비",
+        caption: "MCP 플러그인 제작을 위한 개발 환경과 작업 규칙 준비",
       },
       {
         image: "2.프로젝트설정.png",
         alt: "로컬 MCP 프로젝트 설정 화면",
-        caption: "이미지 2번 · 프로젝트 설정",
+        caption: "프로젝트 경로와 실행 스크립트 등 MCP 작업 범위 설정",
       },
       {
         image: "3.도구구현.png",
         alt: "로컬 MCP 도구 구현 화면",
-        caption: "이미지 3번 · 도구 구현",
+        caption: "파일·Git 작업을 수행하는 로컬 MCP 도구 구현",
       },
       {
         image: "4.서버빌드.png",
         alt: "로컬 MCP 서버 빌드 및 도구 검증 화면",
-        caption: "이미지 4번 · 서버 빌드 및 MCP 도구 검증",
+        caption: "MCP 서버 빌드 후 등록된 도구가 정상 노출되는지 검증",
       },
       {
         image: "5.mcp연결설정.png",
         alt: "로컬 MCP 연결 설정 화면",
-        caption: "이미지 5번 · MCP 연결 설정",
+        caption: "로컬 MCP 서버를 실행하기 위한 연결 경로와 설정 구성",
       },
       {
         image: "6.플러그인등록.png",
         alt: "로컬 MCP 플러그인 등록 화면",
-        caption: "이미지 6번 · 로컬 MCP 플러그인 등록",
+        caption: "완성된 MCP 구성을 ChatGPT 로컬 플러그인으로 등록",
       },
       {
         image: "7.사용확인.png",
         alt: "로컬 MCP 플러그인 사용 확인 화면",
-        caption: "이미지 7번 · 로컬 MCP 사용 확인",
+        caption: "ChatGPT에서 로컬 MCP 도구를 불러와 실제 사용 가능 여부 확인",
       },
     ],
     label: "플러그인 제작",
