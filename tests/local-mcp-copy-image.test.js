@@ -25,7 +25,9 @@ beforeEach(async () => {
     server: { registerTool: (_name, _options, handler) => { copy = handler; } },
   });
 });
-afterEach(async () => { await fs.rm(directory, { recursive: true, force: true }); });
+afterEach(async () => {
+  await fs.rm(directory, { recursive: true, force: true });
+});
 
 it("copies the image into nested public/images and retains the original", async () => {
   await copy({ sourceFile: path.join(pictures, "source.png"), file: "public/images/mcp/prepare.png" });
