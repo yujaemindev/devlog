@@ -22,6 +22,12 @@ Nuxt 4 기반 개인 개발 블로그입니다. 먼저 `README.md`에서 실행 
 - 페이지나 정적 자산 경로를 변경할 때는 `nuxt.config.ts`의 GitHub Pages `baseURL`과 배포 워크플로를 확인합니다.
 - 배포 방법은 `GITHUB_PAGES_SETUP.md`를 참고합니다.
 
+## Code Style
+
+- Vue/Nuxt 코드 작성 규칙은 `docs/CODE_STYLE.md`를 따릅니다.
+- Vue 컴포넌트는 기본적으로 `<script setup>` Composition API를 사용합니다.
+- 코드 작성 후 `npm run lint`를 실행하고, 스타일 자동 수정이 필요한 경우 `npm run lint:fix`를 사용합니다.
+
 ## Commit Messages
 
 - 커밋 메시지는 수정사항의 핵심을 요약하여 한글로 작성합니다.

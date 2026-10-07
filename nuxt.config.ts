@@ -1,22 +1,28 @@
-import tailwindcss from '@tailwindcss/vite'
-import { readFileSync } from 'node:fs'
+import tailwindcss from "@tailwindcss/vite";
+import { readFileSync } from "node:fs";
 
-const packageManifest = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
-const packageLock = JSON.parse(readFileSync(new URL('./package-lock.json', import.meta.url), 'utf8'))
+const packageManifest = JSON.parse(
+  readFileSync(new URL("./package.json", import.meta.url), "utf8"),
+);
+const packageLock = JSON.parse(
+  readFileSync(new URL("./package-lock.json", import.meta.url), "utf8"),
+);
 const libraryVersions = [
-  { title: '사용 라이브러리', dependencies: packageManifest.dependencies },
-  { title: '개발 도구', dependencies: packageManifest.devDependencies },
+  { title: "사용 라이브러리", dependencies: packageManifest.dependencies },
+  { title: "개발 도구", dependencies: packageManifest.devDependencies },
 ].map(({ title, dependencies }) => ({
   title,
   libraries: Object.keys(dependencies).sort().map(name => {
-    const version = packageLock.packages[`node_modules/${name}`]?.version
-    if (!version) throw new Error(`라이브러리 버전을 확인할 수 없습니다: ${name}`)
-    return { name, version }
+    const version = packageLock.packages[`node_modules/${name}`]?.version;
+    if (!version) {
+      throw new Error(`라이브러리 버전을 확인할 수 없습니다: ${name}`);
+    }
+    return { name, version };
   }),
-}))
+}));
 
 export default defineNuxtConfig({
-  compatibilityDate: '2026-09-16',
+  compatibilityDate: "2026-09-16",
   devtools: { enabled: true },
 
   runtimeConfig: {
@@ -24,16 +30,16 @@ export default defineNuxtConfig({
   },
 
   modules: [
-    '@nuxt/content',
-    '@nuxt/image',
-    'nuxt-svgo',
-    '@nuxt/eslint',
+    "@nuxt/content",
+    "@nuxt/image",
+    "nuxt-svgo",
+    "@nuxt/eslint",
   ],
 
-  css: ['~/assets/css/main.css'],
+  css: ["~/assets/css/main.css"],
 
   app: {
-    baseURL: process.env.NUXT_APP_BASE_URL || '/devlog/',
+    baseURL: process.env.NUXT_APP_BASE_URL || "/devlog/",
   },
 
   vite: {
@@ -45,10 +51,10 @@ export default defineNuxtConfig({
       markdown: {
         highlight: {
           theme: {
-            default: 'github-light',
-            dark: 'github-dark',
+            default: "github-light",
+            dark: "github-dark",
           },
-          langs: ['c', 'cpp', 'java'],
+          langs: ["c", "cpp", "java"],
         },
       },
     },
@@ -56,13 +62,20 @@ export default defineNuxtConfig({
       anchorLinks: false,
     },
     experimental: {
-      sqliteConnector: 'native',
+      sqliteConnector: "native",
     },
   },
 
   eslint: {
     config: {
-      stylistic: false,
+      stylistic: {
+        indent: 2,
+        quotes: "double",
+        semi: true,
+        commaDangle: "always-multiline",
+        braceStyle: "1tbs",
+        arrowParens: false,
+      },
     },
   },
-})
+});

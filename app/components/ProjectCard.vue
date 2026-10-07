@@ -187,69 +187,94 @@
   </div>
 </template>
 
-<script>
-import FolderIcon from "~/assets/icons/folder.svg?component"
-import ExternalIcon from "~/assets/icons/external.svg?component"
-import GithubIcon from "~/assets/icons/github_new.svg?component"
-import HorizontalImageGallery from "~/components/HorizontalImageGallery.vue"
+<script setup>
+import FolderIcon from "~/assets/icons/folder.svg?component";
+import ExternalIcon from "~/assets/icons/external.svg?component";
+import GithubIcon from "~/assets/icons/github_new.svg?component";
+import HorizontalImageGallery from "~/components/HorizontalImageGallery.vue";
 
-export default {
-  components: { FolderIcon, ExternalIcon, GithubIcon, HorizontalImageGallery },
-  props: {
-    title: { type: String, required: true },
-    highlight: { type: Object, default: null },
-    description: { type: String, default: "" },
-    details: { type: Object, default: null },
-    to: { type: String, default: "" },
-    href: { type: String, default: "" },
-    github: { type: String, default: "" },
-    tech1: { type: String, default: "" },
-    tech2: { type: String, default: "" },
-    tech3: { type: String, default: "" },
-    period: { type: String, default: "" },
-    role: { type: String, default: "" },
-  },
-  setup() {
-    return { detailsId: useId(), assetBase: useRuntimeConfig().app.baseURL }
-  },
-  computed: {
-    actionLabel() { return this.to ? '페이지 이동' : this.details ? '상세 내용 보기' : this.href ? '새 페이지 열기' : '' },
-    projectTitle(){ return this.title },
-    projectDescription(){ return this.description },
-    projectHref(){ return this.href },
-    projectGithub(){ return this.github },
-    projectPeriod(){ return this.period },
-    projectRole(){ return this.role },
-    technologies(){
-      return [this.tech1, this.tech2, this.tech3].filter(Boolean)
-    },
-  },
-  methods: {
-    onCardClick(event) {
-      if (event.target.closest('a, button')) return
-      this.activateCard()
-    },
-    activateCard() {
-      if (this.to) return navigateTo(this.to)
-      if (this.details) return this.openDetails()
-      if (this.href) return navigateTo(this.href, { external: true, open: { target: '_blank', windowFeatures: { noopener: true, noreferrer: true } } })
-    },
-    openDetails() {
-      this.$refs.detailsDialog?.showModal()
-    },
-    onDialogClick(event) {
-      if (event.target !== this.$refs.detailsDialog) return
-      const rect = this.$refs.detailsDialog.getBoundingClientRect()
-      if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) this.closeDetails()
-    },
-    closeDetails() {
-      this.$refs.detailsDialog?.close()
-    },
-    restoreFocus() {
-      this.$refs.detailsTrigger?.focus()
-    },
-  },
-}
+const props = defineProps({
+  title: { type: String, required: true },
+  highlight: { type: Object, default: null },
+  description: { type: String, default: "" },
+  details: { type: Object, default: null },
+  to: { type: String, default: "" },
+  href: { type: String, default: "" },
+  github: { type: String, default: "" },
+  tech1: { type: String, default: "" },
+  tech2: { type: String, default: "" },
+  tech3: { type: String, default: "" },
+  period: { type: String, default: "" },
+  role: { type: String, default: "" },
+});
+
+const detailsId = useId();
+const assetBase = useRuntimeConfig().app.baseURL;
+const detailsDialog = ref(null);
+const detailsTrigger = ref(null);
+
+const actionLabel = computed(() =>
+  props.to
+    ? "페이지 이동"
+    : props.details
+      ? "상세 내용 보기"
+      : props.href
+        ? "새 페이지 열기"
+        : "",
+);
+const projectTitle = computed(() => props.title);
+const projectDescription = computed(() => props.description);
+const projectHref = computed(() => props.href);
+const projectGithub = computed(() => props.github);
+const projectPeriod = computed(() => props.period);
+const projectRole = computed(() => props.role);
+const technologies = computed(() =>
+  [props.tech1, props.tech2, props.tech3].filter(Boolean),
+);
+
+const openDetails = () => {
+  detailsDialog.value?.showModal();
+};
+
+const closeDetails = () => {
+  detailsDialog.value?.close();
+};
+
+const restoreFocus = () => {
+  detailsTrigger.value?.focus();
+};
+
+const activateCard = () => {
+  if (props.to) return navigateTo(props.to);
+  if (props.details) return openDetails();
+  if (props.href) {
+    return navigateTo(props.href, {
+      external: true,
+      open: {
+        target: "_blank",
+        windowFeatures: { noopener: true, noreferrer: true },
+      },
+    });
+  }
+};
+
+const onCardClick = event => {
+  if (event.target.closest("a, button")) return;
+  activateCard();
+};
+
+const onDialogClick = event => {
+  if (event.target !== detailsDialog.value) return;
+  const rect = detailsDialog.value.getBoundingClientRect();
+  if (
+    event.clientX < rect.left
+    || event.clientX > rect.right
+    || event.clientY < rect.top
+    || event.clientY > rect.bottom
+  ) {
+    closeDetails();
+  }
+};
 </script>
 
 <style>

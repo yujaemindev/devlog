@@ -17,7 +17,7 @@
       <div class="">
         <div class="container py-12">
           <div class="flex flex-wrap -m-4">
-            <project-card
+            <ProjectCard
               v-for="item in projectsData"
               :key="item.title"
               :title="item.title"

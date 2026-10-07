@@ -59,73 +59,74 @@
   </nav>
 </template>
 
-<script>
-import menu from "../data/menu"
+<script setup>
+import menu from "../data/menu";
 
-export default {
-  name: "TheHeader",
-  setup() {
-    const headerElement = ref(null)
-    const isCompact = ref(false)
-    const headerHeight = useState('site-header-height', () => 89)
-    let observer
-    const updateCompact = () => {
-      // Separate thresholds prevent header resizing from repeatedly toggling it.
-      if (window.scrollY > 120) isCompact.value = true
-      else if (window.scrollY < 24) isCompact.value = false
-    }
+const route = useRoute();
+const headerElement = ref(null);
+const isCompact = ref(false);
+const headerHeight = useState("site-header-height", () => 89);
+const navLinks = menu;
+let observer;
 
-    onMounted(() => {
-      const updateHeight = () => {
-        headerHeight.value = headerElement.value.getBoundingClientRect().height
-        // Update sticky/fixed offsets before paint, without waiting for a Vue render.
-        document.documentElement.style.setProperty('--site-header-height', `${headerHeight.value}px`)
-      }
-      updateHeight()
-      observer = new ResizeObserver(updateHeight)
-      observer.observe(headerElement.value)
-      updateCompact()
-      window.addEventListener('scroll', updateCompact, { passive: true })
-    })
-    onBeforeUnmount(() => {
-      observer?.disconnect()
-      window.removeEventListener('scroll', updateCompact)
-      document.documentElement.style.removeProperty('--site-header-height')
-    })
+const updateCompact = () => {
+  // Separate thresholds prevent header resizing from repeatedly toggling it.
+  if (window.scrollY > 120) isCompact.value = true;
+  else if (window.scrollY < 24) isCompact.value = false;
+};
 
-    return { headerElement, isCompact }
-  },
-  data(){
-    return {
-      navLinks: menu,
-    }
-  },
-  methods: {
-    onMenuToggle(event) {
-      const openedMenu = event.currentTarget
-      if (!openedMenu.open) return
+const onMenuToggle = event => {
+  const openedMenu = event.currentTarget;
+  if (!openedMenu.open) return;
 
-      this.headerElement.querySelectorAll('details[open]').forEach((menu) => {
-        if (menu !== openedMenu) menu.open = false
-      })
-    },
-    setMenuHover(event, open) {
-      // Touch-generated mouse events can otherwise toggle the menu before the tap.
-      if (event.pointerType === 'mouse') event.currentTarget.open = open
-    },
-    selectedSubmenu(item) {
-      const path = this.$route.path.replace(/\/$/, '')
-      return item.children?.find(child => path === child.path || path.startsWith(`${child.path}/`))
-    },
-    closeMenu(event) {
-      const details = event.target.closest('details')
-      if (details) {
-        details.open = false
-        if (event.type === 'keydown') details.querySelector('summary').focus()
-      }
-    },
-  },
-}
+  headerElement.value?.querySelectorAll("details[open]").forEach(menuElement => {
+    if (menuElement !== openedMenu) menuElement.open = false;
+  });
+};
+
+const setMenuHover = (event, open) => {
+  // Touch-generated mouse events can otherwise toggle the menu before the tap.
+  if (event.pointerType === "mouse") event.currentTarget.open = open;
+};
+
+const selectedSubmenu = item => {
+  const path = route.path.replace(/\/$/, "");
+  return item.children?.find(
+    child => path === child.path || path.startsWith(`${child.path}/`),
+  );
+};
+
+const closeMenu = event => {
+  const details = event.target.closest("details");
+  if (!details) return;
+
+  details.open = false;
+  if (event.type === "keydown") details.querySelector("summary")?.focus();
+};
+
+onMounted(() => {
+  const updateHeight = () => {
+    if (!headerElement.value) return;
+    headerHeight.value = headerElement.value.getBoundingClientRect().height;
+    // Update sticky/fixed offsets before paint, without waiting for a Vue render.
+    document.documentElement.style.setProperty(
+      "--site-header-height",
+      `${headerHeight.value}px`,
+    );
+  };
+
+  updateHeight();
+  observer = new ResizeObserver(updateHeight);
+  if (headerElement.value) observer.observe(headerElement.value);
+  updateCompact();
+  window.addEventListener("scroll", updateCompact, { passive: true });
+});
+
+onBeforeUnmount(() => {
+  observer?.disconnect();
+  window.removeEventListener("scroll", updateCompact);
+  document.documentElement.style.removeProperty("--site-header-height");
+});
 </script>
 
 <style scoped>

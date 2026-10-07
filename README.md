@@ -76,6 +76,12 @@ npm test                # 테스트 1회 실행
 npm run test:watch      # 파일 변경 시 테스트 재실행
 ```
 
+## Code Style
+
+Vue/Nuxt 작성 규칙과 ESLint 기준은 [`docs/CODE_STYLE.md`](./docs/CODE_STYLE.md)를 참고하세요.
+
+기본 규칙은 `<script setup>` Composition API, PascalCase 컴포넌트, 공백 2칸, double quote, 세미콜론 사용입니다.
+
 ## Yujaemin Local MCP
 
 로컬 MCP 개발 환경, Tunnel 구성, 도구 및 세션 인계 사항은 [`docs/LOCAL_MCP_INSTRUCTIONS.md`](./docs/LOCAL_MCP_INSTRUCTIONS.md)를 참고하세요.
