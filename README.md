@@ -76,6 +76,10 @@ npm test                # 테스트 1회 실행
 npm run test:watch      # 파일 변경 시 테스트 재실행
 ```
 
+## Yujaemin Local MCP
+
+로컬 MCP 개발 환경, Tunnel 구성, 도구 및 세션 인계 사항은 [`docs/LOCAL_MCP_INSTRUCTIONS.md`](./docs/LOCAL_MCP_INSTRUCTIONS.md)를 참고하세요.
+
 ## Nuxt 4 / 최신 의존성 업그레이드
 
 기존 Nuxt 3 프로젝트에서 Nuxt 4 구조로 마이그레이션했습니다. 주요 변경 내역은 [`UPGRADE_NUXT4.md`](./UPGRADE_NUXT4.md)를 참고하세요.

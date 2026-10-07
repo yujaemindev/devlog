@@ -15,11 +15,17 @@ set -euo pipefail
 
 PLUGIN_NAME="yujaemin-local"
 
-PLUGIN_VERSION="1.2.1"
+PLUGIN_VERSION="1.2.2"
 
 
 
 PROJECT_ROOT="$(pwd -W 2>/dev/null || pwd)"
+
+PROJECT_INSTRUCTIONS_FILE="$PROJECT_ROOT/docs/LOCAL_MCP_INSTRUCTIONS.md"
+if [ ! -f "$PROJECT_INSTRUCTIONS_FILE" ] || [ ! -r "$PROJECT_INSTRUCTIONS_FILE" ]; then
+  echo "ERROR: 필수 MCP 지침 문서가 없거나 읽을 수 없습니다: $PROJECT_INSTRUCTIONS_FILE" >&2
+  exit 1
+fi
 
 
 
@@ -255,7 +261,10 @@ const ROOT = path.resolve(config.allowedRoot ?? config.projectRoot);
 
 const ROOT_REAL = await fs.realpath(ROOT);
 
-
+// Load the project-specific MCP handoff/instructions on every server start.
+// This keeps new ChatGPT sessions aligned with the rules documented in the repository.
+const PROJECT_INSTRUCTIONS_FILE = path.join(ROOT, "docs", "LOCAL_MCP_INSTRUCTIONS.md");
+const projectInstructions = await fs.readFile(PROJECT_INSTRUCTIONS_FILE, "utf8");
 
 const GIT_BASH = config.gitBashPath;
 
@@ -447,7 +456,7 @@ const server = new McpServer(
 
     name: "yujaemin-local",
 
-    version: "1.2.1"
+    version: "__PLUGIN_VERSION__"
 
   },
 
@@ -473,6 +482,9 @@ Yujaemin Local 개발 프로젝트용 MCP입니다.
 
 nvm_status로 Node.js 환경을 조회하세요. nvm 변경 도구는 비활성화되어 있습니다. nvm 도구는 설정된 nvm 설치 폴더를 사용하며 Windows 권한을 높이지 않습니다.
 
+아래는 프로젝트의 docs/LOCAL_MCP_INSTRUCTIONS.md 내용입니다. 이 지침을 작업 전에 확인하고 따르세요.
+
+${projectInstructions}
 `
 
   }
@@ -918,6 +930,43 @@ server.registerTool(
 
 
 
+
+/* ============================================================
+ * rename_file
+ * ============================================================ */
+
+server.registerTool("rename_file", {
+  title: "Rename project file",
+  description: "프로젝트 내부 파일의 이름을 변경합니다. 대상 파일 덮어쓰기와 디렉터리 이동은 허용하지 않습니다.",
+  inputSchema: {
+    file: z.string(),
+    newFile: z.string(),
+  },
+  annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: false },
+}, async ({ file, newFile }) => {
+  const source = await safePath(file);
+  const destination = await safePath(newFile);
+  if (source === destination) throw new Error("기존 이름과 새 이름이 같습니다.");
+  if (path.dirname(source) !== path.dirname(destination)) {
+    throw new Error("같은 디렉터리 안에서만 파일 이름을 변경할 수 있습니다.");
+  }
+  const stat = await fs.lstat(source);
+  if (!stat.isFile() || stat.isSymbolicLink()) {
+    throw new Error("일반 파일만 이름을 변경할 수 있습니다.");
+  }
+  // link fails atomically with EEXIST, preserving any existing destination.
+  await fs.link(source, destination);
+  try {
+    await fs.unlink(source);
+  } catch (error) {
+    await fs.unlink(destination);
+    throw error;
+  }
+  return {
+    structuredContent: { file, newFile },
+    content: [{ type: "text", text: `${file} → ${newFile} 이름 변경 완료` }],
+  };
+});
 
 /* ============================================================
 
@@ -2061,7 +2110,7 @@ function blockObviouslyDangerousCommands(command, args) {
 
   if (command === "npm" && (equal(["--version"]) || equal(["test"]) ||
 
-      args.length === 2 && args[0] === "run" && ["build", "lint", "typecheck", "test", "generate:pages"].includes(args[1]))) return;
+      args.length === 2 && args[0] === "run" && ["build", "dev", "lint", "typecheck", "test", "generate:pages"].includes(args[1]))) return;
 
   throw new Error("Command/arguments are not in the allowlist");
 
@@ -2218,6 +2267,113 @@ server.registerTool("run_dev_command", {
 
 
 
+
+
+/* ============================================================
+
+ * Background development server
+
+ * ============================================================ */
+
+let devServerProcess = null;
+let devServerLogs = [];
+let devServerStartedAt = null;
+
+function appendDevServerLog(stream, chunk) {
+  const text = chunk.toString();
+  devServerLogs.push({ stream, text, at: new Date().toISOString() });
+  if (devServerLogs.length > 200) devServerLogs = devServerLogs.slice(-200);
+}
+
+function devServerSnapshot() {
+  return {
+    running: Boolean(devServerProcess && devServerProcess.exitCode === null),
+    pid: devServerProcess?.pid ?? null,
+    startedAt: devServerStartedAt,
+    exitCode: devServerProcess?.exitCode ?? null,
+    logs: devServerLogs.slice(-40),
+  };
+}
+
+server.registerTool("start_dev_server", {
+  title: "Start development server",
+  description: "Start the project's approved npm run dev script in the background. Only the project root and approved package.json scripts are used.",
+  inputSchema: {
+    nodeVersion: nodeVersionSchema.optional(),
+  },
+  annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
+}, async ({ nodeVersion }) => {
+  if (devServerProcess && devServerProcess.exitCode === null) {
+    return { structuredContent: devServerSnapshot(), content: [{ type: "text", text: JSON.stringify(devServerSnapshot(), null, 2) }] };
+  }
+
+  const pkg = JSON.parse(await fs.readFile(await safePath("package.json"), "utf8"));
+  if (JSON.stringify(pkg.scripts) !== JSON.stringify(config.approvedScripts)) {
+    throw new Error("package.json scripts changed; approve them locally in config.json before execution");
+  }
+  if (!pkg.scripts?.dev) throw new Error("package.json does not define a dev script");
+
+  const runtime = await resolveNodeRuntime(nodeVersion);
+  const npmCli = path.join(runtime.directory, "node_modules", "npm", "bin", "npm-cli.js");
+  if (!await isFile(npmCli)) throw new Error(`npm 실행 파일이 없습니다: ${npmCli}`);
+
+  devServerLogs = [];
+  devServerStartedAt = new Date().toISOString();
+  const child = spawn(runtime.nodePath, [npmCli, "--ignore-scripts", "run", "dev"], {
+    cwd: ROOT,
+    env: runtimeEnv(runtime.directory),
+    windowsHide: true,
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  devServerProcess = child;
+  child.stdout?.on("data", chunk => appendDevServerLog("stdout", chunk));
+  child.stderr?.on("data", chunk => appendDevServerLog("stderr", chunk));
+  child.on("error", error => appendDevServerLog("error", String(error)));
+  child.on("exit", (code, signal) => appendDevServerLog("exit", `code=${code} signal=${signal ?? ""}`));
+
+  await new Promise(resolve => setTimeout(resolve, 1500));
+  const snapshot = devServerSnapshot();
+  return { structuredContent: snapshot, content: [{ type: "text", text: JSON.stringify(snapshot, null, 2) }] };
+});
+
+server.registerTool("dev_server_status", {
+  title: "Development server status",
+  description: "Show whether the managed development server is running and return its recent output.",
+  inputSchema: {},
+  annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+}, async () => {
+  const snapshot = devServerSnapshot();
+  return { structuredContent: snapshot, content: [{ type: "text", text: JSON.stringify(snapshot, null, 2) }] };
+});
+
+server.registerTool("stop_dev_server", {
+  title: "Stop development server",
+  description: "Stop the development server previously started by start_dev_server, including its child process tree on Windows.",
+  inputSchema: {},
+  annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: false },
+}, async () => {
+  if (!devServerProcess || devServerProcess.exitCode !== null) {
+    const snapshot = devServerSnapshot();
+    return { structuredContent: snapshot, content: [{ type: "text", text: JSON.stringify(snapshot, null, 2) }] };
+  }
+
+  const pid = devServerProcess.pid;
+  if (process.platform === "win32") {
+    await new Promise((resolve, reject) => {
+      const killer = spawn("taskkill", ["/PID", String(pid), "/T", "/F"], { windowsHide: true, stdio: ["ignore", "pipe", "pipe"] });
+      let stderr = "";
+      killer.stderr?.on("data", chunk => { stderr += chunk.toString(); });
+      killer.on("error", reject);
+      killer.on("exit", code => code === 0 ? resolve() : reject(new Error(stderr || `taskkill failed with exit code ${code}`)));
+    });
+  } else {
+    devServerProcess.kill("SIGTERM");
+  }
+
+  await new Promise(resolve => setTimeout(resolve, 500));
+  const snapshot = devServerSnapshot();
+  return { structuredContent: snapshot, content: [{ type: "text", text: JSON.stringify(snapshot, null, 2) }] };
+});
 
 
 /* ============================================================
@@ -2396,9 +2552,16 @@ await server.connect(
 
 MCP_SERVER
 
-
-
-
+# Keep the generated MCP server version in sync with PLUGIN_VERSION.
+PLUGIN_VERSION="$PLUGIN_VERSION" MCP_SERVER_FILE="$PLUGIN_DIR/server-src.mjs" node <<'NODE'
+const fs = require("node:fs");
+const file = process.env.MCP_SERVER_FILE;
+const version = process.env.PLUGIN_VERSION;
+const source = fs.readFileSync(file, "utf8");
+const marker = 'version: "__PLUGIN_VERSION__"';
+if (!source.includes(marker)) throw new Error("MCP version marker not found");
+fs.writeFileSync(file, source.replace(marker, `version: "${version}"`), "utf8");
+NODE
 
 # ============================================================
 
@@ -2489,7 +2652,7 @@ try {
       if (cursor && cursors.has(cursor)) throw new Error("Repeated tools/list cursor");
       if (cursor) cursors.add(cursor);
     } while (cursor);
-    for (const name of ["list_files", "read_file", "git_auth_status", "git_add", "git_commit", "git_push"]) {
+    for (const name of ["list_files", "read_file", "rename_file", "start_dev_server", "dev_server_status", "stop_dev_server", "git_auth_status", "git_add", "git_commit", "git_push"]) {
       if (!names.has(name)) throw new Error(`Missing required tool: ${name}`);
     }
     if (!names.size) throw new Error("No tools registered");
@@ -2868,12 +3031,70 @@ NODE
 
 echo
 
+# ============================================================
+# OpenAI tunnel-client restart
+# ============================================================
+
+echo
+echo "[10/10] OpenAI tunnel-client 재시작..."
+
+TUNNEL_CLIENT_DIR="/c/Users/jaemi/Downloads/tunnel-client-v0.0.15-windows-amd64"
+TUNNEL_CLIENT_EXE="$TUNNEL_CLIENT_DIR/tunnel-client.exe"
+CONTROL_PLANE_TUNNEL_ID="tunnel_6ac4b1cabb1c81918b63712568faac31"
+MCP_COMMAND='command=node C:/Users/jaemi/.codex/plugins/yujaemin-local/server.mjs,channel=main'
+TUNNEL_LOG="$PLUGIN_DIR/tunnel-client.log"
+TUNNEL_API_KEY_FILE="$PROJECT_ROOT/.tunnel-client-api-key"
+
+if [ ! -f "$TUNNEL_API_KEY_FILE" ]; then
+  echo "ERROR: tunnel-client API 키 파일이 없습니다: $TUNNEL_API_KEY_FILE"
+  exit 1
+fi
+
+CONTROL_PLANE_API_KEY="$(tr -d '\r\n' < "$TUNNEL_API_KEY_FILE")"
+if [ -z "$CONTROL_PLANE_API_KEY" ]; then
+  echo "ERROR: tunnel-client API 키 파일이 비어 있습니다."
+  exit 1
+fi
+
+if [ ! -f "$TUNNEL_CLIENT_EXE" ]; then
+  echo "ERROR: tunnel-client.exe를 찾을 수 없습니다: $TUNNEL_CLIENT_EXE"
+  exit 1
+fi
+
+powershell.exe -NoProfile -Command "Get-Process tunnel-client -ErrorAction SilentlyContinue | Stop-Process -Force" >/dev/null 2>&1 || true
+sleep 1
+
+echo "tunnel-client doctor 실행..."
+(
+  cd "$TUNNEL_CLIENT_DIR"
+  MCP_COMMAND="$MCP_COMMAND" CONTROL_PLANE_TUNNEL_ID="$CONTROL_PLANE_TUNNEL_ID" CONTROL_PLANE_API_KEY="$CONTROL_PLANE_API_KEY" ./tunnel-client.exe doctor
+)
+
+echo "tunnel-client 백그라운드 실행..."
+TUNNEL_CLIENT_WIN="$(cygpath -w "$TUNNEL_CLIENT_EXE")"
+TUNNEL_LOG_WIN="$(cygpath -w "$TUNNEL_LOG")"
+export MCP_COMMAND CONTROL_PLANE_TUNNEL_ID CONTROL_PLANE_API_KEY
+powershell.exe -NoProfile -Command "\$env:MCP_COMMAND='$MCP_COMMAND'; \$env:CONTROL_PLANE_TUNNEL_ID='$CONTROL_PLANE_TUNNEL_ID'; Start-Process -FilePath '$TUNNEL_CLIENT_WIN' -ArgumentList 'run' -WindowStyle Hidden -RedirectStandardOutput '$TUNNEL_LOG_WIN' -RedirectStandardError '$TUNNEL_LOG_WIN.err'"
+
+sleep 2
+if powershell.exe -NoProfile -Command "if (Get-Process tunnel-client -ErrorAction SilentlyContinue) { exit 0 } else { exit 1 }"; then
+  echo "tunnel-client 백그라운드 실행 완료"
+  echo "로그: $TUNNEL_LOG"
+else
+  echo "ERROR: tunnel-client 프로세스가 시작되지 않았습니다."
+  exit 1
+fi
+
+echo
 echo "============================================================"
 
 echo " Yujaemin Local MCP 설치 완료"
 
 echo "============================================================"
 
+echo
+echo "Version:"
+echo "  $PLUGIN_VERSION"
 echo
 
 echo "Project:"
