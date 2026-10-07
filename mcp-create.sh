@@ -15,7 +15,7 @@ set -euo pipefail
 
 PLUGIN_NAME="yujaemin-local"
 
-PLUGIN_VERSION="1.2.3"
+PLUGIN_VERSION="1.2.5"
 
 
 
@@ -3144,16 +3144,58 @@ echo "tunnel-client doctor 실행..."
 echo "tunnel-client 백그라운드 실행..."
 TUNNEL_CLIENT_WIN="$(cygpath -w "$TUNNEL_CLIENT_EXE")"
 TUNNEL_LOG_WIN="$(cygpath -w "$TUNNEL_LOG")"
+TUNNEL_ERR_LOG="$TUNNEL_LOG.err"
+TUNNEL_READY_URL="http://127.0.0.1:8080/readyz"
+TUNNEL_START_TIMEOUT_SECONDS=30
+
+# 이전 실행 로그의 성공/실패 메시지를 새 실행 결과로 오인하지 않도록 초기화한다.
+rm -f "$TUNNEL_LOG" "$TUNNEL_ERR_LOG"
+
 export MCP_COMMAND CONTROL_PLANE_TUNNEL_ID CONTROL_PLANE_API_KEY
 powershell.exe -NoProfile -Command "\$env:MCP_COMMAND='$MCP_COMMAND'; \$env:CONTROL_PLANE_TUNNEL_ID='$CONTROL_PLANE_TUNNEL_ID'; Start-Process -FilePath '$TUNNEL_CLIENT_WIN' -ArgumentList 'run' -WindowStyle Hidden -RedirectStandardOutput '$TUNNEL_LOG_WIN' -RedirectStandardError '$TUNNEL_LOG_WIN.err'"
 
-sleep 2
-if powershell.exe -NoProfile -Command "if (Get-Process tunnel-client -ErrorAction SilentlyContinue) { exit 0 } else { exit 1 }"; then
-  echo "tunnel-client 백그라운드 실행 완료"
-  echo "로그: $TUNNEL_LOG"
-else
-  echo "ERROR: tunnel-client 프로세스가 시작되지 않았습니다."
+TUNNEL_READY=0
+for ((i=1; i<=TUNNEL_START_TIMEOUT_SECONDS; i++)); do
+  if ! powershell.exe -NoProfile -Command "if (Get-Process tunnel-client -ErrorAction SilentlyContinue) { exit 0 } else { exit 1 }" >/dev/null 2>&1; then
+    echo "ERROR: tunnel-client 프로세스가 시작 후 종료되었습니다."
+    if [ -s "$TUNNEL_ERR_LOG" ]; then
+      echo "tunnel-client 오류 로그:"
+      tail -n 30 "$TUNNEL_ERR_LOG"
+    elif [ -s "$TUNNEL_LOG" ]; then
+      echo "tunnel-client 로그:"
+      tail -n 30 "$TUNNEL_LOG"
+    fi
+    exit 1
+  fi
+
+  # /readyz 200은 MCP 준비와 control-plane polling이 실제로 시작되었음을 의미한다.
+  if powershell.exe -NoProfile -Command "try { \$response = Invoke-WebRequest -UseBasicParsing -Uri '$TUNNEL_READY_URL' -TimeoutSec 2; if (\$response.StatusCode -eq 200) { exit 0 } else { exit 1 } } catch { exit 1 }" >/dev/null 2>&1; then
+    TUNNEL_READY=1
+    break
+  fi
+
+  sleep 1
+done
+
+if [ "$TUNNEL_READY" -ne 1 ]; then
+  echo "ERROR: tunnel-client가 ${TUNNEL_START_TIMEOUT_SECONDS}초 안에 ready 상태가 되지 않았습니다."
+  echo "ready 확인 URL: $TUNNEL_READY_URL"
+  if [ -s "$TUNNEL_ERR_LOG" ]; then
+    echo "tunnel-client 오류 로그:"
+    tail -n 30 "$TUNNEL_ERR_LOG"
+  elif [ -s "$TUNNEL_LOG" ]; then
+    echo "tunnel-client 최근 로그:"
+    tail -n 30 "$TUNNEL_LOG"
+  else
+    echo "tunnel-client 로그가 생성되지 않았습니다."
+  fi
   exit 1
+fi
+
+echo "tunnel-client 연결 확인 완료 (/readyz = 200)"
+echo "로그: $TUNNEL_LOG"
+if [ -s "$TUNNEL_ERR_LOG" ]; then
+  echo "참고: stderr 로그가 존재합니다. 필요하면 확인하세요: $TUNNEL_ERR_LOG"
 fi
 
 echo
