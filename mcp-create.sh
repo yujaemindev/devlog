@@ -8,7 +8,7 @@ set -euo pipefail
 # ============================================================
 
 PLUGIN_NAME="yujaemin-local"
-PLUGIN_VERSION="1.2.5"
+PLUGIN_VERSION="1.2.7"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MCP_SOURCE_DIR="$SCRIPT_DIR/mcp-src"
 if [ ! -f "$MCP_SOURCE_DIR/server.mjs" ]; then
@@ -17,8 +17,17 @@ if [ ! -f "$MCP_SOURCE_DIR/server.mjs" ]; then
 fi
 PROJECT_ROOT="$(pwd -W 2>/dev/null || pwd)"
 PROJECT_INSTRUCTIONS_FILE="$PROJECT_ROOT/docs/LOCAL_MCP_INSTRUCTIONS.md"
+JIRA_API_TOKEN_FILE="$PROJECT_ROOT/.jira-api-token"
 if [ ! -f "$PROJECT_INSTRUCTIONS_FILE" ] || [ ! -r "$PROJECT_INSTRUCTIONS_FILE" ]; then
   echo "ERROR: 필수 MCP 지침 문서가 없거나 읽을 수 없습니다: $PROJECT_INSTRUCTIONS_FILE" >&2
+  exit 1
+fi
+if [ ! -f "$JIRA_API_TOKEN_FILE" ]; then
+  echo "ERROR: Jira API token 파일이 없습니다: $JIRA_API_TOKEN_FILE" >&2
+  exit 1
+fi
+if ! grep -q '[^[:space:]]' "$JIRA_API_TOKEN_FILE"; then
+  echo "ERROR: Jira API token 파일이 비어 있습니다: $JIRA_API_TOKEN_FILE" >&2
   exit 1
 fi
 BASH_UNIX_PATH="$(command -v bash)"
@@ -177,12 +186,12 @@ try {
       if (cursor && cursors.has(cursor)) throw new Error("Repeated tools/list cursor");
       if (cursor) cursors.add(cursor);
     } while (cursor);
-    for (const name of ["list_files", "read_file", "rename_file", "copy_image", "start_dev_server", "dev_server_status", "stop_dev_server", "git_auth_status", "git_add", "git_commit", "git_push"]) {
+    for (const name of ["list_files", "read_file", "rename_file", "copy_image", "start_dev_server", "dev_server_status", "stop_dev_server", "git_auth_status", "git_add", "git_commit", "git_push", "jira_status", "jira_list_projects", "jira_create_issue", "jira_create_subtask", "jira_update_issue", "jira_delete_issue", "jira_assign_issue", "jira_list_transitions", "jira_transition_issue"]) {
       if (!names.has(name)) throw new Error(`Missing required tool: ${name}`);
     }
     if (!names.size) throw new Error("No tools registered");
     await fs.rm(logPath, { force: true });
-    console.log(`MCP initialize/tools/list OK: ${names.size} tools; git_add/git_commit/git_push registered`);
+    console.log(`MCP initialize/tools/list OK: ${names.size} tools; Git/Jira tools registered`);
   };
   await Promise.race([check(), deadline]);
 } catch (error) {

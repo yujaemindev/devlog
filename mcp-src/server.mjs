@@ -19,6 +19,8 @@ import { createGitService } from "./tools/git-tools.mjs";
 import { registerCommandTools } from "./tools/command-tools.mjs";
 import { registerDevServerTools } from "./tools/dev-server-tools.mjs";
 import { registerAliasTools } from "./tools/alias-tools.mjs";
+import { createJiraClient } from "./services/jira-client.mjs";
+import { registerJiraTools } from "./tools/jira-tools.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const config = JSON.parse(
@@ -169,6 +171,17 @@ registerAliasTools({
 gitService.registerGitTools({
   server,
   z,
+});
+
+const jiraClient = createJiraClient({
+  fs,
+  safePath,
+});
+
+registerJiraTools({
+  server,
+  z,
+  jiraClient,
 });
 
 const transport = new StdioServerTransport();

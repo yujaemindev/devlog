@@ -9,6 +9,7 @@ import { createGitService } from "../mcp-src/tools/git-tools.mjs";
 import { registerCommandTools } from "../mcp-src/tools/command-tools.mjs";
 import { registerDevServerTools } from "../mcp-src/tools/dev-server-tools.mjs";
 import { registerAliasTools } from "../mcp-src/tools/alias-tools.mjs";
+import { registerJiraTools } from "../mcp-src/tools/jira-tools.mjs";
 
 it("registers the complete local MCP tool surface", () => {
   const definitions = new Map();
@@ -108,6 +109,25 @@ it("registers the complete local MCP tool surface", () => {
     z,
   });
 
+  registerJiraTools({
+    server,
+    z,
+    jiraClient: {
+      status: noOpAsync,
+      listProjects: noOpAsync,
+      listIssueTypes: noOpAsync,
+      searchIssues: noOpAsync,
+      getIssue: noOpAsync,
+      createIssue: noOpAsync,
+      updateIssue: noOpAsync,
+      deleteIssue: noOpAsync,
+      addLabels: noOpAsync,
+      assignIssue: noOpAsync,
+      listTransitions: noOpAsync,
+      transitionIssue: noOpAsync,
+    },
+  });
+
   expect([...definitions.keys()].sort()).toEqual([
     "copy_image",
     "create_file",
@@ -120,6 +140,19 @@ it("registers the complete local MCP tool surface", () => {
     "git_log",
     "git_push",
     "git_status",
+    "jira_add_labels",
+    "jira_assign_issue",
+    "jira_create_issue",
+    "jira_create_subtask",
+    "jira_delete_issue",
+    "jira_get_issue",
+    "jira_list_issue_types",
+    "jira_list_projects",
+    "jira_list_transitions",
+    "jira_search_issues",
+    "jira_status",
+    "jira_transition_issue",
+    "jira_update_issue",
     "list_directory",
     "list_files",
     "nvm_install",
