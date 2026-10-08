@@ -78,7 +78,7 @@ npm run test:watch      # 파일 변경 시 테스트 재실행
 
 ## Code Style
 
-Vue/Nuxt 작성 규칙과 ESLint 기준은 [`docs/CODE_STYLE.md`](./docs/CODE_STYLE.md)를 참고하세요.
+Vue/Nuxt 작성 규칙과 ESLint 기준은 [`docs/development/CODE_STYLE.md`](./docs/development/CODE_STYLE.md)를 참고하세요.
 
 기본 규칙은 `<script setup>` Composition API, PascalCase 컴포넌트, 공백 2칸, double quote, 세미콜론 사용입니다.
 
@@ -97,6 +97,8 @@ mcp-src/
 ├─ server.mjs
 ├─ runtime/
 │  └─ node-runtime.mjs
+├─ services/
+│  └─ jira-client.mjs
 ├─ tools/
 │  ├─ alias-tools.mjs
 │  ├─ command-tools.mjs
@@ -104,6 +106,8 @@ mcp-src/
 │  ├─ dev-server-tools.mjs
 │  ├─ file-tools.mjs
 │  ├─ git-tools.mjs
+│  ├─ jira-tools.mjs
+│  ├─ move-file.mjs
 │  ├─ nvm-tools.mjs
 │  └─ rename-file.mjs
 └─ utils/
@@ -135,7 +139,46 @@ mcp-src/
 
 다른 PC에 처음 설치할 때는 이 저장소를 복제한 뒤 `mcp-create.sh`를 실행하는 방식을 권장합니다. 이미 Yujaemin Local 플러그인 설정이 완료된 PC에서 서버 코드만 갱신하는 경우에는 빌드·검증된 `server.mjs`만 교체할 수 있습니다. 프로젝트 경로, 플러그인 버전, manifest 또는 Tunnel 설정이 바뀌는 경우에는 `mcp-create.sh`를 다시 실행해야 합니다.
 
-테스트에서는 더 이상 `mcp-create.sh` 문자열을 `slice()`로 잘라 VM에서 실행하지 않습니다. `mcp-src/tools/`와 `mcp-src/utils/`의 실제 모듈을 직접 import해 배포 서버가 사용하는 구현과 같은 코드를 검증합니다.
+테스트에서는 더 이상 `mcp-create.sh` 문자열을 `slice()`로 잘라 VM에서 실행하지 않습니다. `mcp-src/tools/`, `mcp-src/services/`, `mcp-src/utils/`의 실제 모듈을 직접 import해 배포 서버가 사용하는 구현과 같은 코드를 검증합니다.
+
+### Jira 연동
+
+Yujaemin Local MCP는 Jira Cloud REST API를 직접 호출할 수 있습니다. 실제 인증 정보는 저장소에 커밋하지 않고 프로젝트 루트의 로컬 파일에서 읽습니다.
+
+```text
+.jira-config.json
+.jira-api-token
+```
+
+설정 파일은 `.jira-config.example.json`을 복사해 작성합니다.
+
+```json
+{
+  "baseUrl": "https://your-site.atlassian.net",
+  "email": "your-email@example.com",
+  "defaultProjectKey": "DEVLOG"
+}
+```
+
+`.jira-api-token`에는 Jira API token 값만 저장합니다. 두 실제 설정 파일은 `.gitignore`에 등록되어 있습니다.
+
+제공 도구:
+
+```text
+jira_status
+jira_list_projects
+jira_list_issue_types
+jira_search_issues
+jira_get_issue
+jira_create_issue
+jira_create_subtask
+jira_update_issue
+jira_delete_issue
+jira_add_labels
+jira_assign_issue
+jira_list_transitions
+jira_transition_issue
+```
 
 ## Nuxt 4 / 최신 의존성 업그레이드
 
