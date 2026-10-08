@@ -4,6 +4,7 @@ import path from "node:path";
 import { registerFileTools } from "../mcp-src/tools/file-tools.mjs";
 import { registerCopyImageTool } from "../mcp-src/tools/copy-image.mjs";
 import { registerRenameFileTool } from "../mcp-src/tools/rename-file.mjs";
+import { registerMoveFileTool } from "../mcp-src/tools/move-file.mjs";
 import { registerNvmTools } from "../mcp-src/tools/nvm-tools.mjs";
 import { createGitService } from "../mcp-src/tools/git-tools.mjs";
 import { registerCommandTools } from "../mcp-src/tools/command-tools.mjs";
@@ -48,6 +49,11 @@ it("registers the complete local MCP tool surface", () => {
     isInside: () => true,
   });
   registerRenameFileTool({
+    server,
+    z,
+    safePath: noOpAsync,
+  });
+  registerMoveFileTool({
     server,
     z,
     safePath: noOpAsync,
@@ -130,6 +136,7 @@ it("registers the complete local MCP tool surface", () => {
 
   expect([...definitions.keys()].sort()).toEqual([
     "copy_image",
+    "create_directory",
     "create_file",
     "dev_server_status",
     "edit_file",
@@ -155,6 +162,7 @@ it("registers the complete local MCP tool surface", () => {
     "jira_update_issue",
     "list_directory",
     "list_files",
+    "move_file",
     "nvm_install",
     "nvm_status",
     "nvm_use",

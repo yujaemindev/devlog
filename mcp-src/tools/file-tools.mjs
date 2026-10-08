@@ -76,6 +76,34 @@ export function registerFileTools({
     return files;
   }
 
+  server.registerTool("create_directory", {
+    title: "Create project directory",
+    description: "프로젝트 루트 내부에 새 디렉터리 하나를 생성합니다. 상위 폴더는 이미 존재해야 하고 심볼릭 링크는 허용하지 않습니다.",
+    inputSchema: {
+      directory: z.string(),
+    },
+    annotations: {
+      readOnlyHint: false,
+      destructiveHint: false,
+      openWorldHint: false,
+    },
+  }, async ({ directory }) => {
+    const target = await safePath(directory);
+    if (target === root) {
+      throw new Error("프로젝트 루트는 생성 대상이 아닙니다.");
+    }
+    const parent = path.dirname(target);
+    const parentStat = await fs.lstat(parent);
+    if (!parentStat.isDirectory() || parentStat.isSymbolicLink()) {
+      throw new Error("상위 폴더는 실제 디렉터리여야 합니다.");
+    }
+    await fs.mkdir(target);
+    return {
+      structuredContent: { directory },
+      content: [{ type: "text", text: `${directory} 폴더 생성 완료` }],
+    };
+  });
+
   server.registerTool("list_files", {
     title: "List project files",
     description: "로컬 프로젝트 내부의 파일과 디렉터리를 조회합니다.",

@@ -14,6 +14,7 @@ import {
 import { registerFileTools } from "./tools/file-tools.mjs";
 import { registerCopyImageTool } from "./tools/copy-image.mjs";
 import { registerRenameFileTool } from "./tools/rename-file.mjs";
+import { registerMoveFileTool } from "./tools/move-file.mjs";
 import { registerNvmTools } from "./tools/nvm-tools.mjs";
 import { createGitService } from "./tools/git-tools.mjs";
 import { registerCommandTools } from "./tools/command-tools.mjs";
@@ -108,6 +109,12 @@ registerCopyImageTool({
 });
 
 registerRenameFileTool({
+  server,
+  z,
+  safePath,
+});
+
+registerMoveFileTool({
   server,
   z,
   safePath,
