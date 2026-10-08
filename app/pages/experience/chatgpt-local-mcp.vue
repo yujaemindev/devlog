@@ -230,6 +230,16 @@ const steps = [
         alt: "터널 갱신 후 새 로컬 MCP tool이 정상 노출된 화면",
         caption: "터널과 앱 연결을 갱신한 뒤 새 tool과 변경된 도구 개수가 정상 반영된 상태",
       },
+      {
+        image: "toolerror3.png",
+        alt: "로컬 MCP 도구 갱신 문제 대응 추가 화면 3",
+        caption: "새 도구 인식 문제를 확인하고 연결 갱신 과정을 점검한 화면",
+      },
+      {
+        image: "toolerror4.png",
+        alt: "로컬 MCP 도구 갱신 문제 대응 추가 화면 4",
+        caption: "로컬 MCP 도구 목록과 앱 연결 상태를 추가로 확인한 화면",
+      },
     ],
   },
 ];
