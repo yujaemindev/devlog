@@ -4,10 +4,11 @@
 
 ## 이슈 구조
 
-- DEVLOG-23 (`DEVLOG 바이프코딩`)을 공통 Epic으로 사용한다.
+- DEVLOG-23 (`DEVLOG Site Structure`)을 공통 Epic으로 사용한다.
 - 최상위 메뉴(Home, Projects, Workflow, Experience)는 Epic 아래 Task로 관리한다.
 - 하위 메뉴 및 상세 페이지는 해당 Task의 Subtask로 관리한다.
 - 메뉴별 중복 Epic은 만들지 않는다.
+- Workflow > AI-Assisted Development: DEVLOG-27 (Subtask), 경로 `/workflow/ai-assisted-development`, 라벨 `area-workflow`, `page-ai-assisted-development`.
 
 ## 라벨 규칙
 
