@@ -5,6 +5,7 @@ const menu = [
     name: "Workflow",
     path: "/workflow",
     children: [
+      { name: "AI-Assisted Development", path: "/workflow/ai-assisted-development" },
       { name: "Team Collaboration", path: "/workflow/jira" },
       { name: "Source Control", path: "/workflow/git" },
       { name: "Bug Fixing", path: "/workflow/bug-fixing" },
