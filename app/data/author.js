@@ -81,7 +81,7 @@ const author = {
     },
   ],
   expertises: {
-    "Language": [
+    Language: [
       { name: "JavaScript", icon: JavascriptIcon, description: "" },
       { name: "TypeScript", icon: TypescriptIcon, description: "" },
       { name: "Java", icon: JavaIcon, description: "" },
@@ -145,13 +145,6 @@ const author = {
         name: "",
         description:
           "Cafe24/Makeshop · NicePay/EXIMBAY · Naver Cloud SMS/Mail · FCM · SNS Login · 배송조회",
-      },
-    ],
-    "Security / OSS": [
-      {
-        name: "",
-        description:
-          "OpenSSF Scorecard · SBOM · Grype 취약점 분석 · Jenkins 기반 OSS 검증 자동화",
       },
     ],
   },
