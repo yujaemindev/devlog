@@ -585,12 +585,6 @@ const projectsData = [
               alt: "AngularJS의 모델 변경, digest loop와 View 렌더링 흐름",
               caption: "모델 변경과 digest loop, 화면 렌더링의 관계",
             },
-            {
-              src: "images/projects/knox/knox3.png",
-              alt: "ngModel Controller의 데이터 바인딩과 Formatters·Parsers 흐름",
-              caption:
-                "ngModel Controller를 통한 모델·화면 간 데이터 변환과 바인딩",
-            },
           ],
         },
         {
