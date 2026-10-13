@@ -1,11 +1,14 @@
+// Jira REST 클라이언트의 인증, 이슈 생성·변경·삭제 및 보안 제약을 검사합니다.
+// 실제 Jira로 요청하지 않고 가짜 HTTP 응답을 제공해 입력과 결과를 확인합니다.
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { createJiraClient, textToAdf } from "../mcp-src/services/jira-client.mjs";
+import { createJiraClient, textToAdf } from "../../../mcp-src/services/jira-client.mjs";
 
 let root;
 
+// 각 테스트에서 사용할 Jira 설정과 임시 API 토큰을 별도 폴더에 준비합니다.
 beforeEach(async () => {
   root = await fs.mkdtemp(path.join(os.tmpdir(), "local-mcp-jira-"));
   await fs.writeFile(
@@ -38,8 +41,8 @@ function response(data, { status = 200, statusText = "OK" } = {}) {
   };
 }
 
-describe("local MCP Jira client", () => {
-  it("checks Jira authentication without exposing the credential value", async () => {
+describe("로컬 MCP Jira 클라이언트", () => {
+  it("Jira 인증 정보를 확인하면서 토큰 값을 노출하지 않는다", async () => {
     const requests = [];
     const client = createJiraClient({
       fs,
@@ -68,7 +71,7 @@ describe("local MCP Jira client", () => {
     expect(requests[0].options.headers.Authorization).not.toContain("fixture-value");
   });
 
-  it("creates an issue using the default project and Jira ADF description", async () => {
+  it("기본 프로젝트와 Jira ADF 설명을 사용해 이슈를 생성한다", async () => {
     let body;
     const client = createJiraClient({
       fs,
@@ -99,7 +102,7 @@ describe("local MCP Jira client", () => {
     );
   });
 
-  it("creates a subtask by passing the parent key", async () => {
+  it("부모 이슈 키를 전달해 하위 작업을 생성한다", async () => {
     let body;
     const client = createJiraClient({
       fs,
@@ -125,7 +128,7 @@ describe("local MCP Jira client", () => {
     expect(body.fields.issuetype).toEqual({ name: "Subtask" });
   });
 
-  it("assigns an issue and reads available transitions before changing status", async () => {
+  it("담당자를 지정하고 상태 변경에 사용할 전환 목록을 조회한다", async () => {
     const calls = [];
     const client = createJiraClient({
       fs,
@@ -153,7 +156,7 @@ describe("local MCP Jira client", () => {
     expect(calls.find(call => call.method === "POST").body).toEqual({ transition: { id: "41" } });
   });
 
-  it("sets and clears an Epic parent without changing other fields", async () => {
+  it("다른 필드를 변경하지 않고 Epic 부모 관계를 설정하거나 해제한다", async () => {
     const calls = [];
     const client = createJiraClient({
       fs,
@@ -175,7 +178,7 @@ describe("local MCP Jira client", () => {
     expect(updates[1].body).toEqual({ fields: { parent: null } });
   });
 
-  it("deletes only allowlisted unused Epics and prevents deleting children", async () => {
+  it("허용된 미사용 Epic만 삭제하고 하위 이슈가 있으면 거부한다", async () => {
     const calls = [];
     let occupied = false;
     const client = createJiraClient({
@@ -203,7 +206,7 @@ describe("local MCP Jira client", () => {
     expect(calls.filter(call => call.method === "DELETE")).toHaveLength(1);
   });
 
-  it("rejects non-Atlassian Jira base URLs", async () => {
+  it("Atlassian 도메인이 아닌 Jira 기본 URL을 거부한다", async () => {
     await fs.writeFile(
       path.join(root, ".jira-config.json"),
       JSON.stringify({

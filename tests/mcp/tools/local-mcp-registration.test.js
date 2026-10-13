@@ -1,18 +1,21 @@
+// MCP 서버가 필요한 도구를 빠짐없이 등록하는지 검증합니다.
+// 실제 파일 접근이나 외부 명령 실행 대신 가짜 의존성을 사용합니다.
 import { expect, it } from "vitest";
 import { z } from "zod";
 import path from "node:path";
-import { registerFileTools } from "../mcp-src/tools/file-tools.mjs";
-import { registerCopyImageTool } from "../mcp-src/tools/copy-image.mjs";
-import { registerRenameFileTool } from "../mcp-src/tools/rename-file.mjs";
-import { registerMoveFileTool } from "../mcp-src/tools/move-file.mjs";
-import { registerNvmTools } from "../mcp-src/tools/nvm-tools.mjs";
-import { createGitService } from "../mcp-src/tools/git-tools.mjs";
-import { registerCommandTools } from "../mcp-src/tools/command-tools.mjs";
-import { registerDevServerTools } from "../mcp-src/tools/dev-server-tools.mjs";
-import { registerAliasTools } from "../mcp-src/tools/alias-tools.mjs";
-import { registerJiraTools } from "../mcp-src/tools/jira-tools.mjs";
+import { registerFileTools } from "../../../mcp-src/tools/file-tools.mjs";
+import { registerCopyImageTool } from "../../../mcp-src/tools/copy-image.mjs";
+import { registerRenameFileTool } from "../../../mcp-src/tools/rename-file.mjs";
+import { registerMoveFileTool } from "../../../mcp-src/tools/move-file.mjs";
+import { registerNvmTools } from "../../../mcp-src/tools/nvm-tools.mjs";
+import { createGitService } from "../../../mcp-src/tools/git-tools.mjs";
+import { registerCommandTools } from "../../../mcp-src/tools/command-tools.mjs";
+import { registerDevServerTools } from "../../../mcp-src/tools/dev-server-tools.mjs";
+import { registerAliasTools } from "../../../mcp-src/tools/alias-tools.mjs";
+import { registerJiraTools } from "../../../mcp-src/tools/jira-tools.mjs";
 
-it("registers the complete local MCP tool surface", () => {
+it("로컬 MCP 도구 전체가 서버에 정상 등록된다", () => {
+  // 각 도구의 등록 이름·설정·실행 핸들러를 수집합니다.
   const definitions = new Map();
   const server = {
     registerTool(name, options, handler) {
@@ -134,6 +137,7 @@ it("registers the complete local MCP tool surface", () => {
     },
   });
 
+  // 도구 이름은 MCP 호출 계약이므로 번역하지 않고 실제 등록 목록과 비교합니다.
   expect([...definitions.keys()].sort()).toEqual([
     "copy_image",
     "create_directory",
