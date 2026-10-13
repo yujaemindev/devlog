@@ -105,7 +105,9 @@
                 </span>
                 <button
                   type="button"
-                  :disabled="activeCaptureIndex === chatCaptureImages.length - 1"
+                  :disabled="
+                    activeCaptureIndex === chatCaptureImages.length - 1
+                  "
                   aria-label="다음 대화 캡처"
                   class="rounded border border-gray-200 px-3 py-1 text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
                   @click="moveCapture(1)"
@@ -162,6 +164,11 @@
           v-else-if="step.id === 'mcp'"
           class="overflow-hidden rounded-2xl border border-gray-200"
         >
+          <div class="border-b border-gray-200 bg-gray-50 px-5 py-4 sm:px-6">
+            <p class="text-sm font-semibold text-gray-900">
+              현재 연결에서 확인된 MCP 도구 {{ mcpToolCount }}개
+            </p>
+          </div>
           <div
             v-for="(group, groupIndex) in mcpTools"
             :key="group.title"
@@ -233,11 +240,11 @@
         >
           <div class="border-b border-gray-200 bg-gray-50 px-5 py-4">
             <p class="text-sm font-semibold text-gray-900">
-              2026.10.08 · 한 번의 대화에서 기능별로 나눈 3개 커밋
+              한 번의 대화에서 기능별로 나눈 3개 커밋 예시
             </p>
             <p class="mt-1 text-sm leading-6 text-gray-600">
-              먼저 변경사항을 확인하고 작업 목적에 따라 나누어 커밋했습니다.
-              Push는 별도 요청을 받은 뒤 실행했습니다.
+              변경사항을 확인하고 작업 목적에 따라 나누어 커밋했습니다. Push는
+              별도 요청을 받은 뒤 실행했습니다.
             </p>
           </div>
           <ol class="divide-y divide-gray-200">
@@ -293,11 +300,9 @@
             도구가 소스에 있다고 지금 대화에서 바로 보이는 것은 아닙니다.
           </p>
           <p class="mt-2 text-sm leading-7 text-gray-600">
-            <code>create_directory</code>는 소스 구현과 단위 테스트를 마친
-            뒤에도 실행 중인 MCP 도구 목록에는 아직 노출되지 않았습니다. 실제
-            문서 폴더는 기존 <code>write_file</code>의 디렉터리 자동 생성
-            기능으로 만든 후 <code>move_file</code>로 파일을 옮겼습니다. 신규
-            도구는 설치 스크립트 재실행과 연결 갱신 이후 별도로 확인해야 합니다.
+            소스 구현과 단위 테스트를 마친 뒤에도 실행 중인 MCP 도구 목록에는
+            아직 노출되지 않을 수 있습니다. 신규 도구는 설치 스크립트 재실행과
+            연결 갱신 이후 별도로 확인해야 합니다.
           </p>
         </div>
       </WorkflowSection>
@@ -321,9 +326,6 @@
           to="/workflow/git"
           class="font-semibold text-indigo-600 underline underline-offset-4"
         >Git 운영 방식</NuxtLink>을 더 자세히 소개합니다.
-      </p>
-      <p class="mt-3 text-sm leading-6 text-gray-500">
-        Jira와 GitHub의 공식 개발 정보 연동은 향후 작업으로 남겨두었습니다.
       </p>
     </WorkflowAside>
   </main>
@@ -372,7 +374,10 @@ const moveCapture = (direction) => {
 
   const nextIndex = Math.max(
     0,
-    Math.min(activeCaptureIndex.value + direction, chatCaptureImages.length - 1),
+    Math.min(
+      activeCaptureIndex.value + direction,
+      chatCaptureImages.length - 1,
+    ),
   );
   container.scrollTo({
     left: nextIndex * container.clientWidth,
@@ -408,43 +413,85 @@ const conversationExamples = [
 
 const mcpTools = [
   {
-    title: "파일과 프로젝트 탐색",
+    title: "파일 탐색·편집 (8개)",
     tools: [
       "list_files",
       "read_file",
       "search_text",
+      "write_file",
       "replace_text",
+      "copy_image",
+      "rename_file",
       "move_file",
     ],
     detail:
-      "관련 소스를 먼저 읽고 필요한 구간만 수정합니다. 파일 이동 뒤에는 import와 문서 링크도 확인합니다.",
+      "프로젝트 안의 파일을 검색·읽기·수정하고 이미지 복사, 파일 이름 변경 및 폴더 간 이동을 처리합니다. 기존 코드를 읽고 필요한 부분만 변경합니다.",
   },
   {
-    title: "Jira 작업 관리",
+    title: "Node.js 환경·명령·개발 서버 (7개)",
     tools: [
-      "jira_search_issues",
-      "jira_create_issue",
-      "jira_update_issue",
-      "jira_assign_issue",
-      "jira_transition_issue",
+      "nvm_status",
+      "nvm_install",
+      "nvm_use",
+      "run_dev_command",
+      "start_dev_server",
+      "dev_server_status",
+      "stop_dev_server",
     ],
     detail:
-      "중복 이슈를 검색하고 Epic·Task·Subtask 관계를 설정한 뒤 담당자와 상태를 조회·변경합니다.",
+      "Node.js 버전과 개발 서버 상태를 관리하고, 허용 목록에 있는 명령 및 검증 스크립트만 실행합니다.",
   },
   {
-    title: "검증과 Git",
+    title: "Git 변경사항·이력·배포 (7개)",
     tools: [
-      "run_dev_command",
       "git_status",
       "git_diff",
+      "git_log",
+      "git_auth_status",
       "git_add",
       "git_commit",
       "git_push",
     ],
     detail:
-      "허용된 검증 스크립트를 실행하고, 이번 작업 파일만 선택해 커밋합니다. Push는 별도 요청 시 실행합니다.",
+      "변경 내역과 커밋 이력을 확인하고 선택한 파일을 스테이징·커밋합니다. Push는 명시적으로 요청받은 경우에만 수행합니다.",
+  },
+  {
+    title: "Jira 프로젝트·이슈 관리 (13개)",
+    tools: [
+      "jira_status",
+      "jira_list_projects",
+      "jira_list_issue_types",
+      "jira_search_issues",
+      "jira_get_issue",
+      "jira_create_issue",
+      "jira_create_subtask",
+      "jira_update_issue",
+      "jira_delete_issue",
+      "jira_assign_issue",
+      "jira_list_transitions",
+      "jira_transition_issue",
+      "jira_add_labels",
+    ],
+    detail:
+      "프로젝트와 이슈를 조회하고 Epic·Task·Subtask 관계, 담당자, 상태, 라벨을 관리합니다. 이슈 삭제는 허용된 대상과 조건에 한정됩니다.",
+  },
+  {
+    title: "호환 도구명 (5개)",
+    tools: [
+      "list_directory",
+      "search_files",
+      "edit_file",
+      "run_command",
+      "create_file",
+    ],
+    detail:
+      "파일 조회·검색·수정과 명령 실행·파일 생성을 위한 별도 이름의 호환 도구입니다. 위 핵심 도구와 기능이 일부 중복됩니다.",
   },
 ];
+const mcpToolCount = mcpTools.reduce(
+  (sum, group) => sum + group.tools.length,
+  0,
+);
 
 const jiraTasks = [
   { key: "DEVLOG-4", name: "Home", detail: "첫 화면과 관련한 작업" },
@@ -484,7 +531,7 @@ const verification = [
   {
     label: "단위 테스트",
     value: "28개 통과",
-    detail: "2026.10.08 기준, 2개 건너뜀",
+    detail: "npm run test",
   },
   { label: "ESLint", value: "통과", detail: "npm run lint" },
   { label: "타입 검사", value: "통과", detail: "npm run typecheck" },
@@ -509,7 +556,7 @@ const steps = [
     description:
       "Windows·Git Bash·Node.js 환경에서 MCP 서버를 구성하고 OpenAI Tunnel로 ChatGPT와 연결했습니다. 파일, 명령, Git, Jira의 기능을 개별 도구로 등록해 허용된 작업만 실행합니다.",
     points: [
-      "mcp-create.sh로 서버 빌드, 도구 등록 확인, 터널 재시작 및 /readyz 응답 확인 절차를 구성했습니다.",
+      "서버 생성 스크립트를 작성하여 서버 빌드, 도구 등록 확인, 터널 재시작 및 구동 후 응답 확인 절차를 구성했습니다.",
       "인증값은 .jira-api-token과 .tunnel-client-api-key 같은 로컬 파일에서 읽고 Git에 포함하지 않습니다.",
       "MCP 서버의 작업 규칙은 docs/LOCAL_MCP_INSTRUCTIONS.md를 진입점으로 관리합니다.",
     ],
