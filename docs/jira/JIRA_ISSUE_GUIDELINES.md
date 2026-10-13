@@ -24,9 +24,11 @@
 2. 유형, 부모 이슈, 라벨 결정 후 생성·수정.
 3. 생성 이후 부모·자식 관계와 라벨을 다시 조회해 검증.
 4. 삭제 전 하위 이슈를 반드시 조회하고, 하위 이슈가 존재하면 삭제하지 않는다.
-5. 메뉴 및 운영 정책이 변경되면 이 문서를 함께 갱신한다.
+5. Git 커밋은 관련 Jira 이슈 키를 포함하여 기록하며, GitHub for Atlassian 연결 후 Jira 개발 정보에 표시되는지 확인한다.
+6. 메뉴 및 운영 정책이 변경되면 이 문서를 함께 갱신한다.
 
 ## 참고
 
 - [LOCAL_MCP_INSTRUCTIONS.md](../LOCAL_MCP_INSTRUCTIONS.md): MCP 설정·도구·보안 지침.
+- [GITHUB_JIRA_INTEGRATION.md](../git/GITHUB_JIRA_INTEGRATION.md): GitHub for Atlassian 연결과 이슈 키 기반 커밋 규칙.
 - DEVLOG-22: Jira 이슈 구조 및 라벨 운영 규칙 정리.
