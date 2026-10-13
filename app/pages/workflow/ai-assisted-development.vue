@@ -41,7 +41,7 @@
       </ol>
       <p class="mt-4 text-sm leading-6 text-gray-600">
         이 흐름은 ChatGPT와 로컬 MCP로 실행한 작업 사례입니다. GitHub for Jira
-        공식 연동은 아직 설정하지 않았으며, 이 페이지에서 소개하는 Jira 작업과
+        공식 연동은 별도 설정으로 진행했으며, 이 페이지에 소개한 과거 Jira 작업과
         Git 커밋은 각각의 도구로 수행했습니다.
       </p>
     </div>
@@ -485,7 +485,7 @@ const mcpTools = [
       "create_file",
     ],
     detail:
-      "파일 조회·검색·수정과 명령 실행·파일 생성을 위한 별도 이름의 호환 도구입니다. 위 핵심 도구와 기능이 일부 중복됩니다.",
+      "파일 조회·검색·수정과 명령 실행·파일 생성을 위한 별도 이름의 호환 도구입니다.",
   },
 ];
 const mcpToolCount = mcpTools.reduce(
@@ -582,7 +582,7 @@ const steps = [
     points: [
       "git_status와 git_diff로 미커밋 변경과 이미 반영된 코드를 구분했습니다.",
       "Jira 연동 → 파일 관리 기능 → 운영 규칙 문서의 순서로 커밋하고 원격 main과 동기화했습니다.",
-      "이 커밋들에 DEVLOG 이슈 키는 없으며, GitHub와 Jira의 공식 자동 연동이 완료된 상태는 아닙니다.",
+      "이 커밋들에는 DEVLOG 이슈 키가 없으므로 Jira 이슈와 연결되지 않습니다. 앞으로는 커밋 메시지에 해당 이슈 키를 포함합니다.",
     ],
   },
   {
