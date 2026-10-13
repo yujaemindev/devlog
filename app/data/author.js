@@ -160,7 +160,7 @@ const author = {
     {
       icon: Academy,
       title: "주식회사 싱커 · 창업 및 개발총괄",
-      subtitle: "2021.02 - 2024.09 (프로젝트/법인 기간 포함)",
+      subtitle: "2021.02 - 2024.09",
       description:
         "K-패션 브랜드 룩북 기반 B2B 플랫폼을 창업하여 Vue.js 웹/하이브리드앱, Node.js/TypeScript Backend, 관리자 Back Office, 결제·물류·검색·추천, AWS 인프라와 Jenkins CI/CD까지 제품 전반을 설계·개발·운영.",
     },
