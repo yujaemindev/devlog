@@ -207,36 +207,6 @@
               </article>
             </div>
           </div>
-          <details class="info-card">
-            <summary class="cursor-pointer font-semibold text-gray-900">
-              과거 standalone 버전 자료
-            </summary>
-            <div class="mt-4 grid gap-4 md:grid-cols-3">
-              <article
-                v-for="report in legacyDefectReports"
-                :key="report.file"
-                class="flex flex-col"
-              >
-                <p class="eyebrow">
-                  {{ report.date }} · 과거 자료
-                </p>
-                <h4 class="font-bold text-gray-900">
-                  {{ report.title }}
-                </h4>
-                <p class="mt-2 text-sm text-indigo-600">
-                  {{ report.count }}
-                </p>
-                <p class="my-3 text-sm leading-7 text-gray-600">
-                  {{ report.description }}
-                </p>
-                <a
-                  :href="asset(report.file)"
-                  download
-                  class="document-link mt-auto"
-                >과거 리포트 XLS 다운로드 ↓</a>
-              </article>
-            </div>
-          </details>
         </div>
 
         <div v-else-if="step.id === 'gs-ai-validation'">
@@ -321,12 +291,6 @@
               AI 자체시험성적서 6종 및 과거 standalone 버전 결함 리포트 3개
             </li>
           </ul>
-          <p
-            class="mt-4 border-t border-gray-200 pt-4 text-sm leading-7 text-gray-500"
-          >
-            이 페이지는 제공된 준비·시험 자료까지의 기록입니다. 최종 인증 여부,
-            등급과 취득일은 인증 결과가 확인된 후 별도로 정리합니다.
-          </p>
         </div>
       </WorkflowSection>
     </div>
@@ -340,7 +304,6 @@ import {
   applicationDocuments,
   consultations,
   defectReports,
-  legacyDefectReports,
   saasImprovements,
   aiReports,
   ttaIntroduction,

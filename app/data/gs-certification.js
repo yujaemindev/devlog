@@ -153,7 +153,6 @@ export const consultations = [
 export const defectReports = [
   {
     title: "v1 · 대응 항목 정리",
-    date: "1차 보고일 2026.04.20",
     count: "동일 리포트 35개 항목",
     file: "GS-A-25-0255 결함리포트_v1.xlsx",
     description:
@@ -161,7 +160,6 @@ export const defectReports = [
   },
   {
     title: "v2 · 처리 상태 갱신",
-    date: "1차 보고일 2026.04.20",
     count: "동일 리포트 35개 항목",
     file: "GS-A-25-0255 결함리포트_v2.xlsx",
     description:
@@ -169,7 +167,6 @@ export const defectReports = [
   },
   {
     title: "v3 · 담당자와 대응 결과",
-    date: "1차 보고일 2026.04.20",
     count: "처리완료 29 · 확인필요 5 · 처리불필요 1",
     file: "GS-A-25-0255 결함리포트_v3.xlsx",
     description:
