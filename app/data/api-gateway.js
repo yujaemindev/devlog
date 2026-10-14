@@ -67,7 +67,6 @@ location / { return 404; }`,
     ],
     code: `return 301 https://$host$request_uri;
 
-# HTTPS 서버 설정 발췌
 listen 443 ssl http2;
 ssl_protocols TLSv1.2 TLSv1.3;
 ssl_prefer_server_ciphers on;
