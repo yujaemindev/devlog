@@ -201,9 +201,6 @@
                 <p class="mt-2 text-sm leading-7 text-gray-600">
                   {{ item.description }}
                 </p>
-                <p class="mt-3 text-xs text-indigo-600">
-                  {{ item.reference }} · 업체 응답 및 처리 상태 기준
-                </p>
               </article>
             </div>
           </div>
@@ -286,10 +283,7 @@
           <ul class="mt-3 list-disc space-y-2 pl-5 leading-7 text-gray-600">
             <li>신청서류와 제품·사용자 설명서</li>
             <li>시험 범위와 실행환경에 대한 사전 협의 내용</li>
-            <li>이번 GS-A-25-0255 결함 리포트 v1~v3와 SaaS 기능 보완 기록</li>
-            <li>
-              AI 자체시험성적서 6종 및 과거 standalone 버전 결함 리포트 3개
-            </li>
+            <li>AI 자체시험성적서 6종</li>
           </ul>
         </div>
       </WorkflowSection>
