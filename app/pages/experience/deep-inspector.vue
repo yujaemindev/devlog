@@ -32,33 +32,6 @@
             rel="noopener noreferrer"
             class="document-link"
           >TTA 공식 GS인증 소개 · 시험 절차 ↗</a>
-          <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <div class="info-card">
-              <p class="eyebrow">
-                이전 · Standalone
-              </p>
-              <h3 class="font-bold text-gray-900">
-                Bridge Deep Inspector v2.1
-              </h3>
-              <p class="mt-2 text-sm leading-7 text-gray-600">
-                PC에 설치한 실행파일로 사용하던 구버전입니다. GS-A-19-585는
-                2020년의 프로그램·문서·설치환경 결함 대응 기록입니다.
-              </p>
-            </div>
-            <div class="info-card">
-              <p class="eyebrow">
-                이번 · 기능 개선 및 SaaS 전환
-              </p>
-              <h3 class="font-bold text-gray-900">
-                XAI 기반 교량안전점검 자동화 소프트웨어 v3.0
-              </h3>
-              <p class="mt-2 text-sm leading-7 text-gray-600">
-                브라우저에서 사용하는 SaaS로 전환하고 인증·사용 흐름·AI 결과
-                표시를 보완했습니다. 이번 시험의 GS-A-25-0255 리포트 v1~v3를
-                중심으로 대응 과정을 정리합니다.
-              </p>
-            </div>
-          </div>
         </template>
 
         <ol
