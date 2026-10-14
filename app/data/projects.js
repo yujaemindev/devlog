@@ -8,6 +8,11 @@ const projectsData = [
         label: "DeepInspector 주요 기능 화면",
         images: [
           {
+            image: "0.upload.png",
+            alt: "DeepInspector 파일 업로드 화면",
+            caption: "파일 업로드",
+          },
+          {
             image: "1.jtag.png",
             width: 1912,
             height: 906,
