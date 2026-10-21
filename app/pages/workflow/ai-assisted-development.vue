@@ -58,6 +58,7 @@
         :key="step.id"
         :step="step"
         :number="index + 1"
+        image-directory="images/workflow/ai-assisted-development"
       >
         <div
           v-if="step.id === 'conversation'"
@@ -606,6 +607,42 @@ const steps = [
       "tools/list에는 새 도구가 존재하지만 기존 세션에 표시되지 않으면 연결 또는 스키마 캐시 상태를 점검합니다.",
       "새 세션으로 작업을 넘길 수 있도록 Git·Jira·보안·테스트 규칙을 docs 아래 계층형 문서로 분리했습니다.",
       "확인된 기능과 설치·재연결이 필요한 기능을 구분해 설명합니다.",
+    ],
+  },
+  {
+    id: "github-jira-workflow",
+    label: "GitHub·Jira 연동",
+    title: "MCP 작업 결과를 검토하고 GitHub 커밋과 Jira 이력으로 연결합니다",
+    description:
+      "ChatGPT가 로컬 MCP로 작업한 결과를 사람이 확인한 뒤 Push를 요청합니다. 변경 목적에 맞는 커밋 메시지 작성부터 검증 결과에 따른 Jira 이슈 관리, GitHub 커밋 연계 확인까지 이어지는 실제 운영 흐름입니다.",
+    points: [
+      "ChatGPT 작업 및 사람 검토 — MCP로 코드와 파일을 수정한 결과를 확인하고, 사용자가 승인하여 Push를 명시적으로 요청합니다.",
+      "GitHub 커밋 및 Push — 변경사항과 관련 이슈를 검토해 적절한 커밋 메시지를 작성하고, 요청된 범위의 코드만 커밋·Push합니다.",
+      "Jira 작업 자동 기록 — 커밋 이후 빌드와 테스트 결과를 확인합니다. 검증에 성공한 작업은 필요에 따라 Jira Task를 새로 만들거나 기존 Task의 설명을 갱신합니다.",
+      "Jira·GitHub 연결 확인 — 커밋 메시지에 Jira 이슈 키가 포함되면 연동된 이슈에서 커밋을 확인할 수 있습니다. 신규 이슈를 커밋 후 생성했다면 기존 커밋의 자동 연결 여부를 별도 확인합니다.",
+    ],
+    imageLayout: "gallery",
+    images: [
+      {
+        image: "gpt_desc.png",
+        alt: "로컬 MCP를 통해 ChatGPT가 작업한 내용과 사람이 결과를 검토하고 Push를 요청한 대화",
+        caption: "01 · ChatGPT 작업 — MCP 실행 결과를 사람이 검토한 뒤 Push 요청",
+      },
+      {
+        image: "github_commit.png",
+        alt: "변경사항에 맞는 Git 커밋 메시지를 판단하여 작성하고 GitHub에 반영한 기록",
+        caption: "02 · GitHub — 변경 목적에 맞는 커밋 메시지 생성 및 코드 Push",
+      },
+      {
+        image: "jira_autowrite.png",
+        alt: "빌드와 테스트 결과를 확인하고 신규 Jira Task를 생성하거나 기존 Task 설명을 갱신하는 작업",
+        caption: "03 · Jira 자동 기록 — 검증 성공 후 Task 생성 또는 기존 설명 갱신",
+      },
+      {
+        image: "jira_github.png",
+        alt: "Jira 이슈에 연결된 GitHub 커밋과 개발 이력을 확인하는 화면",
+        caption: "04 · Jira·GitHub 연동 — 이슈에 연결된 커밋 확인",
+      },
     ],
   },
 ];
