@@ -15,7 +15,7 @@
       설치 담당자가 참고할 수 있도록 별도의 설치 가이드도 함께 제공합니다.
     </WorkflowPageHeader>
     <WorkflowStepNav
-      :steps="steps"
+      :steps="[...steps, meetingStep]"
       label="폐쇄망 배포 과정"
       @offset-change="sectionOffset = $event"
     />
@@ -84,6 +84,13 @@
       환경과 반입 파일을 확인하고, 구동 후 실제 기능 검증은 통합테스트로
       이어지는 방식입니다.
     </WorkflowAside>
+
+    <WorkflowSection
+      :step="meetingStep"
+      :number="steps.length + 1"
+      image-directory="images/experience/air-gapped-environment"
+      class="mt-14"
+    />
   </main>
 </template>
 
@@ -91,6 +98,32 @@
 import siteMetaInfo from "@/data/sitemetainfo.js";
 
 const sectionOffset = ref(171);
+
+const meetingStep = {
+  id: "field-meetings",
+  label: "현장 미팅 및 교육",
+  title: "현장 미팅 및 교육 사진",
+  description: "현장 관계자들과 진행한 미팅과 서비스 시연·교육 현장의 사진입니다.",
+  imageLayout: "gallery",
+  images: [
+    {
+      image: "meeting_watermark_1.jpg",
+      alt: "회의실에서 관계자들이 화면을 보며 현장 미팅을 진행하는 모습",
+      caption: "현장 미팅 및 시스템 설명",
+    },
+    {
+      image: "meeting_watermark_2.jpg",
+      alt: "강의실에서 발표자가 서비스를 시연하고 참석자들이 교육을 듣는 모습",
+      caption: "시스템 시연 및 사용자 교육",
+    },
+    {
+      image: "meeting_watermark_3.jpg",
+      alt: "회의실에서 발표자가 서비스 개요를 설명하는 모습",
+      caption: "서비스 개요 발표",
+    },
+  ],
+};
+
 useSeoMeta({
   title: `${siteMetaInfo.title} | Experience · Air-Gapped Environment`,
   description:
