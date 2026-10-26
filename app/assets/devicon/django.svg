@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="django-title">
+  <title id="django-title">Django</title>
+  <rect x="5" y="5" width="118" height="118" rx="22" fill="#092e20"/>
+  <path d="M53 25h15v72c-8 2-17 3-25 3-21 0-32-11-32-30 0-18 12-30 31-30 4 0 8 0 11 1V25zm0 29c-3-1-6-2-10-2-10 0-16 7-16 18 0 12 5 18 16 18 3 0 7 0 10-1V54z" fill="#fff" fill-rule="evenodd"/>
+  <path d="M81 41h15v52c0 17-8 28-25 33l-7-12c13-5 17-10 17-22V41zm0-18h15v13H81V23z" fill="#fff"/>
+</svg>

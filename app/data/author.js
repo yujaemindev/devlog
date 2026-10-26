@@ -7,6 +7,7 @@ import VueIcon from "~/assets/devicon/vuejs.svg?component";
 import ReactIcon from "~/assets/devicon/reactnative.svg?component";
 import AngularJSIcon from "~/assets/devicon/angularjs.svg?component";
 import SpringBootIcon from "~/assets/devicon/springboot.svg?component";
+import DjangoIcon from "~/assets/devicon/django.svg?component";
 import JenkinsIcon from "~/assets/devicon/jenkins.svg?component";
 import MariaDBIcon from "~/assets/devicon/mariadb.svg?component";
 import ElasticSearchIcon from "~/assets/devicon/aws-elasticsearch.svg?component";
@@ -98,6 +99,7 @@ const author = {
       { name: "Node.js", icon: NodeIcon, description: "" },
       { name: "NestJS", icon: NestIcon, description: "" },
       { name: "Spring Boot", icon: SpringBootIcon, description: "" },
+      { name: "Django", icon: DjangoIcon, description: "" },
       { name: "TypeORM", icon: TypeormIcon, description: "" },
       { name: "MySQL / MariaDB", icon: MariaDBIcon, description: "" },
       { name: "Redis", icon: RedisIcon, description: "" },
