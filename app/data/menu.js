@@ -22,6 +22,7 @@ const menu = [
       { name: "Prototype Development", path: "/experience/prototype-development" },
       { name: "Open Source", path: "/experience/open-source" },
       { name: "ChatGPT with Local MCP", path: "/experience/chatgpt-local-mcp" },
+      { name: "LLM-Based Inspection", path: "/experience/llm-captioning" },
       { name: "Good Software", path: "/experience/deep-inspector" },
       {
         name: "Air-Gapped Environment",
