@@ -115,18 +115,43 @@
             </caption>
             <thead class="bg-gray-50 text-gray-900">
               <tr>
-                <th scope="col" class="px-4 py-3">단계</th>
-                <th scope="col" class="px-4 py-3">검증 내용</th>
-                <th scope="col" class="px-4 py-3">실패 처리</th>
+                <th
+                  scope="col"
+                  class="px-4 py-3"
+                >
+                  단계
+                </th>
+                <th
+                  scope="col"
+                  class="px-4 py-3"
+                >
+                  검증 내용
+                </th>
+                <th
+                  scope="col"
+                  class="px-4 py-3"
+                >
+                  실패 처리
+                </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 text-gray-600">
-              <tr v-for="item in validationChecks" :key="item.number">
-                <th scope="row" class="px-4 py-3 text-gray-900">
+              <tr
+                v-for="item in validationChecks"
+                :key="item.number"
+              >
+                <th
+                  scope="row"
+                  class="px-4 py-3 text-gray-900"
+                >
                   {{ item.number }}
                 </th>
-                <td class="px-4 py-3">{{ item.check }}</td>
-                <td class="px-4 py-3">{{ item.action }}</td>
+                <td class="px-4 py-3">
+                  {{ item.check }}
+                </td>
+                <td class="px-4 py-3">
+                  {{ item.action }}
+                </td>
               </tr>
             </tbody>
           </table>
