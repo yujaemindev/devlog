@@ -53,6 +53,7 @@ export function createJiraClient({
   fs,
   safePath,
   fetchImpl = globalThis.fetch,
+  defaultProjectKeyOverride,
 }) {
   async function loadCredentials({ requireToken = true } = {}) {
     const configPath = await safePath(JIRA_CONFIG_FILE);
@@ -75,7 +76,7 @@ export function createJiraClient({
 
     const baseUrl = normalizeBaseUrl(config.baseUrl);
     const email = String(config.email || "").trim();
-    const defaultProjectKey = String(config.defaultProjectKey || "").trim() || null;
+    const defaultProjectKey = String(defaultProjectKeyOverride ?? config.defaultProjectKey ?? "").trim() || null;
 
     if (!email || !email.includes("@")) {
       throw new Error(`${JIRA_CONFIG_FILE}의 email 값이 올바르지 않습니다.`);
@@ -247,6 +248,42 @@ export function createJiraClient({
           subtask: Boolean(type.subtask),
         })),
       })),
+    };
+  }
+
+  async function createProject({ name, key, template = "kanban" }) {
+    const normalizedKey = String(key || "").trim().toUpperCase();
+    if (!/^[A-Z][A-Z0-9]{1,9}$/.test(normalizedKey)) {
+      throw new Error("Jira 프로젝트 키는 영문 대문자로 시작하는 2~10자리 영숫자여야 합니다.");
+    }
+    const existing = await listProjects({ query: normalizedKey, maxResults: 100 });
+    if (existing.values.some(project => project.key?.toUpperCase() === normalizedKey)) {
+      throw new Error(`Jira 프로젝트가 이미 존재합니다: ${normalizedKey}`);
+    }
+
+    const myself = await request("GET", "rest/api/3/myself");
+    if (!myself?.accountId) {
+      throw new Error("프로젝트 생성에 필요한 Jira 계정 ID를 확인하지 못했습니다.");
+    }
+    const templateKey = template === "scrum"
+      ? "com.pyxis.greenhopper.jira:gh-simplified-scrum-classic"
+      : "com.pyxis.greenhopper.jira:gh-simplified-kanban-classic";
+    const created = await request("POST", "rest/api/3/project", {
+      body: {
+        key: normalizedKey,
+        name,
+        projectTypeKey: "software",
+        projectTemplateKey: templateKey,
+        leadAccountId: myself.accountId,
+        assigneeType: "PROJECT_LEAD",
+      },
+    });
+    const credentials = await loadCredentials({ requireToken: false });
+    return {
+      id: created.id,
+      key: created.key || normalizedKey,
+      name,
+      baseUrl: credentials.baseUrl,
     };
   }
 
@@ -482,6 +519,7 @@ export function createJiraClient({
     tokenFile: JIRA_TOKEN_FILE,
     status,
     listProjects,
+    createProject,
     listIssueTypes,
     searchIssues,
     getIssue,

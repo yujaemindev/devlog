@@ -35,6 +35,23 @@ export function registerJiraTools({
     },
   }, async args => toolResult(await jiraClient.listProjects(args)));
 
+  server.registerTool("jira_create_project", {
+    title: "Create Jira software project",
+    description: "Jira Software 프로젝트를 생성합니다. 관리 권한이 필요하며 이미 존재하는 프로젝트 키는 거부합니다.",
+    inputSchema: {
+      key: z.string().trim().regex(/^[A-Z][A-Z0-9]{1,9}$/),
+      name: z.string().trim().min(1).max(80),
+      template: z.enum(["kanban", "scrum"]).default("kanban"),
+      confirm: z.literal(true),
+    },
+    annotations: { readOnlyHint: false, destructiveHint: false, openWorldHint: true },
+  }, async ({ key, name, template, confirm }) => {
+    if (confirm !== true) {
+      throw new Error("명시적인 프로젝트 생성 확인이 필요합니다.");
+    }
+    return toolResult(await jiraClient.createProject({ key, name, template }));
+  });
+
   server.registerTool("jira_list_issue_types", {
     title: "List Jira issue types",
     description: "Jira 프로젝트에서 생성 가능한 이슈 타입을 조회합니다. projectKey를 생략하면 .jira-config.json의 defaultProjectKey를 사용합니다.",

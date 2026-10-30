@@ -13,6 +13,9 @@ import { registerCommandTools } from "../../../mcp-src/tools/command-tools.mjs";
 import { registerDevServerTools } from "../../../mcp-src/tools/dev-server-tools.mjs";
 import { registerAliasTools } from "../../../mcp-src/tools/alias-tools.mjs";
 import { registerJiraTools } from "../../../mcp-src/tools/jira-tools.mjs";
+import { registerProjectTools } from "../../../mcp-src/tools/project-tools.mjs";
+import { registerProjectBootstrapTools } from "../../../mcp-src/tools/project-bootstrap.mjs";
+import { registerHttpTools } from "../../../mcp-src/tools/http-tools.mjs";
 
 it("로컬 MCP 도구 전체가 서버에 정상 등록된다", () => {
   // 각 도구의 등록 이름·설정·실행 핸들러를 수집합니다.
@@ -108,6 +111,11 @@ it("로컬 MCP 도구 전체가 서버에 정상 등록된다", () => {
     nodeRuntime,
     spawn: () => {},
   });
+  registerHttpTools({
+    server,
+    z,
+    apiBaseUrl: "http://127.0.0.1:3000",
+  });
   registerAliasTools({
     server,
     z,
@@ -118,10 +126,33 @@ it("로컬 MCP 도구 전체가 서버에 정상 등록된다", () => {
     z,
   });
 
+  registerProjectTools({
+    server,
+    z,
+    fs: {},
+    path,
+    configFile: "config.json",
+    config: { projects: { devlog: { root: "C:\\\\project" } } },
+    activeProject: "devlog",
+  });
+
+  registerProjectBootstrapTools({
+    server,
+    z,
+    fs: {},
+    path,
+    root: "C:\\\\project",
+    safePath: noOpAsync,
+    gitBash: "bash.exe",
+    executeProcess: noOpAsync,
+    commandResult: result => result,
+  });
+
   registerJiraTools({
     server,
     z,
     jiraClient: {
+      createProject: noOpAsync,
       status: noOpAsync,
       listProjects: noOpAsync,
       listIssueTypes: noOpAsync,
@@ -148,12 +179,16 @@ it("로컬 MCP 도구 전체가 서버에 정상 등록된다", () => {
     "git_auth_status",
     "git_commit",
     "git_diff",
+    "git_init",
     "git_log",
     "git_push",
     "git_status",
+    "github_create_repo",
+    "http_request",
     "jira_add_labels",
     "jira_assign_issue",
     "jira_create_issue",
+    "jira_create_project",
     "jira_create_subtask",
     "jira_delete_issue",
     "jira_get_issue",
@@ -166,6 +201,7 @@ it("로컬 MCP 도구 전체가 서버에 정상 등록된다", () => {
     "jira_update_issue",
     "list_directory",
     "list_files",
+    "list_projects",
     "move_file",
     "nvm_install",
     "nvm_status",
@@ -179,6 +215,7 @@ it("로컬 MCP 도구 전체가 서버에 정상 등록된다", () => {
     "search_text",
     "start_dev_server",
     "stop_dev_server",
+    "switch_project",
     "write_file",
   ]);
 });

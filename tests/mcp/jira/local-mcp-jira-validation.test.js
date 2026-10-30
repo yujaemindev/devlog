@@ -120,6 +120,46 @@ describe("Jira 인증·요청 검증", () => {
   });
 });
 
+describe("Jira 신규 프로젝트 생성", () => {
+  it("중복 여부를 확인하고 현재 계정으로 Kanban 프로젝트를 생성한다", async () => {
+    let createdBody;
+    const result = await makeClient(async (url, options) => {
+      const pathname = new URL(url).pathname;
+      if (pathname.endsWith("/project/search")) {
+        return response({ values: [] });
+      }
+      if (pathname.endsWith("/myself")) {
+        return response({ accountId: "test-account-id" });
+      }
+      if (pathname.endsWith("/project") && options.method === "POST") {
+        createdBody = JSON.parse(options.body);
+        return response({ id: "10001", key: "CAL" }, 201, "Created");
+      }
+      throw new Error("예상하지 못한 API 요청");
+    }).createProject({ name: "Calendar", key: "CAL" });
+
+    expect(createdBody).toMatchObject({
+      key: "CAL",
+      name: "Calendar",
+      projectTypeKey: "software",
+      leadAccountId: "test-account-id",
+      assigneeType: "PROJECT_LEAD",
+    });
+    expect(createdBody.projectTemplateKey).toContain("kanban");
+    expect(result.key).toBe("CAL");
+  });
+
+  it("동일한 Jira 프로젝트 키가 존재하면 생성 요청을 하지 않는다", async () => {
+    const methods = [];
+    await expect(makeClient(async (url, options) => {
+      methods.push(options.method);
+      return response({ values: [{ key: "CAL" }] });
+    }).createProject({ name: "Calendar", key: "CAL" }))
+      .rejects.toThrow("이미 존재");
+    expect(methods).toEqual(["GET"]);
+  });
+});
+
 describe("Jira 조회·검색 결과 검증", () => {
   it("프로젝트 검색 조건과 조회 개수를 URL에 전달하고 유형 정보를 정리한다", async () => {
     let requestedUrl;

@@ -141,6 +141,18 @@ mcp-src/
 
 테스트에서는 더 이상 `mcp-create.sh` 문자열을 `slice()`로 잘라 VM에서 실행하지 않습니다. `mcp-src/tools/`, `mcp-src/services/`, `mcp-src/utils/`의 실제 모듈을 직접 import해 배포 서버가 사용하는 구현과 같은 코드를 검증합니다.
 
+### 로컬 HTTP API 호출
+
+Yujaemin Local MCP 1.2.9부터 `http_request` 도구를 제공합니다. 활성 프로젝트에 사전 등록된 `apiBaseUrl`에만 요청할 수 있고, 외부 URL과 자동 리디렉션은 차단합니다. 기본 Calendar API 주소는 `http://127.0.0.1:3000`입니다.
+
+```json
+{ "method": "GET", "path": "/api/health" }
+```
+
+`POST /api/v1/signin`으로 로그인하면 서버의 JWT 쿠키가 MCP 프로세스 메모리에 저장되고, 이후 API 요청에 자동으로 포함됩니다. JWT 쿠키는 반환값에 출력되지 않으며 MCP 재연결 시 사라집니다. `useSession: false`로 쿠키 사용을 끌 수 있습니다.
+
+기존 플러그인에 반영하려면 devlog 프로젝트 루트의 Git Bash에서 `MCP_ACTIVE_PROJECT=calendar bash ./mcp-create.sh`를 실행해야 합니다. 설치 프로그램은 MCP 빌드와 `tools/list` 검증 후 터널을 재시작합니다.
+
 ### Jira 연동
 
 Yujaemin Local MCP는 Jira Cloud REST API를 직접 호출할 수 있습니다. 실제 인증 정보는 저장소에 커밋하지 않고 프로젝트 루트의 로컬 파일에서 읽습니다.

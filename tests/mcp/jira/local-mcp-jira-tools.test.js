@@ -8,7 +8,7 @@ function createFixture() {
   const tools = new Map();
   const calls = [];
   const methods = [
-    "status", "listProjects", "listIssueTypes", "searchIssues",
+    "status", "listProjects", "createProject", "listIssueTypes", "searchIssues",
     "getIssue", "createIssue", "updateIssue", "deleteIssue",
     "assignIssue", "listTransitions", "transitionIssue", "addLabels",
   ];
@@ -38,9 +38,9 @@ function createFixture() {
 }
 
 describe("Jira MCP 도구 등록·입력 검증", () => {
-  it("Jira 도구 13개를 등록하고 읽기·삭제 작업의 권한 힌트를 구분한다", () => {
+  it("Jira 도구 14개를 등록하고 읽기·삭제 작업의 권한 힌트를 구분한다", () => {
     const { tools } = createFixture();
-    expect(tools.size).toBe(13);
+    expect(tools.size).toBe(14);
     expect(tools.get("jira_search_issues").options.annotations.readOnlyHint).toBe(true);
     expect(tools.get("jira_get_issue").options.annotations.readOnlyHint).toBe(true);
     expect(tools.get("jira_update_issue").options.annotations.destructiveHint).toBe(true);

@@ -2,13 +2,26 @@
 
 set -euo pipefail
 
+# 프로젝트를 지정하지 않은 설치는 금지합니다.
+if [ -z "${MCP_ACTIVE_PROJECT:-}" ]; then
+  echo "ERROR: MCP_ACTIVE_PROJECT를 반드시 지정하세요. (ex/ MCP_ACTIVE_PROJECT=devlog sh mcp-create.sh 또는 MCP_ACTIVE_PROJECT=calendar sh mcp-create.sh)" >&2
+  exit 1
+fi
+case "$MCP_ACTIVE_PROJECT" in
+  devlog|calendar) ;;
+  *)
+    echo "ERROR: 지원하지 않는 MCP_ACTIVE_PROJECT: $MCP_ACTIVE_PROJECT (devlog 또는 calendar)" >&2
+    exit 1
+    ;;
+esac
+
 # ============================================================
 # Yujaemin Local MCP installer
 # Windows + Git Bash + ChatGPT Desktop
 # ============================================================
 
 PLUGIN_NAME="yujaemin-local"
-PLUGIN_VERSION="1.2.7"
+PLUGIN_VERSION="1.2.9"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MCP_SOURCE_DIR="$SCRIPT_DIR/mcp-src"
 if [ ! -f "$MCP_SOURCE_DIR/server.mjs" ]; then
@@ -91,17 +104,65 @@ mkdir -p "$HOME/.agents/plugins"
 
 echo
 echo "[3/9] config.json 생성..."
-PROJECT_ROOT="$PROJECT_ROOT" BASH_PATH="$BASH_PATH" node -e '
+# 기존 설정을 설치 시작 전에 비우지 않도록 임시 파일로 검증 후 교체합니다.
+CONFIG_TEMP="$(mktemp "$PLUGIN_DIR/.config.json.XXXXXX")"
+if ! PROJECT_ROOT="$PROJECT_ROOT" BASH_PATH="$BASH_PATH" node -e '
+const fs = require("fs");
+const path = require("path");
+const os = require("os");
+const devlogRoot = path.resolve(process.env.PROJECT_ROOT);
+const calendarRoot = path.resolve(process.env.CALENDAR_PROJECT_ROOT || path.join(os.homedir(), "Downloads", "calendar"));
+function approvedScripts(projectRoot) {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(projectRoot, "package.json"), "utf8")).scripts || {};
+  } catch (error) {
+    if (error.code === "ENOENT") return {};
+    throw error;
+  }
+}
+const projects = {
+  devlog: { root: devlogRoot, jiraProjectKey: "DEVLOG", approvedScripts: approvedScripts(devlogRoot) },
+  calendar: { root: calendarRoot, jiraProjectKey: "CAL", apiBaseUrl: "http://127.0.0.1:3000", approvedScripts: approvedScripts(calendarRoot) }
+};
+const requestedProject = process.env.MCP_ACTIVE_PROJECT;
+if (!requestedProject) {
+  throw new Error("MCP_ACTIVE_PROJECT is required (devlog or calendar)");
+}
+if (!Object.prototype.hasOwnProperty.call(projects, requestedProject)) {
+  throw new Error("Unknown MCP project: " + requestedProject);
+}
+const activeProject = requestedProject;
+if (!fs.existsSync(projects[activeProject].root)) {
+  throw new Error("Project directory does not exist: " + projects[activeProject].root);
+}
 const config = {
-  projectRoot: process.env.PROJECT_ROOT,
-  allowedRoot: process.env.PROJECT_ROOT,
-  approvedScripts: JSON.parse(require("fs").readFileSync(require("path").join(process.env.PROJECT_ROOT, "package.json"), "utf8")).scripts,
+  projectRoot: devlogRoot,
+  allowedRoot: devlogRoot,
+  instructionsRoot: devlogRoot,
+  jiraCredentialsRoot: devlogRoot,
+  activeProject,
+  projects,
+  approvedScripts: projects.devlog.approvedScripts,
   gitBashPath: process.env.BASH_PATH
 };
 process.stdout.write(
   JSON.stringify(config, null, 2)
 );
-' > "$PLUGIN_DIR/config.json"
+' > "$CONFIG_TEMP"; then
+  rm -f "$CONFIG_TEMP"
+  echo "ERROR: 프로젝트 설정 생성에 실패했습니다. 기존 config.json은 보존됩니다." >&2
+  exit 1
+fi
+if ! node -e 'JSON.parse(require("node:fs").readFileSync(process.argv[1], "utf8"))' "$CONFIG_TEMP"; then
+  rm -f "$CONFIG_TEMP"
+  echo "ERROR: 생성된 프로젝트 설정 JSON이 올바르지 않습니다." >&2
+  exit 1
+fi
+if ! mv -f "$CONFIG_TEMP" "$PLUGIN_DIR/config.json"; then
+  rm -f "$CONFIG_TEMP"
+  echo "ERROR: 검증된 프로젝트 설정을 적용하지 못했습니다." >&2
+  exit 1
+fi
 
 # ============================================================
 # MCP Server
@@ -186,7 +247,7 @@ try {
       if (cursor && cursors.has(cursor)) throw new Error("Repeated tools/list cursor");
       if (cursor) cursors.add(cursor);
     } while (cursor);
-    for (const name of ["list_files", "read_file", "rename_file", "copy_image", "start_dev_server", "dev_server_status", "stop_dev_server", "git_auth_status", "git_add", "git_commit", "git_push", "jira_status", "jira_list_projects", "jira_create_issue", "jira_create_subtask", "jira_update_issue", "jira_delete_issue", "jira_assign_issue", "jira_list_transitions", "jira_transition_issue"]) {
+    for (const name of ["list_files", "read_file", "rename_file", "copy_image", "list_projects", "switch_project", "git_init", "github_create_repo", "jira_create_project", "http_request", "start_dev_server", "dev_server_status", "stop_dev_server", "git_auth_status", "git_add", "git_commit", "git_push", "jira_status", "jira_list_projects", "jira_create_issue", "jira_create_subtask", "jira_update_issue", "jira_delete_issue", "jira_assign_issue", "jira_list_transitions", "jira_transition_issue"]) {
       if (!names.has(name)) throw new Error(`Missing required tool: ${name}`);
     }
     if (!names.size) throw new Error("No tools registered");
@@ -237,14 +298,19 @@ if (fs.existsSync(file)) {
 if (!config.servers || typeof config.servers !== "object") {
   config.servers = {};
 }
-config.servers["yujaemin-local"] = {
-  type: "stdio",
-  command: process.env.NODE_EXECUTABLE,
-  args: [process.env.MCP_SERVER_PATH],
-  cwd: process.env.MCP_SERVER_CWD
-};
-fs.mkdirSync(path.dirname(file), { recursive: true });
-fs.writeFileSync(file, JSON.stringify(config, null, 2) + "\n");
+if (config.servers["yujaemin-local"]) {
+  // Keep existing user settings intact, including uncommitted VS Code edits.
+  console.log("Existing yujaemin-local VS Code MCP config retained.");
+} else {
+  config.servers["yujaemin-local"] = {
+    type: "stdio",
+    command: process.env.NODE_EXECUTABLE,
+    args: [process.env.MCP_SERVER_PATH],
+    cwd: process.env.MCP_SERVER_CWD
+  };
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, JSON.stringify(config, null, 2) + "\n");
+}
 NODE
 
 # ============================================================

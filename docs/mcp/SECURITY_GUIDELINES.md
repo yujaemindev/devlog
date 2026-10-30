@@ -11,6 +11,12 @@
 - 키 파일을 읽어야 할 때도 토큰 내용 자체는 출력하지 않는다.
 - 저장소 변경 후 민감한 파일이 Git 추적 대상에 포함되지 않았는지 확인한다.
 
+## 로컬 HTTP 도구
+- API 주소는 활성 프로젝트에 등록된 `http://127.0.0.1:<port>`만 허용한다. 요청 경로는 `/api/` 하위로 제한하고 HTTP 리디렉션을 따라가지 않는다.
+- `jwt` 쿠키는 메모리 내 세션에만 보관하며 MCP 응답, 파일 또는 로그에 저장하지 않는다.
+- 임의 `Cookie`, `Host` 등 요청 대상·세션을 우회하는 헤더는 전달하지 않는다.
+- 요청 본문에 비밀번호나 API Key가 들어갈 수 있으므로 요청 입력 전체를 디버그 로그에 남기지 않는다.
+
 ## 관련 문서
 - [LOCAL_MCP_INSTRUCTIONS.md](../LOCAL_MCP_INSTRUCTIONS.md)
 - [JIRA_ISSUE_GUIDELINES.md](../jira/JIRA_ISSUE_GUIDELINES.md)

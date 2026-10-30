@@ -110,12 +110,12 @@ MCP로 처리할 수 없는 상황에서 Codex가 필요하다면 반드시 사�
 
 프로젝트의 `mcp-create.sh`가 MCP 서버/플러그인을 생성한다.
 
-현재 목표 버전은 `1.2.7`이다.
+현재 목표 버전은 `1.2.9`이다.
 
 버전 업데이트 요청 시 마지막 숫자를 1씩 올린다.
 
 ```text
-1.2.7 → 1.2.8 → 1.2.9 → ...
+1.2.9 → 1.2.10 → 1.2.11 → ...
 ```
 
 앞으로 버전을 변경할 때 MCP 서버에 버전 문자열을 별도로 하드코딩하지 않는다.
@@ -186,6 +186,7 @@ Yujaemin Local MCP는 Jira Cloud REST API를 직접 호출한다.
 
 - `jira_status`
 - `jira_list_projects`
+- `jira_create_project` (Jira Software 프로젝트 생성, 관리 권한 및 confirm 필요)
 - `jira_list_issue_types`
 - `jira_search_issues`
 - `jira_get_issue`
@@ -198,13 +199,24 @@ Yujaemin Local MCP는 Jira Cloud REST API를 직접 호출한다.
 - `jira_list_transitions`
 - `jira_transition_issue`
 
+다중 프로젝트 지원: `list_projects`, `switch_project`, `git_init`, `github_create_repo`를 1.2.8부터 등록한다. `devlog`와 `calendar` 중 프로젝트 선택은 재연결 후 적용하며, GitHub 생성은 설치된 `gh` CLI의 로그인 상태가 필요하다. 자세한 내용은 [MCP_DEVELOPMENT.md](./mcp/MCP_DEVELOPMENT.md)를 참고한다.
+
 DEVLOG Jira 이슈 계층 구조, 메뉴별 부모·자식 관계, 라벨 명명 규칙, 등록·변경·삭제 절차는 별도 문서인 **[JIRA_ISSUE_GUIDELINES.md](./jira/JIRA_ISSUE_GUIDELINES.md)** 를 따른다.
 
 Jira 이슈를 생성·수정·삭제하기 전에 해당 문서를 확인하고, 운영 규칙 변경 시 이 문서를 함께 갱신한다.
 
 Jira API token이나 Authorization 헤더는 어떤 MCP 응답에도 출력하지 않는다.
 
-## 8. ChatGPT 세션의 MCP schema 캐시
+## 8. 로컬 API 호출 (`http_request`)
+
+- Calendar 프로젝트에서 `http_request({ method: "GET", path: "/api/health" })`로 `127.0.0.1:3000`에 요청한다.
+- 로그인 예: `http_request({ method: "POST", path: "/api/v1/signin", body: { email: "...", password: "..." } })`. 이후 같은 MCP 프로세스에서 `/api/v1/me`, `/api/v1/reservations` 등의 API를 호출하면 JWT 쿠키가 자동 첨부된다.
+- 쿠키는 결과·로그에 반환하지 않고 메모리에서만 유지한다. MCP 서버가 재시작되면 다시 로그인해야 한다.
+- `http_request`는 활성 프로젝트의 API URL만 접근할 수 있다. URL 전체를 요청하지 않고 `/api/...` 경로만 제공한다. 외부 호스트 및 리디렉션은 허용하지 않는다.
+- 메서드 GET, POST, PUT, PATCH, DELETE를 지원한다. 변경·삭제 API 호출은 사용자 요청과 의도를 확인한 뒤 진행한다.
+- 재설치 전에는 새 도구가 현재 터널의 도구 목록에 나타나지 않는다. `devlog` 루트에서 `MCP_ACTIVE_PROJECT=calendar bash ./mcp-create.sh`로 설치 후 새 세션에서 다시 확인한다.
+
+## 9. ChatGPT 세션의 MCP schema 캐시
 
 관련 대응 규칙은 **[MCP_DEVELOPMENT.md](./mcp/MCP_DEVELOPMENT.md)** 에서 관리한다.
 

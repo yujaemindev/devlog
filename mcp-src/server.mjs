@@ -22,16 +22,28 @@ import { registerDevServerTools } from "./tools/dev-server-tools.mjs";
 import { registerAliasTools } from "./tools/alias-tools.mjs";
 import { createJiraClient } from "./services/jira-client.mjs";
 import { registerJiraTools } from "./tools/jira-tools.mjs";
+import { registerProjectTools } from "./tools/project-tools.mjs";
+import { registerProjectBootstrapTools } from "./tools/project-bootstrap.mjs";
+import { registerHttpTools } from "./tools/http-tools.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const config = JSON.parse(
   await fs.readFile(path.join(HERE, "config.json"), "utf8"),
 );
 
-const ROOT = path.resolve(config.allowedRoot ?? config.projectRoot);
+const activeProject = config.activeProject || "devlog";
+if (config.projects && !Object.prototype.hasOwnProperty.call(config.projects, activeProject)) {
+  throw new Error(`등록되지 않은 프로젝트입니다: ${activeProject}`);
+}
+const selectedProject = config.projects?.[activeProject];
+const activeConfig = {
+  ...config,
+  approvedScripts: selectedProject?.approvedScripts ?? config.approvedScripts,
+};
+const ROOT = path.resolve(selectedProject?.root ?? config.allowedRoot ?? config.projectRoot);
 const ROOT_REAL = await fs.realpath(ROOT);
 const PROJECT_INSTRUCTIONS_FILE = path.join(
-  ROOT,
+  config.instructionsRoot ?? ROOT,
   "docs",
   "LOCAL_MCP_INSTRUCTIONS.md",
 );
@@ -40,6 +52,14 @@ const projectInstructions = await fs.readFile(
   "utf8",
 );
 const GIT_BASH = config.gitBashPath;
+const JIRA_ROOT = path.resolve(config.jiraCredentialsRoot ?? ROOT);
+const JIRA_ROOT_REAL = await fs.realpath(JIRA_ROOT);
+const { safePath: safeJiraPath } = createPathSecurity({
+  fs,
+  path,
+  root: JIRA_ROOT,
+  rootReal: JIRA_ROOT_REAL,
+});
 
 const { isInside, safePath } = createPathSecurity({
   fs,
@@ -61,8 +81,9 @@ Yujaemin Local 개발 프로젝트용 MCP입니다.
 기존 코드의 구조와 스타일을 최대한 유지하세요.
 가능하면 replace_text를 사용하고 전체 파일 덮어쓰기는 최소화하세요.
 
-명령 실행은 Git 조회, 허용된 npm 검증 스크립트, Node 버전 조회로 제한됩니다.
-프로젝트 파일 도구는 프로젝트 루트 내부에서만 사용하세요.
+명령 실행은 등록된 프로젝트 내 Git 작업, 승인된 npm 검증 스크립트, Node 버전 조회 및 비공개 GitHub 저장소 생성 기능으로 제한됩니다.
+프로젝트 파일 도구는 현재 선택된 프로젝트 루트 내부에서만 사용하세요.
+switch_project는 다음 재연결 때 적용됩니다. 재연결 전까지 현재 서버의 프로젝트는 바뀌지 않습니다.
 nvm_status로 Node.js 환경을 조회하세요. nvm 변경 도구는 비활성화되어 있습니다. nvm 도구는 설정된 nvm 설치 폴더를 사용하며 Windows 권한을 높이지 않습니다.
 
 아래는 프로젝트의 docs/LOCAL_MCP_INSTRUCTIONS.md 내용입니다. 이 지침을 작업 전에 확인하고 따르세요.
@@ -86,9 +107,38 @@ const { commandResult, executeProcess } = createProcessUtils({
 const nodeRuntime = createNodeRuntime({
   fs,
   path,
-  config,
+  config: activeConfig,
   safePath,
 });
+
+registerProjectTools({
+  server,
+  z,
+  fs,
+  path,
+  configFile: path.join(HERE, "config.json"),
+  config,
+  activeProject,
+});
+
+registerProjectBootstrapTools({
+  server,
+  z,
+  fs,
+  path,
+  root: ROOT,
+  safePath,
+  gitBash: GIT_BASH,
+  executeProcess,
+  commandResult,
+});
+
+registerHttpTools({
+  server,
+  z,
+  apiBaseUrl: selectedProject?.apiBaseUrl,
+});
+
 const nodeVersionSchema = createNodeVersionSchema(z);
 
 registerFileTools({
@@ -147,7 +197,7 @@ registerCommandTools({
   fs,
   path,
   root: ROOT,
-  config,
+  config: activeConfig,
   gitBash: GIT_BASH,
   safePath,
   nodeVersionSchema,
@@ -163,7 +213,7 @@ registerDevServerTools({
   fs,
   path,
   root: ROOT,
-  config,
+  config: activeConfig,
   safePath,
   nodeRuntime,
   spawn,
@@ -182,7 +232,8 @@ gitService.registerGitTools({
 
 const jiraClient = createJiraClient({
   fs,
-  safePath,
+  safePath: safeJiraPath,
+  defaultProjectKeyOverride: selectedProject?.jiraProjectKey,
 });
 
 registerJiraTools({
