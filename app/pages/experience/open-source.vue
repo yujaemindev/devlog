@@ -29,7 +29,9 @@
           v-if="step.id === 'export'"
           to="/experience/si-project#learning-preprocessing"
           class="mt-5 inline-block text-sm font-semibold text-indigo-600 underline underline-offset-4"
-        >SI project의 데이터 전처리 흐름 보기 →</NuxtLink>
+        >
+          SI project의 데이터 전처리 흐름 보기 →
+        </NuxtLink>
         <div
           v-else-if="step.id === 'history'"
           class="overflow-x-auto rounded-2xl border border-gray-200"
@@ -143,7 +145,8 @@ const screens = [
     width: 1357,
     height: 746,
     alt: "Export format에 추가된 AI분석 검출이미지 수정과 아스팔트·콘크리트·필 AI학습 원본데이터 추가 옵션",
-    caption: "맞춤 Export 선택 — 검출이미지 수정 또는 댐 속성별 AI학습 원본데이터 추가 기능을 선택합니다",
+    caption:
+      "맞춤 Export 선택 — 검출이미지 수정 또는 댐 속성별 AI학습 원본데이터 추가 기능을 선택합니다",
   },
 ];
 
@@ -262,7 +265,6 @@ const steps = [
     points: [
       "운영 배포 설정과 공유 폴더 마운트를 변경하고 NAS·로컬 포트 설정을 수정했습니다.",
       "Docker 백업·빌드 스크립트와 변경 커밋 추출 스크립트를 보강했습니다.",
-      "Linux 빌드 대응 과정에서 setuptools 버전을 65.7.0으로 고정했습니다.",
     ],
   },
   {
