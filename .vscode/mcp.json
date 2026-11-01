@@ -2,11 +2,11 @@
   "servers": {
     "yujaemin-local": {
       "type": "stdio",
-      "command": "C:\\Users\\jaemi\\AppData\\Local\\Author Software\\nvm\\installs\\v20.20.2\\node.exe",
+      "command": "/usr/local/bin/node",
       "args": [
-        "C:\\Users\\jaemi\\.codex\\plugins\\yujaemin-local\\server.mjs"
+        "/Users/yujaemin/.codex/plugins/yujaemin-local/server.mjs"
       ],
-      "cwd": "C:\\Users\\jaemi\\.codex\\plugins\\yujaemin-local"
+      "cwd": "/Users/yujaemin/.codex/plugins/yujaemin-local"
     }
   }
 }
