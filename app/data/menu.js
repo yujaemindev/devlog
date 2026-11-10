@@ -20,6 +20,7 @@ const menu = [
       { name: "End-to-End Ownership", path: "/experience/sild" },
       { name: "SI project", path: "/experience/si-project" },
       { name: "Prototype Development", path: "/experience/prototype-development" },
+      { name: "FITTRIX Sample", path: "/experience/outbody-map" },
       { name: "Open Source", path: "/experience/open-source" },
       { name: "ChatGPT with Local MCP", path: "/experience/chatgpt-local-mcp" },
       { name: "LLM-Based Inspection", path: "/experience/llm-captioning" },
