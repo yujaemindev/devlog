@@ -42,6 +42,8 @@ const activeConfig = {
 };
 const ROOT = path.resolve(selectedProject?.root ?? config.allowedRoot ?? config.projectRoot);
 const ROOT_REAL = await fs.realpath(ROOT);
+const GIT_ROOT = path.resolve(config.gitRoot ?? ROOT);
+const GIT_ROOT_REAL = await fs.realpath(GIT_ROOT);
 const PROJECT_INSTRUCTIONS_FILE = path.join(
   config.instructionsRoot ?? ROOT,
   "docs",
@@ -66,6 +68,12 @@ const { isInside, safePath } = createPathSecurity({
   path,
   root: ROOT,
   rootReal: ROOT_REAL,
+});
+const { isInside: isInsideGit, safePath: safeGitPath } = createPathSecurity({
+  fs,
+  path,
+  root: GIT_ROOT,
+  rootReal: GIT_ROOT_REAL,
 });
 
 const server = new McpServer(
@@ -181,11 +189,11 @@ registerNvmTools({
 const gitService = createGitService({
   fs,
   path,
-  root: ROOT,
-  rootReal: ROOT_REAL,
+  root: GIT_ROOT,
+  rootReal: GIT_ROOT_REAL,
   gitBash: GIT_BASH,
-  safePath,
-  isInside,
+  safePath: safeGitPath,
+  isInside: isInsideGit,
   isFile: nodeRuntime.isFile,
   executeProcess,
   commandResult,

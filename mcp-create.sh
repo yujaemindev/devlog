@@ -2,11 +2,41 @@
 
 set -euo pipefail
 
-# 프로젝트를 지정하지 않은 설치는 금지합니다.
-if [ -z "${MCP_ACTIVE_PROJECT:-}" ]; then
-  echo "ERROR: MCP_ACTIVE_PROJECT를 반드시 지정하세요. (ex/ MCP_ACTIVE_PROJECT=devlog sh mcp-create.sh 또는 MCP_ACTIVE_PROJECT=calendar sh mcp-create.sh)" >&2
-  exit 1
-fi
+GIT_ROOT_OPTION="${MCP_GIT_ROOT:-}"
+JIRA_ROOT_OPTION="${MCP_JIRA_ROOT:-}"
+INSTRUCTIONS_ROOT_OPTION="${MCP_INSTRUCTIONS_ROOT:-}"
+while (($# > 0)); do
+  case "$1" in
+    --git-root)
+      [ "$#" -ge 2 ] || { echo "ERROR: --git-root에는 경로가 필요합니다." >&2; exit 1; }
+      GIT_ROOT_OPTION="$2"
+      shift 2
+      ;;
+    --jira-root)
+      [ "$#" -ge 2 ] || { echo "ERROR: --jira-root에는 경로가 필요합니다." >&2; exit 1; }
+      JIRA_ROOT_OPTION="$2"
+      shift 2
+      ;;
+    --instructions-root)
+      [ "$#" -ge 2 ] || { echo "ERROR: --instructions-root에는 경로가 필요합니다." >&2; exit 1; }
+      INSTRUCTIONS_ROOT_OPTION="$2"
+      shift 2
+      ;;
+    --help|-h)
+      echo "사용법: bash ./mcp-create.sh [--git-root PATH] [--jira-root PATH] [--instructions-root PATH]"
+      echo "옵션을 생략하면 현재 실행 경로(devlog)를 사용합니다."
+      exit 0
+      ;;
+    *)
+      echo "ERROR: 알 수 없는 옵션: $1" >&2
+      echo "사용법: bash ./mcp-create.sh [--git-root PATH] [--jira-root PATH] [--instructions-root PATH]" >&2
+      exit 1
+      ;;
+  esac
+done
+
+# MCP_ACTIVE_PROJECT를 생략하면 현재 devlog 프로젝트를 기본으로 사용합니다.
+MCP_ACTIVE_PROJECT="${MCP_ACTIVE_PROJECT:-devlog}"
 case "$MCP_ACTIVE_PROJECT" in
   devlog|calendar) ;;
   *)
@@ -28,9 +58,17 @@ if [ ! -f "$MCP_SOURCE_DIR/server.mjs" ]; then
   echo "ERROR: MCP 개발 소스를 찾을 수 없습니다: $MCP_SOURCE_DIR/server.mjs" >&2
   exit 1
 fi
-PROJECT_ROOT="$(pwd -W 2>/dev/null || pwd)"
-PROJECT_INSTRUCTIONS_FILE="$PROJECT_ROOT/docs/LOCAL_MCP_INSTRUCTIONS.md"
-JIRA_API_TOKEN_FILE="$PROJECT_ROOT/.jira-api-token"
+PROJECT_SOURCE_ROOT="$(pwd -W 2>/dev/null || pwd)"
+PROJECT_ROOT="$(dirname "$PROJECT_SOURCE_ROOT")"
+GIT_ROOT="${GIT_ROOT_OPTION:-$PROJECT_SOURCE_ROOT}"
+JIRA_ROOT="${JIRA_ROOT_OPTION:-$PROJECT_SOURCE_ROOT}"
+INSTRUCTIONS_ROOT="${INSTRUCTIONS_ROOT_OPTION:-$PROJECT_SOURCE_ROOT}"
+if [ ! -d "$GIT_ROOT" ]; then
+  echo "ERROR: Git root 디렉터리가 없습니다: $GIT_ROOT" >&2
+  exit 1
+fi
+PROJECT_INSTRUCTIONS_FILE="$INSTRUCTIONS_ROOT/docs/LOCAL_MCP_INSTRUCTIONS.md"
+JIRA_API_TOKEN_FILE="$JIRA_ROOT/.jira-api-token"
 if [ ! -f "$PROJECT_INSTRUCTIONS_FILE" ] || [ ! -r "$PROJECT_INSTRUCTIONS_FILE" ]; then
   echo "ERROR: 필수 MCP 지침 문서가 없거나 읽을 수 없습니다: $PROJECT_INSTRUCTIONS_FILE" >&2
   exit 1
@@ -53,6 +91,9 @@ echo " Yujaemin Local MCP"
 echo "============================================================"
 echo
 echo "Project Root : $PROJECT_ROOT"
+echo "Git Root     : $GIT_ROOT"
+echo "Jira Root    : $JIRA_ROOT"
+echo "Instructions : $INSTRUCTIONS_ROOT"
 echo "Git Bash     : $BASH_PATH"
 echo "Plugin Dir   : $PLUGIN_DIR"
 echo
@@ -106,11 +147,15 @@ echo
 echo "[3/9] config.json 생성..."
 # 기존 설정을 설치 시작 전에 비우지 않도록 임시 파일로 검증 후 교체합니다.
 CONFIG_TEMP="$(mktemp "$PLUGIN_DIR/.config.json.XXXXXX")"
-if ! PROJECT_ROOT="$PROJECT_ROOT" BASH_PATH="$BASH_PATH" node -e '
+if ! PROJECT_ROOT="$PROJECT_ROOT" PROJECT_SOURCE_ROOT="$PROJECT_SOURCE_ROOT" GIT_ROOT="$GIT_ROOT" JIRA_ROOT="$JIRA_ROOT" INSTRUCTIONS_ROOT="$INSTRUCTIONS_ROOT" BASH_PATH="$BASH_PATH" MCP_ACTIVE_PROJECT="$MCP_ACTIVE_PROJECT" node -e '
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
-const devlogRoot = path.resolve(process.env.PROJECT_ROOT);
+const projectRoot = path.resolve(process.env.PROJECT_ROOT);
+const devlogRoot = path.resolve(process.env.PROJECT_SOURCE_ROOT);
+const gitRoot = path.resolve(process.env.GIT_ROOT);
+const jiraRoot = path.resolve(process.env.JIRA_ROOT);
+const instructionsRoot = path.resolve(process.env.INSTRUCTIONS_ROOT);
 const calendarRoot = path.resolve(process.env.CALENDAR_PROJECT_ROOT || path.join(os.homedir(), "Downloads", "calendar"));
 function approvedScripts(projectRoot) {
   try {
@@ -121,13 +166,10 @@ function approvedScripts(projectRoot) {
   }
 }
 const projects = {
-  devlog: { root: devlogRoot, jiraProjectKey: "DEVLOG", approvedScripts: approvedScripts(devlogRoot) },
+  devlog: { root: projectRoot, jiraProjectKey: "DEVLOG", approvedScripts: approvedScripts(devlogRoot) },
   calendar: { root: calendarRoot, jiraProjectKey: "CAL", apiBaseUrl: "http://127.0.0.1:3000", approvedScripts: approvedScripts(calendarRoot) }
 };
-const requestedProject = process.env.MCP_ACTIVE_PROJECT;
-if (!requestedProject) {
-  throw new Error("MCP_ACTIVE_PROJECT is required (devlog or calendar)");
-}
+const requestedProject = process.env.MCP_ACTIVE_PROJECT || "devlog";
 if (!Object.prototype.hasOwnProperty.call(projects, requestedProject)) {
   throw new Error("Unknown MCP project: " + requestedProject);
 }
@@ -136,10 +178,11 @@ if (!fs.existsSync(projects[activeProject].root)) {
   throw new Error("Project directory does not exist: " + projects[activeProject].root);
 }
 const config = {
-  projectRoot: devlogRoot,
-  allowedRoot: devlogRoot,
-  instructionsRoot: devlogRoot,
-  jiraCredentialsRoot: devlogRoot,
+  projectRoot,
+  allowedRoot: projectRoot,
+  gitRoot,
+  instructionsRoot,
+  jiraCredentialsRoot: jiraRoot,
   activeProject,
   projects,
   approvedScripts: projects.devlog.approvedScripts,
@@ -283,7 +326,7 @@ rm -f package-lock.json
 
 echo
 echo "[6/9] VS Code .vscode/mcp.json 생성..."
-VSCODE_CONFIG_PATH="$(cygpath -w "$PROJECT_ROOT/.vscode/mcp.json")" \
+VSCODE_CONFIG_PATH="$(cygpath -w "$PROJECT_SOURCE_ROOT/.vscode/mcp.json")" \
 NODE_EXECUTABLE="$NODE_EXECUTABLE" \
 MCP_SERVER_PATH="$(cygpath -w "$PLUGIN_DIR/server.mjs")" \
 MCP_SERVER_CWD="$(cygpath -w "$PLUGIN_DIR")" \
@@ -453,7 +496,7 @@ CONTROL_PLANE_TUNNEL_ID="tunnel_6ac4b1cabb1c81918b63712568faac31"
 MCP_COMMAND='command=node C:/Users/jaemi/.codex/plugins/yujaemin-local/server.mjs,channel=main'
 TUNNEL_LOG="$PLUGIN_DIR/tunnel-client.log"
 TUNNEL_ERR_LOG="$PLUGIN_DIR/tunnel-client.log.err"
-TUNNEL_API_KEY_FILE="$PROJECT_ROOT/.tunnel-client-api-key"
+TUNNEL_API_KEY_FILE="$PROJECT_SOURCE_ROOT/.tunnel-client-api-key"
 TUNNEL_CLIENT_WIN="$(cygpath -w "$TUNNEL_CLIENT_EXE")"
 TUNNEL_LOG_WIN="$(cygpath -w "$TUNNEL_LOG")"
 TUNNEL_ERR_LOG_WIN="$(cygpath -w "$TUNNEL_ERR_LOG")"

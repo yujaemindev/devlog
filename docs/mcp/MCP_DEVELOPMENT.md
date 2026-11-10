@@ -19,7 +19,8 @@
 - Git Bash에서 `cd /c/Users/jaemi/Documents/project/devlog && MCP_ACTIVE_PROJECT=calendar bash ./mcp-create.sh`를 실행하면 Calendar를 활성 프로젝트로 등록해 빌드·터널 재연결까지 진행한다. 기존 VS Code `.vscode/mcp.json`의 Yujaemin Local 설정이 존재하면 덮어쓰지 않는다.
 - `list_projects`는 등록된 프로젝트와 디렉터리 존재 여부를 조회한다. `switch_project({ projectId: "calendar" })`는 설치된 MCP의 `config.json`에 활성 프로젝트만 저장한다.
 - 현재 MCP 프로세스는 재연결까지 원래 루트에 고정된다. **프로젝트를 바꾼 뒤 반드시 재연결 또는 DEVLOG 루트에서 `bash mcp-create.sh`를 다시 실행**해야 한다.
-- `MCP_ACTIVE_PROJECT` 환경변수는 **필수**이며 `devlog` 또는 `calendar`만 허용한다. 누락되거나 잘못된 경우 파일을 변경하기 전에 즉시 오류로 종료한다. 이전 `activeProject`를 자동으로 선택하지 않는다.
+- `MCP_ACTIVE_PROJECT` 환경변수는 선택 사항이며 생략하면 기본 설정을 사용한다. 현재 `mcp-create.sh`는 `~/Documents/project/devlog`에서 실행해도 MCP 파일 접근 루트를 `~/Documents/project`로 설정한다. 설치에 필요한 안내 문서·Jira 인증·Git 저장소 기준만 `devlog`에 둔다.
+- Git 저장소·Jira 인증·설치 문서 기준은 각각 `--git-root`, `--jira-root`, `--instructions-root` 옵션으로 지정할 수 있다. 대응 환경변수는 `MCP_GIT_ROOT`, `MCP_JIRA_ROOT`, `MCP_INSTRUCTIONS_ROOT`이며, 옵션과 환경변수가 모두 없으면 현재 실행 경로인 `devlog`를 사용한다.
 - 설정 생성 시 임시 파일에 먼저 작성·검증하고, 성공한 경우에만 설치된 `config.json`을 교체한다. 실패해도 기존 설정을 비우거나 덮어쓰지 않는다.
 - 프로젝트별 `package.json`의 승인된 scripts를 설치 시 스냅샷으로 저장한다. 새 프로젝트의 scripts를 변경했다면 재설치로 승인을 갱신한다.
 - 프로젝트 파일 접근과 Git 작업은 현재 활성 프로젝트 루트 내부만 허용한다. 설정에 없는 임의 경로를 `switch_project`로 지정할 수 없다.
